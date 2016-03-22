@@ -1,0 +1,13 @@
+class Pressao:
+	def bool podeEntregarDepois():
+		return false;
+	end;
+	
+	defstatic void main(String[] args):
+		writeln("Opa!");
+		
+		if (podeEntregarDepois()):
+			writeln("easy!");
+		end;
+	end;
+end.
