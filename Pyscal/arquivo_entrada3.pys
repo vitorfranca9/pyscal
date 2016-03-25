@@ -1,0 +1,38 @@
+class CalculaSomaInteiros:
+	integer count = 0;
+	integer inteirosArray[100];
+
+	def void soma(integer valor):
+
+		inteirosArray[count] = valor;
+		count=count+1;
+	end;
+
+	def integer retornaTotal():
+		integer total = 0;
+		integer countTotal = 0;
+		while(countTotal < count): 
+			total = total + inteirosArray[countTotal];
+			countTotal = countTotal+1;
+		end;
+	end;
+
+	def void imprime():
+		integer total = retornaTotal();
+		write("Somaatéagora:"+total+".");
+	end;
+
+	def void imprimeSeMaiorQue100():		
+		if(retornaTotal() >= 100):
+			writeln("Atingiuomáximoesperado.");
+		end;
+	end;
+
+	defstatic void main(String[] args):
+		soma(5);
+		soma(10);
+		imprime();
+		imprimeSeMaiorQue100();
+	end;			
+	
+end.

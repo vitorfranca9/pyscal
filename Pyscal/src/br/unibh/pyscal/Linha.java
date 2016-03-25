@@ -8,6 +8,7 @@ public class Linha {
 	private int numero;
 	private String conteudo;
 	private List<String> palavras = new ArrayList<>();
+	private List<Token> tokens = new ArrayList<>();
 	
 	public Linha() { }
 	
@@ -38,6 +39,12 @@ public class Linha {
 	}
 	public void setPalavras(List<String> palavras) {
 		this.palavras = palavras;
+	}
+	public List<Token> getTokens() {
+		return tokens;
+	}
+	public void setTokens(List<Token> tokens) {
+		this.tokens = tokens;
 	}
 	
 }
