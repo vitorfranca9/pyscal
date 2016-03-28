@@ -1,8 +1,5 @@
 package br.unibh.pyscal;
 
-import static br.unibh.pyscal.PalavraReservada.isID;
-import static br.unibh.pyscal.PalavraReservada.isLetra;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -312,9 +309,14 @@ public enum PalavraReservada {
 	
 	private static boolean isRegex(String regex, String valor) {
 		if (valor != null && !valor.isEmpty()) {
-			Pattern p = Pattern.compile(valor);
-			Matcher m = p.matcher(regex);
-			return m.matches();
+			try {
+				Pattern p = Pattern.compile(valor);
+				Matcher m = p.matcher(regex);
+				return m.matches();
+			} catch (Exception e) {
+//				e.printStackTrace();
+//				System.err.println("Erro de pattern token "+valor);
+			}
 		}
 		return false;
 	}

@@ -26,7 +26,9 @@ public class FileUtil {
 	public static void imprimirLinhas(Arquivo arquivo) {
 		
 		for (Linha linha : arquivo.getLinhas()) {
-			System.out.println(linha.getConteudo());
+			if (!linha.getConteudo().isEmpty()) {
+				System.out.println(linha.getConteudo());
+			}
 		}
 		
 	}
@@ -41,12 +43,14 @@ public class FileUtil {
 	
 	public static void imprimirTokens(Arquivo arquivo) {
 		for (Linha linha : arquivo.getLinhas()) {
-			System.out.println("Linha: "+linha.getNumero()+"; Conteudo: "+linha.getConteudo());
-			System.out.println("Tokens: ");
-			for (Token token : linha.getTokens()) {
-				System.out.println(token.getValor()+","+token.getPalavraReservada());
+			if (!linha.getConteudo().isEmpty()) {
+				System.out.println("Linha: "+linha.getNumero()+"; Conteudo: "+linha.getConteudo());
+				System.out.println("Tokens: ");
+				for (Token token : linha.getTokens()) {
+					System.out.println(token.getValor()+","+token.getPalavraReservada());
+				}
+				System.out.println();
 			}
-			System.out.println();
 		}
 	}
 

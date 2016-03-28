@@ -12,7 +12,7 @@ public class AnalisadorLexico {
 		for (Linha linha : arquivo.getLinhas()) {
 			for (String palavra : linha.getPalavras()) {
 				List<Token> tokensPalavra = analisarPalavra(palavra);
-				linha.setTokens(tokensPalavra);
+				linha.getTokens().addAll(tokensPalavra);
 				tokens.addAll(tokensPalavra);
 			}
 		}
@@ -225,10 +225,24 @@ public class AnalisadorLexico {
 //						token = new Token();
 					} else {
 						
-						if (podeSerID(tokenAtual)) {
-							token.setPalavraReservada(ID);
+						if (!podeSerID(tokenAtual)) {
+							
+							tokenAtual = tokenAtual.substring(0,tokenAtual.length()-1);
+							
+							if (podeSerID(tokenAtual)) {
+								token.setValor(tokenAtual);
+								token.setPalavraReservada(ID);
+								tokens.add(token);
+								token = new Token();
+								tokenAtual = "";
+								i--;
+							} else {
+								throw new AnaliseLexicaException("Um ID deve ter apenas letras e dígitos!");
+							}
+							
+//							throw new AnaliseLexicaException("Um ID deve começar com 2 letras!");
 						} else {
-							throw new AnaliseLexicaException("Um ID deve começar com 2 letras!");
+//							token.setPalavraReservada(ID);
 						}
 						
 					}
@@ -301,7 +315,15 @@ public class AnalisadorLexico {
 						if (isWriteln(tokenAtual)) {
 							token.setPalavraReservada(WRITELN);
 						} else if (!(WRITELN.getRegex().startsWith(tokenAtual))) {
-							if (isID(tokenAtual)) {
+							String ultimaLetra = tokenAtual.substring(tokenAtual.length()-1, tokenAtual.length());
+							if (isAbreParenteses(ultimaLetra)) { 
+								token.setPalavraReservada(WRITE);
+								token.setValor(tokenAtual.substring(0, tokenAtual.length()-1));
+								tokens.add(token);
+								token = new Token();
+								tokenAtual = "";
+								i--;								
+							} else if (isID(tokenAtual)) {
 								token.setPalavraReservada(ID);
 							} else { // se não é ID vai toma no cú(hue)
 								throw new AnaliseLexicaException("Um ID deve começar com 2 letras a partir daí deve possuir apenas letras ou dígitos!");
@@ -311,9 +333,11 @@ public class AnalisadorLexico {
 						if (isDefStatic(tokenAtual)) {
 							token.setPalavraReservada(DEFSTATIC);
 						} else if (!(DEFSTATIC.getRegex().startsWith(tokenAtual))) {
-							token.setPalavraReservada(ID);
-						} else {
-							throw new AnaliseLexicaException("Um ID deve começar com 2 letras a partir daí deve possuir apenas letras ou dígitos!");
+							if (isID(tokenAtual)) {
+								token.setPalavraReservada(ID);
+							} else {
+								throw new AnaliseLexicaException("Um ID deve começar com 2 letras a partir daí deve possuir apenas letras ou dígitos!");
+							}
 						}
 					} else if (CONSTINTEGER.equals(token.getPalavraReservada())) {  
 						if (!isConstInteger(tokenAtual)) {
@@ -353,7 +377,6 @@ public class AnalisadorLexico {
 			
 		}
 		
-		//deu tudo certo, então deve add esse token ai
 		if (token.getPalavraReservada() != null && !tokenAtual.isEmpty()) {
 			token.setValor(tokenAtual);
 			tokens.add(token);
@@ -361,8 +384,16 @@ public class AnalisadorLexico {
 			token = new Token();
 		} else {
 			if (token.getPalavraReservada() == null && !tokenAtual.isEmpty()){
-				//perai q deu merda
-				System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
+				if (isID(tokenAtual)) {
+					token.setPalavraReservada(ID);
+					token.setValor(tokenAtual);
+					tokens.add(token);
+					tokenAtual = "";
+					token = new Token();
+				} else {
+					//perai q deu merda
+					System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
+				}
 			}
 		}
 		
