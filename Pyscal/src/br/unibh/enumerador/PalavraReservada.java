@@ -1,4 +1,4 @@
-package br.unibh.pyscal;
+package br.unibh.enumerador;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +49,7 @@ public enum PalavraReservada {
 	WRITE("write"),
 	WRITELN("writeln"),
 	IF("if"),
+	ELSE("else"),
 	WHILE("while"),
 //	função estática principal, vem por último
 	MAIN("main"),
@@ -59,7 +60,7 @@ public enum PalavraReservada {
 	FALSE("false"), //será um "CONST_BOOL"
 	CONSTINTEGER("ConstInteger"), // será escrito write("dez:"+10);, tratar
 	CONSTDOUBLE("ConstDouble"),
-//	CONST_STRING("ConstString"),
+	CONST_STRING("ConstString"),
 	;
 	
 	private final String regex;
@@ -250,6 +251,10 @@ public enum PalavraReservada {
 	
 	public static boolean isIf(String valor) {
 		return isRegex(IF.getRegex(), valor);
+	}
+	
+	public static boolean isElse(String valor) {
+		return isRegex(ELSE.getRegex(), valor);
 	}
 	
 	public static boolean isWhile(String valor) {

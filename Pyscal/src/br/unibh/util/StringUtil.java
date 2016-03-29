@@ -1,4 +1,4 @@
-package br.unibh.pyscal;
+package br.unibh.util;
 
 public class StringUtil {
 
@@ -7,7 +7,6 @@ public class StringUtil {
 			.replaceAll("\r", "")
 			.replaceAll("\t", "")
 			.replaceAll("\n", "");
-		
 		return valor;
 	}
 	

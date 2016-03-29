@@ -25,6 +25,8 @@ class CalculaSomaInteiros:
 	def void imprimeSeMaiorQue100():		
 		if(retornaTotal() >= 100):
 			writeln("Atingiuomáximoesperado.");
+		else:
+			writeln("Nãoatingiuomáximoesperado.");
 		end;
 	end;
 

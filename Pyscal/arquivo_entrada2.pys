@@ -7,7 +7,7 @@ class Pressao:
 		writeln("Opa!");
 		
 		if (podeEntregarDepois()):
-			writeln("easy!");
+			writeln("agora vai!");
 		end;
 	end;
 end.

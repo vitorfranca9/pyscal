@@ -1,7 +1,10 @@
-package br.unibh.pyscal;
+package br.unibh.vo;
 
-public class Token /*implements Comportamento*/ {
-	private String valor;
+import br.unibh.enumerador.PalavraReservada;
+import br.unibh.enumerador.TipoToken;
+
+public class TokenVO {
+	private String valor = "";
 	private TipoToken tipoToken;
 	private PalavraReservada palavraReservada;
 	
