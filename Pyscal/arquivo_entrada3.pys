@@ -26,7 +26,7 @@ class CalculaSomaInteiros:
 		if(retornaTotal() >= 100):
 			writeln("Atingiu o máximo esperado.");
 		else:
-			writeln("Nãoatingiu o máximo esperado.");
+			writeln("Não atingiu o máximo esperado.");
 		end;
 	end;
 
