@@ -9,23 +9,17 @@ import br.unibh.vo.ArquivoVO;
 
 //
 /**/
-public class Main {
-	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/Pyscal/";
-	private static final String ARQUIVO_ENTRADA_PYS = "arquivo_entrada5.pys";
+public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		ArquivoVO arquivo = FileUtil.montarArquivo(DIR + ARQUIVO_ENTRADA_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(AnaliseLexicaTest.ARQUIVO_ENTRADA1_PYS);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
 			analisadorLexico.analisar(arquivo);
+			FileUtil.imprimirTokens(arquivo);
 		} catch (AnaliseLexicaException e) {
 			System.out.println(e.getMessage());
 		}
-		
-//		FileUtil.imprimirLinhas(arquivo);
-//		FileUtil.imprimirPalavras(arquivo);
-		FileUtil.imprimirTokens(arquivo);
-//		System.out.println(arquivo.getConteudoOriginal());
 	}
-
+	
 }

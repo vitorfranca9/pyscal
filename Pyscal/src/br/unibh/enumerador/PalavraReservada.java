@@ -1,5 +1,6 @@
 package br.unibh.enumerador;
 
+import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,12 +10,11 @@ public enum PalavraReservada {
 	FECHA_PARENTESES(")"),
 //	início de String
 //	ASPAS("\""/*, isRegex("\"")*/),
-//	final de declaração de método ou função
+//	final de declaração de função
 	DOIS_PONTOS(":"),
 //	início da classe
 	CLASS("class"), //
-	
-	ID("[^a-zA-Z][a-zA-Z][a-zA-Z]"), //fazer regex q preste
+	ID("/[^A-Za-z0-9]*/"), //regex [a-zA-Z][a-zA-Z][a-zA-Z0-9] [^A-Za-z0-9]*
 	DEF("def"),
 	DEFSTATIC("defstatic"),
 	END("end"),
@@ -33,8 +33,8 @@ public enum PalavraReservada {
 	DIVIDIR("/"),
 	MULTIPLICAR("*"),
 	SOMAR("+"),
-	SUBTRAIR("-"), //opUnario?
-	NOT("!"), //opUnario?
+	SUBTRAIR("-"), //opUnario, tratar
+	NOT("!"), //opUnario
 //	tipos primitivos, tipo retorno
 	BOOL("bool"),
 	INTEGER("integer"),
@@ -44,7 +44,7 @@ public enum PalavraReservada {
 	ABRE_COLCHETE("["),
 	FECHA_COLCHETE("]"),
 //	tipo retorno
-	VOID("void"),
+	VOID("void"), 
 //	comandos
 	WRITE("write"),
 	WRITELN("writeln"),
@@ -52,21 +52,21 @@ public enum PalavraReservada {
 	ELSE("else"),
 	WHILE("while"),
 //	função estática principal, vem por último
-	MAIN("main"),
-	
+	MAIN("main"), 
 	VECTOR("vector"), //?
 //	operadores binarios
 	TRUE("true"), //será um "CONST_BOOL"
 	FALSE("false"), //será um "CONST_BOOL"
-	CONSTINTEGER("ConstInteger"), // será escrito write("dez:"+10);, tratar
+	CONSTINTEGER("ConstInteger"),
 	CONSTDOUBLE("ConstDouble"),
 	CONST_STRING("ConstString"),
 	;
 	
 	private final String regex;
 //	private TipoToken tipo;
-	
-	private PalavraReservada(String regex/*, boolean is*/) {
+
+	//TODO regex
+	private PalavraReservada(String regex) {
 		this.regex = regex;
 	}
 	
@@ -81,7 +81,6 @@ public enum PalavraReservada {
 	}
 	
 	public static boolean isAspas(String valor) {
-		//TODO fazer uma porra de regex
 //		return isRegex("\\\"", valor);
 		return "\"".equals(valor);
 	}
@@ -99,25 +98,32 @@ public enum PalavraReservada {
 		char[] valorArray = valor.toCharArray();
 		boolean isID = true;
 		for (int i = 0; i < valorArray.length; i++) {
-			if (i == 0) {
-				if (!isLetra(valorArray[i])) {
-					isID = false;
-					break;
+			char valorNormalizado = normalizar(valorArray[i]);
+			if (valorArray[i] == valorNormalizado) {
+			
+				if (i == 0) {
+					if (!isLetra(valorArray[i])) {
+						isID = false;
+						break;
+					}
+				} else if (i == 1) {
+					if (!isLetra(valorArray[i])) {
+						isID = false;
+						break;
+					}
+				} else {
+					if (!isLetraDigito(valorArray[i])) {
+						isID = false;
+						break;
+					}
 				}
-			} else if (i == 1) {
-				if (!isLetra(valorArray[i])) {
-					isID = false;
-					break;
-				}
+			
 			} else {
-				if (!isLetraDigito(valorArray[i])) {
-					isID = false;
-					break;
-				}
+				isID = false;
+				break;
 			}
 		}
 		return isID;
-		//TODO uma regex q preste
 //		return isRegex(ID.getRegex(), valor);
 	}
 	
@@ -278,19 +284,20 @@ public enum PalavraReservada {
 	}
 	
 	public static boolean isConstInteger(String valor) {
-		//TODO uma regex q preste
 //		return isRegex(CONSTINTEGER.getRegex(), valor);
 		boolean isConstInteger = true;
+		boolean primeiro = true;
 		for (char c : valor.toCharArray()) {
-			if (!isDigito(c)) {
+			if ((primeiro && c != SUBTRAIR.getRegex().charAt(0)) && !isDigito(c)) {
 				isConstInteger = false;
+				primeiro = false;
 				break;
 			}
 		}
 		return isConstInteger;
 	}
 	
-	//TODO Atribuir responsabilidade a outra classe utilitária
+	//TODO Atribuir responsabilidade a uma classe utilitária
 	public static boolean isLetra(char valor) {
 		return Character.isLetter(valor);
 	}
@@ -298,7 +305,8 @@ public enum PalavraReservada {
 		return Character.isDigit(valor);
 	}
 	public static boolean isLetraDigito(char valor) {
-		return Character.isLetter(valor) || Character.isDigit(valor);
+//		return Character.isLetter(valor) || Character.isDigit(valor);
+		return Character.isLetterOrDigit(valor);
 	}
 	
 	public static boolean isStringValue(String valor) {
@@ -308,8 +316,13 @@ public enum PalavraReservada {
 		return false;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(isString("\"opa\""));
+	public static char normalizar(char valor) {
+		return normalizar(valor+"").charAt(0);
+	}
+	
+	public static String normalizar(String valor) {
+		String temp = Normalizer.normalize(valor, java.text.Normalizer.Form.NFD);
+		return temp.replaceAll("[^\\p{ASCII}]","");
 	}
 	
 	private static boolean isRegex(String regex, String valor) {

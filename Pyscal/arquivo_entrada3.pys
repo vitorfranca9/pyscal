@@ -19,14 +19,14 @@ class CalculaSomaInteiros:
 
 	def void imprime():
 		integer total = retornaTotal();
-		write("Somaatéagora:"+total+".");
+		write("Soma até agora:"+total+".");
 	end;
 
 	def void imprimeSeMaiorQue100():		
 		if(retornaTotal() >= 100):
-			writeln("Atingiuomáximoesperado.");
+			writeln("Atingiu o máximo esperado.");
 		else:
-			writeln("Nãoatingiuomáximoesperado.");
+			writeln("Nãoatingiu o máximo esperado.");
 		end;
 	end;
 

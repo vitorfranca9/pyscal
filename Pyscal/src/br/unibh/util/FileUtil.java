@@ -9,13 +9,14 @@ import br.unibh.vo.LinhaVO;
 import br.unibh.vo.TokenVO;
 
 public class FileUtil {
+	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/Pyscal/";
 	
 	@SuppressWarnings("resource")
 	public static ArquivoVO montarArquivo(String path) throws FileNotFoundException {
-		Scanner sc = new Scanner(new File(path));
+		Scanner sc = new Scanner(new File(DIR+path));
 		ArquivoVO arquivo = new ArquivoVO();
+		arquivo.setNomeArquivo(path);
 		int linhaCount = 1;
-		
 		while (sc.hasNextLine()) {
 			String linha = sc.nextLine();
 			String linhaFormatada = StringUtil.tratarCaracteres(linha); 
@@ -23,7 +24,6 @@ public class FileUtil {
 			arquivo.setConteudoOriginal(arquivo.getConteudoOriginal()+"\n"+linha);
 			linhaCount++;
 		}
-		
 		return arquivo;
 	}
 	
