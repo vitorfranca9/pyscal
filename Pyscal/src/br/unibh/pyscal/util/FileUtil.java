@@ -1,12 +1,12 @@
-package br.unibh.util;
+package br.unibh.pyscal.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import br.unibh.vo.ArquivoVO;
-import br.unibh.vo.LinhaVO;
-import br.unibh.vo.TokenVO;
+import br.unibh.pyscal.vo.ArquivoVO;
+import br.unibh.pyscal.vo.LinhaVO;
+import br.unibh.pyscal.vo.TokenVO;
 
 public class FileUtil {
 	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/Pyscal/";

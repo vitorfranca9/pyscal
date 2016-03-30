@@ -2,10 +2,10 @@ package br.unibh.pyscal.test;
 
 import org.junit.Test;
 
-import br.unibh.exception.AnaliseLexicaException;
 import br.unibh.pyscal.analisador.AnalisadorLexico;
-import br.unibh.util.FileUtil;
-import br.unibh.vo.ArquivoVO;
+import br.unibh.pyscal.exception.AnaliseLexicaException;
+import br.unibh.pyscal.util.FileUtil;
+import br.unibh.pyscal.vo.ArquivoVO;
 
 //TODO
 public class AnaliseLexicaTest {
@@ -75,7 +75,7 @@ public class AnaliseLexicaTest {
 //		FileUtil.imprimirTokens(arquivo);
 	}
 	
-	@Test(expected=AnaliseLexicaException.class)
+	@Test
 	public void testeArquivo8() throws Exception {
 		ArquivoVO arquivo = FileUtil.montarArquivo(ARQUIVO_ENTRADA8_PYS);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();

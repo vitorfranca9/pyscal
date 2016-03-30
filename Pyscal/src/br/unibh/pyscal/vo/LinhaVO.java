@@ -1,4 +1,4 @@
-package br.unibh.vo;
+package br.unibh.pyscal.vo;
 
 import java.util.ArrayList;
 import java.util.List;

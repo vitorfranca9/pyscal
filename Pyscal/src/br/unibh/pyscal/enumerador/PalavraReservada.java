@@ -1,4 +1,4 @@
-package br.unibh.enumerador;
+package br.unibh.pyscal.enumerador;
 
 import java.text.Normalizer;
 import java.util.regex.Matcher;
@@ -94,6 +94,10 @@ public enum PalavraReservada {
 		return isRegex(CLASS.getRegex(), valor);
 	}
 	
+	public static boolean isUnderline(char valor) {
+		return '_' == valor;
+	}
+	
 	public static boolean isID(String valor) {
 		char[] valorArray = valor.toCharArray();
 		boolean isID = true;
@@ -106,13 +110,8 @@ public enum PalavraReservada {
 						isID = false;
 						break;
 					}
-				} else if (i == 1) {
-					if (!isLetra(valorArray[i])) {
-						isID = false;
-						break;
-					}
 				} else {
-					if (!isLetraDigito(valorArray[i])) {
+					if (!isLetraDigito(valorArray[i]) && !isUnderline(valorArray[i])) {
 						isID = false;
 						break;
 					}

@@ -1,7 +1,7 @@
-package br.unibh.vo;
+package br.unibh.pyscal.vo;
 
-import br.unibh.enumerador.PalavraReservada;
-import br.unibh.enumerador.TipoToken;
+import br.unibh.pyscal.enumerador.PalavraReservada;
+import br.unibh.pyscal.enumerador.TipoToken;
 
 public class TokenVO {
 	private String valor = "";

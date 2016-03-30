@@ -1,4 +1,4 @@
-package br.unibh.enumerador;
+package br.unibh.pyscal.enumerador;
 
 //TODO
 public enum TipoToken {

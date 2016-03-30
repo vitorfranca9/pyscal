@@ -1,4 +1,4 @@
-package br.unibh.util;
+package br.unibh.pyscal.util;
 
 public class StringUtil {
 

@@ -1,6 +1,6 @@
-package br.unibh.exception;
+package br.unibh.pyscal.exception;
 
-import br.unibh.vo.LinhaVO;
+import br.unibh.pyscal.vo.LinhaVO;
 
 public class AnaliseLexicaException extends Exception {
 	private static final long serialVersionUID = -1395958669132540575L;
