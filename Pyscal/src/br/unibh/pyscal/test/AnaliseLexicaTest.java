@@ -18,6 +18,8 @@ public class AnaliseLexicaTest {
 	public static final String ARQUIVO_ENTRADA7_PYS = "arquivo_entrada7.pys";
 	public static final String ARQUIVO_ENTRADA8_PYS = "arquivo_entrada8.pys";
 	public static final String ARQUIVO_ENTRADA9_PYS = "arquivo_entrada9.pys";
+	public static final String ARQUIVO_ENTRADA10_PYS = "arquivo_entrada10.pys";
+	public static final String ARQUIVO_ENTRADA11_PYS = "arquivo_entrada11.pys";
 	
 	@Test
 	public void testeArquivo1() throws Exception {
@@ -86,6 +88,22 @@ public class AnaliseLexicaTest {
 	@Test
 	public void testeArquivo9() throws Exception {
 		ArquivoVO arquivo = FileUtil.montarArquivo(ARQUIVO_ENTRADA9_PYS);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+//		FileUtil.imprimirTokens(arquivo);
+	}
+	
+	@Test
+	public void testeArquivo10() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(ARQUIVO_ENTRADA10_PYS);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+//		FileUtil.imprimirTokens(arquivo);
+	}
+	
+	@Test
+	public void testeArquivo11() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(ARQUIVO_ENTRADA11_PYS);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);

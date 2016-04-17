@@ -12,7 +12,7 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		ArquivoVO arquivo = FileUtil.montarArquivo(AnaliseLexicaTest.ARQUIVO_ENTRADA9_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(AnaliseLexicaTest.ARQUIVO_ENTRADA11_PYS);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
 			analisadorLexico.analisar(arquivo);

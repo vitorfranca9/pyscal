@@ -9,7 +9,7 @@ import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.TokenVO;
 
 public class FileUtil {
-	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/Pyscal/";
+	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
 	
 	@SuppressWarnings("resource")
 	public static ArquivoVO montarArquivo(String path) throws FileNotFoundException {

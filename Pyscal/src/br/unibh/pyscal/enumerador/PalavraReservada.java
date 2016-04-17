@@ -60,6 +60,8 @@ public enum PalavraReservada {
 	CONSTINTEGER("ConstInteger"),
 	CONSTDOUBLE("ConstDouble"),
 	CONST_STRING("ConstString"),
+	COMENTARIO_LINHA("//"),
+	COMENTARIO_GERAL("/*"),
 	;
 	
 	private final String regex;
@@ -308,11 +310,44 @@ public enum PalavraReservada {
 		return Character.isLetterOrDigit(valor);
 	}
 	
-	public static boolean isStringValue(String valor) {
+	public static boolean isConstString(String valor) {
 		if (valor.length() > 1) {
 			return valor.startsWith("\"") && valor.endsWith("\"");
 		}
 		return false;
+	}
+	
+	public static boolean isConstDouble(String valor) {
+		boolean valid = true;
+		if (valor.contains(".")) {
+			valid = valor.contains(".");
+			String[] strs = valor.split("\\.");
+			if (strs.length > 1) {
+				for (String string : strs) {
+					for (char c : string.toCharArray()) {
+						if (!isDigito(c)) {
+							valid = false;
+							break;
+						}
+					}
+				}
+			} else {
+				valid = false;
+			}
+		} else {
+			valid = false;
+		}
+		return valid;
+	}
+	
+	public static boolean isComentarioGeral(String valor) {
+		boolean valid = valor.startsWith("/*");
+		return valid;
+	}
+	
+	public static boolean isComentarioLinha(String valor) {
+		boolean valid = valor.startsWith("//");
+		return valid;
 	}
 	
 	public static char normalizar(char valor) {

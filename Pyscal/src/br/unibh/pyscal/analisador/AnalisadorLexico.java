@@ -17,34 +17,36 @@ public class AnalisadorLexico {
 	public void analisar(ArquivoVO arquivo) throws AnaliseLexicaException {
 		for (LinhaVO linha : arquivo.getLinhas()) {
 			for (String palavra : linha.getPalavras()) {
-				List<TokenVO> tokensPalavra = analisarPalavra(linha, palavra);
+				List<TokenVO> tokensPalavra = analisarPalavra(arquivo, linha, palavra);
 				adicionarTokens(linha, tokensPalavra);
 			}
 		}
 	}
 	
 	private void adicionarTokens(LinhaVO linha, List<TokenVO> tokensPalavra) {
-		TokenVO ultimoTokenAtual = tokensPalavra.get(tokensPalavra.size()-1);
-		
-		if (STRING.equals(ultimoTokenAtual.getPalavraReservada())) {
-			if (!linha.getTokens().isEmpty()) {
-				TokenVO ultimoTokenLinha = getUltimoTokenString(linha.getTokens());
-				if (ultimoTokenAtual != ultimoTokenLinha ) {
-					linha.getTokens().addAll(tokensPalavra);
-				}
-			} else {
-				linha.getTokens().addAll(tokensPalavra);
-			}
+		if (!tokensPalavra.isEmpty()) {
+			TokenVO ultimoTokenAtual = tokensPalavra.get(tokensPalavra.size()-1);
 			
-		} else {
-			for (TokenVO tokenVO : tokensPalavra) {
-				if (STRING.equals(tokenVO.getPalavraReservada())) {
+			if (CONST_STRING.equals(ultimoTokenAtual.getPalavraReservada())) {
+				if (!linha.getTokens().isEmpty()) {
 					TokenVO ultimoTokenLinha = getUltimoTokenString(linha.getTokens());
-					if (tokenVO != ultimoTokenLinha) {
-						linha.getTokens().add(tokenVO);
+					if (ultimoTokenAtual != ultimoTokenLinha ) {
+						linha.getTokens().addAll(tokensPalavra);
 					}
 				} else {
-					linha.getTokens().add(tokenVO);
+					linha.getTokens().addAll(tokensPalavra);
+				}
+				
+			} else {
+				for (TokenVO tokenVO : tokensPalavra) {
+					if (CONST_STRING.equals(tokenVO.getPalavraReservada())) {
+						TokenVO ultimoTokenLinha = getUltimoTokenString(linha.getTokens());
+						if (tokenVO != ultimoTokenLinha) {
+							linha.getTokens().add(tokenVO);
+						}
+					} else {
+						linha.getTokens().add(tokenVO);
+					}
 				}
 			}
 		}
@@ -53,7 +55,7 @@ public class AnalisadorLexico {
 	private TokenVO getUltimoTokenString(List<TokenVO> tokens) {
 		TokenVO tokenString = null;
 		for(int i = tokens.size()-1; i >= 0; i--) {
-			if (STRING.equals(tokens.get(i).getPalavraReservada())){
+			if (CONST_STRING.equals(tokens.get(i).getPalavraReservada())){
 				tokenString = tokens.get(i);
 				break;
 			}
@@ -61,29 +63,53 @@ public class AnalisadorLexico {
 		return tokenString;
 	}
 	
-	private List<TokenVO> analisarPalavra(LinhaVO linha, String palavra) throws AnaliseLexicaException {
+	private List<TokenVO> analisarPalavra(ArquivoVO arquivo, LinhaVO linha, String palavra) throws AnaliseLexicaException {
 		List<TokenVO> tokens = new ArrayList<>();
 		char[] charArray = palavra.toCharArray();
 		String tokenAtual = "";
 		TokenVO token = new TokenVO();
 		boolean abriuAspas = false;
+		boolean isComentario = false;
+		boolean isComentarioGeral = false;
+		if (linha.getNumero() > 1) {
+			LinhaVO ultimaLinha = arquivo.getLinhas().get(linha.getNumero()-2);
+			TokenVO ultimoTokenAux = ultimaLinha.getTokens().get(ultimaLinha.getTokens().size()-1);
+			if (COMENTARIO_GERAL.equals(ultimoTokenAux.getPalavraReservada())) {
+				if (!ultimoTokenAux.getValor().endsWith("*/")) { 
+					token = ultimoTokenAux;
+					isComentarioGeral = true;
+				}
+			}
+		} 
 		
 		for (int i = 0; i < charArray.length; i++) {
 			tokenAtual += charArray[i];
 			
 			if (linha.getTokens().size() > 0 && !abriuAspas) {
 				TokenVO ultimoToken = linha.getTokens().get(linha.getTokens().size()-1);
-				if (STRING.equals(ultimoToken.getPalavraReservada()) 
+				if (CONST_STRING.equals(ultimoToken.getPalavraReservada()) 
 						&& !isAspas(ultimoToken.getValor().substring(
 								ultimoToken.getValor().length()-1, ultimoToken.getValor().length()))) {
 					token = ultimoToken;
 					token.setValor(token.getValor()+" ");
 					abriuAspas = true;
+				} else if (COMENTARIO_LINHA.equals(ultimoToken.getPalavraReservada())) {
+					ultimoToken.setValor(ultimoToken.getValor()+ " " +palavra);
+					i = charArray.length;
+					isComentario = true;
+					continue;
+//					saber se está na mesma linha tals
+				} else if (COMENTARIO_GERAL.equals(ultimoToken.getPalavraReservada())) { 
+					//contar com comentário geral
+					if (!ultimoToken.getValor().endsWith("*/")){
+						isComentarioGeral = true;
+						token = ultimoToken;
+					}
 				}
-			}
+			} 
 			
 			if (token.getPalavraReservada() != null && 
-					STRING.equals(token.getPalavraReservada())) {
+					CONST_STRING.equals(token.getPalavraReservada())) {
 				String ultimaLetra = tokenAtual.substring(tokenAtual.length()-1,tokenAtual.length());
 				if (isAspas(ultimaLetra)) { //fecha ConstString
 					token.setValor(token.getValor()+tokenAtual);
@@ -92,14 +118,25 @@ public class AnalisadorLexico {
 					tokenAtual = "";
 					abriuAspas = false;
 				} 
-			//TODO tratar comentário	
-			} else {
+			} else if (token.getPalavraReservada() != null && 
+					COMENTARIO_GERAL.equals(token.getPalavraReservada())) {
+				if (tokenAtual.endsWith("*/")) {
+					token.setValor(token.getValor()+" "+tokenAtual);
+					tokens.add(token);
+					isComentarioGeral = false;
+					tokenAtual = "";
+					token = new TokenVO();
+				}
+			} else if (token.getPalavraReservada() != null && 
+					COMENTARIO_LINHA.equals(token.getPalavraReservada())){
+				System.out.println();
+			}else {
 				
 				//primeiro trata com 1 caractere
 				if (i == 0 || tokenAtual.length() == 1) {
 					
 					if (isAspas(tokenAtual)) {
-						token.setPalavraReservada(STRING);
+						token.setPalavraReservada(CONST_STRING);
 						if (!abriuAspas) {
 							abriuAspas = true;
 						} else {
@@ -149,11 +186,7 @@ public class AnalisadorLexico {
 						//pode vir a ser igualigual
 					} else if (isDividir(tokenAtual)) {
 						token.setPalavraReservada(DIVIDIR);
-						token.setValor(tokenAtual);
-						//TODO tratar, pode vir a ser comentário 
-						tokens.add(token);
-						tokenAtual = "";
-						token = new TokenVO();
+						//pode vir a ser comentário 
 					} else if (isMultiplicar(tokenAtual)) {
 						token.setPalavraReservada(MULTIPLICAR);
 						tokens.add(token);
@@ -187,11 +220,9 @@ public class AnalisadorLexico {
 						token.setPalavraReservada(CONSTINTEGER);
 						//pode vir a ser constdouble
 					} else {
-						
 						if (!isLetra(charArray[i])) {
 							throw new AnaliseLexicaException("Uma palavra reservada ou ID deve começar com letra!",linha,palavra);
 						}
-						
 					}
 				} else {
 					
@@ -215,8 +246,9 @@ public class AnalisadorLexico {
 							token.setPalavraReservada(PalavraReservada.INTEGER);
 						} else if (isString(tokenAtual)) {
 							token.setPalavraReservada(STRING);
-							tokenAtual = "";
+							token.setValor(tokenAtual);
 							tokens.add(token);
+							tokenAtual = "";
 							token = new TokenVO();
 						} else if (isDouble(tokenAtual)) {
 							token.setPalavraReservada(DOUBLE);
@@ -370,16 +402,37 @@ public class AnalisadorLexico {
 							}
 						} else if (CONSTDOUBLE.equals(token.getPalavraReservada())) { 
 							if (!isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
-								token.setValor(tokenAtual.substring(0, tokenAtual.length()-1)+"0");
-								tokens.add(token);
-								token = new TokenVO();
-								tokenAtual = "";
-								i--;
+								String tokenAux = tokenAtual.substring(0, tokenAtual.length()-1);
+								if (isConstDouble(tokenAux)) {
+									token.setValor(tokenAux);
+									tokens.add(token);
+									token = new TokenVO();
+									tokenAtual = "";
+									i--;
+								} else {
+									throw new AnaliseLexicaException("Erro ao declarar double", linha, palavra);
+								}
 							}
 						} else if (SUBTRAIR.equals(token.getPalavraReservada())) { 
 							if (isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
 								token.setPalavraReservada(PalavraReservada.CONSTINTEGER);
 							}
+						} else if (DIVIDIR.equals(token.getPalavraReservada())) {
+							
+							if (isComentarioGeral(tokenAtual)) {
+								token.setPalavraReservada(PalavraReservada.COMENTARIO_GERAL);
+//								isComentarioGeral = true;
+							} else if (isComentarioLinha(tokenAtual)) {
+								token.setPalavraReservada(PalavraReservada.COMENTARIO_LINHA);
+							} else {
+								String tokenAux = tokenAtual.substring(0, tokenAtual.length()-1);
+								token.setValor(tokenAux);
+								tokens.add(token);
+								token = new TokenVO();
+								tokenAtual = "";
+								i--;
+							}
+							
 						} else {
 							// só pode ser ID
 							if (!abriuAspas && !podeSerID(tokenAtual)) {
@@ -407,28 +460,38 @@ public class AnalisadorLexico {
 			
 		}
 		
-		if (token.getPalavraReservada() != null && !tokenAtual.isEmpty()) {
-			token.setValor(token.getValor()+tokenAtual);
-			tokenAtual = "";
-			tokens.add(token);
-			token = new TokenVO();
-		} else {
-			if (token.getPalavraReservada() == null && !tokenAtual.isEmpty()){
-				if (isID(tokenAtual)) {
-					token.setPalavraReservada(ID);
-					token.setValor(tokenAtual);
-					tokens.add(token);
-					tokenAtual = "";
-					token = new TokenVO();
-				} else {
-					//perai q deu merda
-					System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
+		if (!isComentario && !isComentarioGeral) {
+			if (token.getPalavraReservada() != null && !tokenAtual.isEmpty()) {
+				token.setValor(token.getValor()+tokenAtual);
+				tokens.add(token);
+				tokenAtual = "";
+				token = new TokenVO();
+			} else {
+				if (token.getPalavraReservada() == null && !tokenAtual.isEmpty()){
+					if (isID(tokenAtual)) {
+						token.setPalavraReservada(ID);
+						token.setValor(tokenAtual);
+						tokens.add(token);
+						tokenAtual = "";
+						token = new TokenVO();
+					} else {
+						//perai q deu merda
+						System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
+					}
 				}
 			}
-		}
-		
-		if (abriuAspas && linha.getPalavras().get(linha.getPalavras().size()-1).equals(palavra)) {
-			throw new AnaliseLexicaException("Abriu aspas, esperava fechar ao final da expressão",linha,palavra);
+			
+			if (abriuAspas && linha.getPalavras().get(linha.getPalavras().size()-1).equals(palavra)) {
+				throw new AnaliseLexicaException("Abriu aspas, esperava fechar ao final da expressão",linha,palavra);
+			}
+		} else if (isComentarioGeral) {
+			token.setValor(token.getValor()+" "+tokenAtual);
+			if (linha.getPalavras().get(linha.getPalavras().size()-1).equals(palavra)) {
+				//cria o novo token ai só de comentario
+				tokens.add(token);
+				tokenAtual = "";
+				token = new TokenVO();
+			}
 		}
 		return tokens;
 	}
