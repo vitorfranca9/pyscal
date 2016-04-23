@@ -1,12 +1,13 @@
 package br.unibh.pyscal.test;
 
+import static br.unibh.pyscal.util.PyscalConstantUtil.*;
+
 import org.junit.Test;
 
 import br.unibh.pyscal.analisador.AnalisadorLexico;
 import br.unibh.pyscal.exception.AnaliseLexicaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
-import static br.unibh.pyscal.test.PyscalConstant.*;
 
 //TODO
 public class AnaliseLexicaTest {

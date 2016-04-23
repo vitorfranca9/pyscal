@@ -1,13 +1,16 @@
 package br.unibh.pyscal.analisador;
 
 import static br.unibh.pyscal.enumerador.PalavraReservada.*;
+import static br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import br.unibh.pyscal.enumerador.PalavraReservada;
+import br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper;
 import br.unibh.pyscal.exception.AnaliseLexicaException;
+import br.unibh.pyscal.util.StringUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.TokenVO;
@@ -228,7 +231,7 @@ public class AnalisadorLexico {
 						token.setPalavraReservada(CONSTINTEGER);
 						//pode vir a ser constdouble
 					} else {
-						if (!isLetra(charArray[i])) {
+						if (!StringUtil.isLetra(charArray[i])) {
 							throw new AnaliseLexicaException("Uma palavra reservada ou ID deve começar com letra!",linha,palavra);
 						}
 					}
@@ -409,9 +412,9 @@ public class AnalisadorLexico {
 								}
 							}
 						} else if (CONSTDOUBLE.equals(token.getPalavraReservada())) { 
-							if (!isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
+							if (!StringUtil.isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
 								String tokenAux = tokenAtual.substring(0, tokenAtual.length()-1);
-								if (isConstDouble(tokenAux)) {
+								if (PalavraReservadaHelper.isConstDouble(tokenAux)) {
 									token.setValor(tokenAux);
 									tokens.add(token);
 									token = new TokenVO();
@@ -422,15 +425,15 @@ public class AnalisadorLexico {
 								}
 							}
 						} else if (SUBTRAIR.equals(token.getPalavraReservada())) { 
-							if (isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
+							if (StringUtil.isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
 								token.setPalavraReservada(PalavraReservada.CONSTINTEGER);
 							}
 						} else if (DIVIDIR.equals(token.getPalavraReservada())) {
 							
-							if (isComentarioGeral(tokenAtual)) {
+							if (PalavraReservadaHelper.isComentarioGeral(tokenAtual)) {
 								token.setPalavraReservada(PalavraReservada.COMENTARIO_GERAL);
 //								isComentarioGeral = true;
-							} else if (isComentarioLinha(tokenAtual)) {
+							} else if (PalavraReservadaHelper.isComentarioLinha(tokenAtual)) {
 								token.setPalavraReservada(PalavraReservada.COMENTARIO_LINHA);
 							} else {
 								String tokenAux = tokenAtual.substring(0, tokenAtual.length()-1);
@@ -520,7 +523,7 @@ public class AnalisadorLexico {
 	
 	public boolean podeSerID(String tokenAtual) {
 		if (tokenAtual.length() == 1) {
-			return isLetra(tokenAtual.charAt(0));
+			return StringUtil.isLetra(tokenAtual.charAt(0));
 		} else {
 			return isID(tokenAtual);
 		}

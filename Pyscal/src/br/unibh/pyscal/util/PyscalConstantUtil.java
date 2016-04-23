@@ -1,6 +1,6 @@
-package br.unibh.pyscal.test;
+package br.unibh.pyscal.util;
 
-public interface PyscalConstant {
+public interface PyscalConstantUtil {
 
 	String ARQUIVO_FONTE = "/arquivos_fonte/";
 	String ARQUIVO_ENTRADA1_PYS = ARQUIVO_FONTE +"arquivo_entrada1.pys";

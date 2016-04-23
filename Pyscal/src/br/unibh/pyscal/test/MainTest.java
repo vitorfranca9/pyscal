@@ -1,5 +1,7 @@
 package br.unibh.pyscal.test;
 
+import static br.unibh.pyscal.util.PyscalConstantUtil.*;
+
 import java.io.FileNotFoundException;
 
 import br.unibh.pyscal.analisador.AnalisadorLexico;
@@ -8,7 +10,6 @@ import br.unibh.pyscal.exception.AnaliseLexicaException;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
-import static br.unibh.pyscal.test.PyscalConstant.*;
 
 //
 /**/

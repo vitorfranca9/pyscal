@@ -1,6 +1,6 @@
 class CalculaSomaInteiros:
-	def integer count = 0;
-	def integer[] inteirosArray;
+	//def integer count = 0;
+	//def integer[] inteirosArray;
 
 	def void soma(integer valor):
 
