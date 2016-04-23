@@ -6,70 +6,73 @@ import java.util.regex.Pattern;
 
 public enum PalavraReservada {
 
-	ABRE_PARENTESES("("),
-	FECHA_PARENTESES(")"),
+	ABRE_PARENTESES("(", 3),
+	FECHA_PARENTESES(")",4),
 //	início de String
 //	ASPAS("\""/*, isRegex("\"")*/),
 //	final de declaração de função
-	DOIS_PONTOS(":"),
+	DOIS_PONTOS(":",4),
 //	início da classe
-	CLASS("class"), //
-	ID("/[^A-Za-z0-9]*/"), //regex [a-zA-Z][a-zA-Z][a-zA-Z0-9] [^A-Za-z0-9]*
-	DEF("def"),
-	DEFSTATIC("defstatic"),
-	END("end"),
-	PONTO("."),
-	PONTO_VIRGULA(";"),
+	CLASS("class",2), //
+	ID("/[^A-Za-z0-9]*/",2), //regex [a-zA-Z][a-zA-Z][a-zA-Z0-9] [^A-Za-z0-9]*
+	DEF("def",1),
+	DEFSTATIC("defstatic",1),
+	END("end",1),
+	PONTO(".",3),
+	PONTO_VIRGULA(";",4),
+	VIRGULA(",",4),
 //	operadores
-	AND("and"),
-	OR("or"),
-	MENOR("<"),
-	MAIOR(">"),
-	MENOR_IGUAL("<="),
-	MAIOR_IGUAL(">="),
-	IGUAL("="), //atribuições
-	IGUAL_IGUAL("=="), //fazer comparações
-	DIFERENTE("!="),
-	DIVIDIR("/"),
-	MULTIPLICAR("*"),
-	SOMAR("+"),
-	SUBTRAIR("-"), //opUnario, tratar
-	NOT("!"), //opUnario
+	AND("and",2),
+	OR("or",2),
+	MENOR("<",3),
+	MAIOR(">",3),
+	MENOR_IGUAL("<=",3),
+	MAIOR_IGUAL(">=",3),
+	IGUAL("=",3), //atribuições
+	IGUAL_IGUAL("==",3), //fazer comparações
+	DIFERENTE("!=",3),
+	DIVIDIR("/",3),
+	MULTIPLICAR("*",3),
+	SOMAR("+",3),
+	SUBTRAIR("-",3), //opUnario, tratar
+	NOT("!",3), //opUnario
 //	tipos primitivos, tipo retorno
-	BOOL("bool"),
-	INTEGER("integer"),
-	STRING("String"),
-	DOUBLE("double"),
+	BOOL("bool",3),
+	INTEGER("integer",3),
+	STRING("String",3),
+	DOUBLE("double",3),
 	// indica array de tipos primitivos
-	ABRE_COLCHETE("["),
-	FECHA_COLCHETE("]"),
+	ABRE_COLCHETE("[",3),
+	FECHA_COLCHETE("]",3),
 //	tipo retorno
-	VOID("void"), 
+	VOID("void",3), 
 //	comandos
-	WRITE("write"),
-	WRITELN("writeln"),
-	IF("if"),
-	ELSE("else"),
-	WHILE("while"),
+	WRITE("write",3),
+	WRITELN("writeln",3),
+	IF("if",3),
+	ELSE("else",3),
+	WHILE("while",3),
 //	função estática principal, vem por último
-	MAIN("main"), 
-	VECTOR("vector"), //?
+	MAIN("main",3), 
+	VECTOR("vector",3), //?
 //	operadores binarios
-	TRUE("true"), //será um "CONST_BOOL"
-	FALSE("false"), //será um "CONST_BOOL"
-	CONSTINTEGER("ConstInteger"),
-	CONSTDOUBLE("ConstDouble"),
-	CONST_STRING("ConstString"),
-	COMENTARIO_LINHA("//"),
-	COMENTARIO_GERAL("/*"),
+	TRUE("true",3), //será um "CONST_BOOL"
+	FALSE("false",3), //será um "CONST_BOOL"
+	CONSTINTEGER("ConstInteger",3),
+	CONSTDOUBLE("ConstDouble",3),
+	CONST_STRING("ConstString",3),
+	COMENTARIO_LINHA("//",3),
+	COMENTARIO_GERAL("/*",3),
 	;
 	
 	private final String regex;
+	private final Integer ordem;
 //	private TipoToken tipo;
 
 	//TODO regex
-	private PalavraReservada(String regex) {
+	private PalavraReservada(String regex, Integer ordem) {
 		this.regex = regex;
+		this.ordem = ordem;
 	}
 	
 	public static boolean isAbreParenteses(String valor) {
@@ -148,6 +151,11 @@ public enum PalavraReservada {
 	public static boolean isPontoVirgula(String valor) {
 //		return isRegex(PONTO_VIRGULA.getRegex(), valor);
 		return PONTO_VIRGULA.getRegex().equals(valor);
+	}
+	
+	public static boolean isVirgula(String valor) {
+//		return isRegex(PONTO_VIRGULA.getRegex(), valor);
+		return VIRGULA.getRegex().equals(valor);
 	}
 	
 	public static boolean isAnd(String valor) {
@@ -377,4 +385,8 @@ public enum PalavraReservada {
 		return regex;
 	}
 
+	public Integer getOrdem() {
+		return ordem;
+	}
+	
 }

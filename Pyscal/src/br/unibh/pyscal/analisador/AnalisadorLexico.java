@@ -73,11 +73,13 @@ public class AnalisadorLexico {
 		boolean isComentarioGeral = false;
 		if (linha.getNumero() > 1) {
 			LinhaVO ultimaLinha = arquivo.getLinhas().get(linha.getNumero()-2);
-			TokenVO ultimoTokenAux = ultimaLinha.getTokens().get(ultimaLinha.getTokens().size()-1);
-			if (COMENTARIO_GERAL.equals(ultimoTokenAux.getPalavraReservada())) {
-				if (!ultimoTokenAux.getValor().endsWith("*/")) { 
-					token = ultimoTokenAux;
-					isComentarioGeral = true;
+			if (ultimaLinha.getTokens().size() > 0) {
+				TokenVO ultimoTokenAux = ultimaLinha.getTokens().get(ultimaLinha.getTokens().size()-1);
+				if (COMENTARIO_GERAL.equals(ultimoTokenAux.getPalavraReservada())) {
+					if (!ultimoTokenAux.getValor().endsWith("*/")) { 
+						token = ultimoTokenAux;
+						isComentarioGeral = true;
+					}
 				}
 			}
 		} 
@@ -175,7 +177,13 @@ public class AnalisadorLexico {
 						tokens.add(token);
 						tokenAtual = "";
 						token = new TokenVO();
-					} else if (isMenor(tokenAtual)) {
+					} else if (isVirgula(tokenAtual)) {
+						token.setPalavraReservada(VIRGULA);
+						token.setValor(tokenAtual);
+						tokens.add(token);
+						tokenAtual = "";
+						token = new TokenVO();
+					}else if (isMenor(tokenAtual)) {
 						token.setPalavraReservada(MENOR);
 						//pode vir a ser menorigual
 					} else if (isMaior(tokenAtual)) {
@@ -528,6 +536,7 @@ public class AnalisadorLexico {
 		DOIS_PONTOS.getRegex(),
 		PONTO.getRegex(),
 		PONTO_VIRGULA.getRegex(),
+		VIRGULA.getRegex(),
 		MENOR.getRegex(),
 		MAIOR.getRegex(),
 		IGUAL.getRegex(),

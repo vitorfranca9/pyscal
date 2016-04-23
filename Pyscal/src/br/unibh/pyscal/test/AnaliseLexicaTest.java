@@ -6,20 +6,10 @@ import br.unibh.pyscal.analisador.AnalisadorLexico;
 import br.unibh.pyscal.exception.AnaliseLexicaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
+import static br.unibh.pyscal.test.PyscalConstant.*;
 
 //TODO
 public class AnaliseLexicaTest {
-	public static final String ARQUIVO_ENTRADA1_PYS = "arquivo_entrada1.pys";
-	public static final String ARQUIVO_ENTRADA2_PYS = "arquivo_entrada2.pys";
-	public static final String ARQUIVO_ENTRADA3_PYS = "arquivo_entrada3.pys";
-	public static final String ARQUIVO_ENTRADA4_PYS = "arquivo_entrada4.pys";
-	public static final String ARQUIVO_ENTRADA5_PYS = "arquivo_entrada5.pys";
-	public static final String ARQUIVO_ENTRADA6_PYS = "arquivo_entrada6.pys";
-	public static final String ARQUIVO_ENTRADA7_PYS = "arquivo_entrada7.pys";
-	public static final String ARQUIVO_ENTRADA8_PYS = "arquivo_entrada8.pys";
-	public static final String ARQUIVO_ENTRADA9_PYS = "arquivo_entrada9.pys";
-	public static final String ARQUIVO_ENTRADA10_PYS = "arquivo_entrada10.pys";
-	public static final String ARQUIVO_ENTRADA11_PYS = "arquivo_entrada11.pys";
 	
 	@Test
 	public void testeArquivo1() throws Exception {

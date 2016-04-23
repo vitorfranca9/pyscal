@@ -46,5 +46,9 @@ public class LinhaVO {
 	public void setTokens(List<TokenVO> tokens) {
 		this.tokens = tokens;
 	}
-	
+	@Override
+	public String toString() {
+		return "LinhaVO [numero=" + numero + ", conteudo=" + conteudo + ", palavras=" + palavras + ", tokens=" + tokens
+				+ "]";
+	}
 }

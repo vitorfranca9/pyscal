@@ -2,6 +2,7 @@ package br.unibh.pyscal.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 import br.unibh.pyscal.vo.ArquivoVO;
@@ -48,11 +49,15 @@ public class FileUtil {
 			if (!linha.getConteudo().isEmpty()) {
 				System.out.println("Linha: "+linha.getNumero()+"; Conteudo: "+linha.getConteudo());
 				System.out.println("Tokens: ");
-				for (TokenVO token : linha.getTokens()) {
-					System.out.println(token.getValor()+","+token.getPalavraReservada());
-				}
+				imprimirTokens(linha.getTokens());
 				System.out.println();
 			}
+		}
+	}
+	
+	public static void imprimirTokens(List<TokenVO> tokens) {
+		for (TokenVO token : tokens) {
+			System.out.println(token.getValor()+","+token.getPalavraReservada());
 		}
 	}
 
