@@ -62,8 +62,9 @@ public enum PalavraReservada {
 	CONSTINTEGER("ConstInteger",3),
 	CONSTDOUBLE("ConstDouble",3),
 	CONST_STRING("ConstString",3),
+	RETURN("return",2),
 	COMENTARIO_LINHA("//",3),
-	COMENTARIO_GERAL("/*",3),
+	COMENTARIO_GERAL("/*",3)
 	;
 	
 	private final String regex;
@@ -346,6 +347,10 @@ public enum PalavraReservada {
 				valid = false;
 			}
 			return valid;
+		}
+		
+		public static boolean isReturn(String valor) {
+			return RETURN.getRegex().equals(valor);
 		}
 
 		public static boolean isComentarioGeral(String valor) {

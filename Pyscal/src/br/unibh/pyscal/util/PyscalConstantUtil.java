@@ -22,6 +22,7 @@ public interface PyscalConstantUtil {
 		String SINTATICO = "sintatico/";
 		String SINTATICO_ENTRADA1_PYS = ARQUIVO_FONTE + SINTATICO + "sintatico_entrada1.pys";
 		String SINTATICO_ENTRADA2_PYS = ARQUIVO_FONTE + SINTATICO + "sintatico_entrada2.pys";
+		String SINTATICO_ENTRADA3_PYS = ARQUIVO_FONTE + SINTATICO + "sintatico_entrada3.pys";
 	}
 	
 }

@@ -282,6 +282,8 @@ public class AnalisadorLexico {
 							token.setPalavraReservada(TRUE);
 						} else if (isFalse(tokenAtual)) {
 							token.setPalavraReservada(FALSE);
+						} else if (isReturn(tokenAtual)) {
+							token.setPalavraReservada(RETURN);
 						} else {
 							
 							if (!podeSerID(tokenAtual)) {

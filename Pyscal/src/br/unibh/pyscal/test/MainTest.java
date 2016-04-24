@@ -20,7 +20,7 @@ public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		@SuppressWarnings("unused") String lexicoEntrada3Pys = LEXICO_ENTRADA3_PYS;
-		String sintaticoEntrada1Pys = SINTATICO_ENTRADA1_PYS;
+		String sintaticoEntrada1Pys = SINTATICO_ENTRADA3_PYS;
 		ArquivoVO arquivo = FileUtil.montarArquivo(sintaticoEntrada1Pys);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
