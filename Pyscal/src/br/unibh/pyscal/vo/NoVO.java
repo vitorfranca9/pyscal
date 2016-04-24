@@ -11,6 +11,22 @@ public class NoVO {
 	private LinhaVO linha;
 	private List<TokenVO> tokens = new ArrayList<>();
 	
+	public NoVO getUltimoFilho() {
+		if (filhos != null && !filhos.isEmpty()) {
+			return getUltimoFilhoL(filhos.get(0));
+		} else {
+			return this;
+		}
+	}
+	
+	private NoVO getUltimoFilhoL(NoVO no) {
+		if (no.getFilhos() != null && !no.getFilhos().isEmpty()) {
+			return getUltimoFilhoL(no.getFilhos().get(0));
+		} else {
+			return no;
+		}
+	}
+	
 	public List<NoVO> getFilhos() {
 		return filhos;
 	}

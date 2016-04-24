@@ -1,6 +1,8 @@
 package br.unibh.pyscal.test;
 
-import static br.unibh.pyscal.util.PyscalConstantUtil.*;
+import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteLexico.*;
+import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.*;
+
 
 import java.io.FileNotFoundException;
 
@@ -17,7 +19,9 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		ArquivoVO arquivo = FileUtil.montarArquivo(ARQUIVO_ENTRADA3_PYS);
+		@SuppressWarnings("unused") String lexicoEntrada3Pys = LEXICO_ENTRADA3_PYS;
+		String sintaticoEntrada1Pys = SINTATICO_ENTRADA1_PYS;
+		ArquivoVO arquivo = FileUtil.montarArquivo(sintaticoEntrada1Pys);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
 			analisadorLexico.analisar(arquivo);
