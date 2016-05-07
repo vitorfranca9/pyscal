@@ -14,6 +14,7 @@ import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.NoVO;
 import br.unibh.pyscal.vo.TokenVO;
 
+//TODO FALTA TRATAR: listaFuncao, funcao, listaCmd, cmd, expressao
 public class AnalisadorSintatico {
 //	private NoVO noRoot;
 //	private List<TokenVO> tokens;
@@ -79,6 +80,12 @@ public class AnalisadorSintatico {
 		noID.getFilhos().add(noDoisPontos);
 		return noClasse;
 	}
+	
+	/*
+	 * if pode ter 2 ou 3 filhos;
+	 * if,then else
+	 * atribuicao(+) - pai
+	 */
 	
 	private NoVO main() throws AnaliseSintaticaException {
 		NoVO noMain = defstatic();
@@ -195,7 +202,6 @@ public class AnalisadorSintatico {
 		NoVO no = new NoVO();
 		no.setLinha(linha);
 		no.getTokens().add(token);
-//		numTokenAtual++;
 		contarProximaLinhaToken(linha);
 		return no;
 	}
@@ -419,16 +425,49 @@ public class AnalisadorSintatico {
 		return noRetorno;
 	}
 	
-	private NoVO expressao() {
+	private NoVO expressao() throws AnaliseSintaticaException {
 		NoVO noExpressao = new NoVO();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenExpressao = linha.getTokens().get(numTokenAtual-1);
+//		contarProximaLinhaToken(getLinhaAtual());
 		
-		contarProximaLinhaToken(getLinhaAtual());
+		/*if (SintaticoHelper.isPalavraReservadaIDSemErro(tokenExpressao.getPalavraReservada())) {
+			noExpressao = expressaoID();
+		} else */
+		if (SintaticoHelper.isPalavraReservadaTipoPrimitivoSemVoidSemErro(tokenExpressao.getPalavraReservada())) {
+			noExpressao = expressaoConst();
+		} else if (SintaticoHelper.isPalavraReservadaOpUnarioSemErro(tokenExpressao.getPalavraReservada())) {
+			
+		}
 		
 		return noExpressao;
 	}
 	
-	private NoVO expressaoL() {
-		return null;
+	private NoVO expressaoID() throws AnaliseSintaticaException {
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenExpressaoID = linha.getTokens().get(numTokenAtual-1);
+		NoVO expressaoID = criarNo(linha, tokenExpressaoID);
+		
+		linha = getLinhaAtual();
+		TokenVO tokenAbreColchete = linha.getTokens().get(numTokenAtual-1);
+		if (SintaticoHelper.isPalavraReservadaAbreColcheteSemErro(tokenAbreColchete.getPalavraReservada())) {
+			NoVO expressao = expressao();
+			expressaoID.getFilhos().add(expressao);
+			linha = getLinhaAtual();
+			TokenVO tokenFechaColchete = linha.getTokens().get(numTokenAtual-1);
+			if (SintaticoHelper.isPalavraReservadaFechaColchete(tokenFechaColchete.getPalavraReservada())) {
+				NoVO noFechaColchete = fechaColchete();
+				expressao.getFilhos().add(noFechaColchete);
+			}
+		}
+		return expressaoID;
+	}
+	
+	private NoVO expressaoConst() {
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenConst = linha.getTokens().get(numTokenAtual-1);
+		NoVO expressaoConst = criarNo(linha, tokenConst);
+		return expressaoConst;
 	}
 
 	private NoVO listaCmd() {
@@ -573,11 +612,12 @@ public class AnalisadorSintatico {
 			PalavraReservada.VOID
 		});
 		
-//		private static PalavraReservada[] sequenciaClasse = new PalavraReservada[]{
-//			PalavraReservada.CLASS,
-//			PalavraReservada.ID,
-//			PalavraReservada.DOIS_PONTOS
-//		};
+		private static List<PalavraReservada> tiposPrimitivosSemVoid = Arrays.asList(new PalavraReservada[]{
+				PalavraReservada.BOOL,
+				PalavraReservada.INTEGER,
+				PalavraReservada.STRING,
+				PalavraReservada.DOUBLE,
+			});
 		
 		private static ArquivoVO getArquivoExecutavel(ArquivoVO arquivo) {
 			ArquivoVO arquivoExecutavel = new ArquivoVO();
@@ -615,39 +655,6 @@ public class AnalisadorSintatico {
 			}
 			return tokensAExecutar;
 		}
-		
-//		private static TokenVO getTokenPorLinha(LinhaVO linha, int numeroLinha) {
-//			if (!linha.getTokens().isEmpty() &&
-//					linha.getTokens().size() >= numeroLinha) {
-//				return linha.getTokens().get(numeroLinha);
-//			}
-//			return null;
-//		}
-		
-//		private static boolean isExpressaoClasseValida(LinhaVO linha, String mensagemValidacao) throws AnaliseSintaticaException {
-//			if (isExpressaoClasseValida(linha)) {
-//				return true;
-//			}
-//			erro(mensagemValidacao);
-//			return false;
-//		}
-		
-//		private static boolean isExpressaoClasseValida(LinhaVO linha) {
-//			boolean valido = true;
-//			if (sequenciaClasse.length != linha.getTokens().size()) {
-//				valido = false;
-//			} else { 
-//				for(int i = 1; i < sequenciaClasse.length; i++) {
-//					PalavraReservada palavraLinha = getTokenPorLinha(linha, i).getPalavraReservada();
-//					PalavraReservada palavraEsperada = sequenciaClasse[i];
-//					if (!palavraEsperada.equals(palavraLinha)) {
-//						valido = false;
-//						break;
-//					}
-//				}
-//			}
-//			return valido;
-//		}
 		
 		private static boolean isPalavraReservadaPonto(PalavraReservada palavra) throws AnaliseSintaticaException {
 			return isPalavraReservada(PalavraReservada.PONTO, palavra, "esperava ponto final");
@@ -733,12 +740,33 @@ public class AnalisadorSintatico {
 			return isPalavraReservadaSemErro(PalavraReservada.VIRGULA, palavra);
 		}
 		
+		private static boolean isPalavraReservadaIDSemErro(PalavraReservada palavra) {
+			return isPalavraReservadaSemErro(PalavraReservada.ID, palavra);
+		}
+		
 		private static boolean isPalavraReservadaSemErro(PalavraReservada palavraReservada, PalavraReservada palavraAtual) {
 			return palavraReservada.equals(palavraAtual);
 		}
 		
 		private static boolean isPalavraReservadaTipoPrimitivoSemErro(PalavraReservada palavra) {
 			return tiposPrimitivos.contains(palavra);
+		}
+		
+		private static boolean isPalavraReservadaTipoPrimitivoSemVoidSemErro(PalavraReservada palavra) {
+			return tiposPrimitivosSemVoid.contains(palavra);
+		}
+		
+		private static boolean isPalavraReservadaOpUnarioSemErro(PalavraReservada palavraReservada) {
+			return PalavraReservada.SUBTRAIR.equals(palavraReservada) || PalavraReservada.NOT.equals(palavraReservada);
+		}
+		
+		private static boolean isPalavraReservadaOpUnario(PalavraReservada palavraReservada, String mensagemValidacao) 
+				throws AnaliseSintaticaException {
+			if (isPalavraReservadaOpUnarioSemErro(palavraReservada)) {
+				return true;
+			} 
+			erro(mensagemValidacao);
+			return false;
 		}
 		
 		private static boolean isPalavraReservada(PalavraReservada palavraReservada, PalavraReservada palavraAtual, String mensagemValidacao) 
@@ -753,6 +781,15 @@ public class AnalisadorSintatico {
 		private static boolean isPalavraReservadaTipoPrimitivo(PalavraReservada palavra, String mensagemValidacao) 
 				throws AnaliseSintaticaException {
 			if (tiposPrimitivos.contains(palavra)) {
+				return true;
+			}
+			erro(mensagemValidacao);
+			return false;
+		}
+		
+		private static boolean isPalavraReservadaTipoPrimitivoSemVoid(PalavraReservada palavra, String mensagemValidacao) 
+				throws AnaliseSintaticaException {
+			if (tiposPrimitivosSemVoid.contains(palavra)) {
 				return true;
 			}
 			erro(mensagemValidacao);
