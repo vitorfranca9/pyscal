@@ -1,0 +1,7 @@
+class TesteWrite:
+
+	defstatic void main(String[] args):
+		write("Total: "+2*(2+2));
+	end;			
+	
+end.
