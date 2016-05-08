@@ -515,6 +515,16 @@ public class AnalisadorSintatico {
 		return noPonto;
 	}
 	
+	private NoVO igual() throws AnaliseSintaticaException {
+		NoVO igual = new NoVO();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenIgual = linha.getTokens().get(numTokenAtual-1);
+		if (sintaticoHelper.isPalavraReservadaIgual(tokenIgual.getPalavraReservada())) {
+			igual = criarNo(linha, tokenIgual);
+		}
+		return igual;
+	}
+	
 	private NoVO noReturn() throws AnaliseSintaticaException {
 		NoVO noReturn = new NoVO();
 		LinhaVO linha = getLinhaAtual();
@@ -720,31 +730,135 @@ public class AnalisadorSintatico {
 		return opUnario;
 	}
 
-	private NoVO cmdWhile() {
-		return null;
+	private NoVO cmdWhile() throws AnaliseSintaticaException {
+		NoVO cmdWhile = noWhile();
+		NoVO abreParenteses = abreParenteses();
+		cmdWhile.getFilhos().add(abreParenteses);
+		NoVO expressao = expressao();
+		abreParenteses.getFilhos().add(expressao);
+		NoVO fechaParenteses = fechaParenteses();
+		NoVO doisPontos = doisPontos();
+		fechaParenteses.getFilhos().add(doisPontos);
+		NoVO listaCmd = listaCmd();
+		if (listaCmd.getFilhos().isEmpty()) {
+			listaCmd = doisPontos;
+		} else {
+			doisPontos.getFilhos().add(listaCmd);
+		}
+		NoVO endPontoVirgula = endPontoVirgula();
+		listaCmd.getUltimoFilho().getFilhos().add(endPontoVirgula);
+		return cmdWhile;
 	}
 	
-	private NoVO cmdWrite() {
-		return null;
+	private NoVO noWhile() throws AnaliseSintaticaException {
+		NoVO noIf = new NoVO();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenWrite = linha.getTokens().get(numTokenAtual-1);
+		if (sintaticoHelper.isPalavraReservadaWhile(tokenWrite.getPalavraReservada())) {
+			noIf = criarNo(linha, tokenWrite);
+			noIf.setTipoExpressao(TipoExpressao.CMD_WHILE);
+		}
+		return noIf;
 	}
 	
-	private NoVO cmdWriteLn() {
-		return null;
+	private NoVO cmdWrite() throws AnaliseSintaticaException {
+		NoVO noWrite = noWrite();
+		NoVO abreParenteses = abreParenteses();
+		noWrite.getFilhos().add(abreParenteses);
+		NoVO expressao = expressao();
+		abreParenteses.getFilhos().add(expressao);
+		NoVO fechaParenteses = fechaParenteses();
+		expressao.getUltimoFilho().getFilhos().add(fechaParenteses);
+		NoVO pontoVirgula = pontoVirgula();
+		fechaParenteses.getFilhos().add(pontoVirgula);
+		return noWrite;
 	}
 	
-	private NoVO cmdID() {
-		return null;
+	private NoVO noWrite() throws AnaliseSintaticaException {
+		NoVO noIf = new NoVO();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenWrite = linha.getTokens().get(numTokenAtual-1);
+		if (sintaticoHelper.isPalavraReservadaWrite(tokenWrite.getPalavraReservada())) {
+			noIf = criarNo(linha, tokenWrite);
+			noIf.setTipoExpressao(TipoExpressao.CMD_WRITE);
+		}
+		return noIf;
 	}
 	
-	private NoVO cmdAtribui() {
-		return null;
+	private NoVO cmdWriteLn() throws AnaliseSintaticaException {
+		NoVO noWrite = noWriteLn();
+		NoVO abreParenteses = abreParenteses();
+		noWrite.getFilhos().add(abreParenteses);
+		NoVO expressao = expressao();
+		abreParenteses.getFilhos().add(expressao);
+		NoVO fechaParenteses = fechaParenteses();
+		expressao.getUltimoFilho().getFilhos().add(fechaParenteses);
+		NoVO pontoVirgula = pontoVirgula();
+		fechaParenteses.getFilhos().add(pontoVirgula);
+		return noWrite;
 	}
 	
-	private NoVO cmdFuncao() {
-		return null;
+	private NoVO noWriteLn() throws AnaliseSintaticaException {
+		NoVO noIf = new NoVO();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenWrite = linha.getTokens().get(numTokenAtual-1);
+		if (sintaticoHelper.isPalavraReservadaWriteLn(tokenWrite.getPalavraReservada())) {
+			noIf = criarNo(linha, tokenWrite);
+			noIf.setTipoExpressao(TipoExpressao.CMD_WRITELN);
+		}
+		return noIf;
 	}
 	
-
+	private NoVO cmdID() throws AnaliseSintaticaException {
+		NoVO cmdID = id();
+		LinhaVO linha = getLinhaAtual();
+		TokenVO tokenIgualAbreParenteses = linha.getTokens().get(numTokenAtual-1);
+		if (sintaticoHelper.isPalavraReservadaAbreColcheteSemErro(tokenIgualAbreParenteses.getPalavraReservada())) {
+			NoVO cmdIDAtribuiArray = cmdIDAtribuiArray();
+			cmdID.getUltimoFilho().getFilhos().add(cmdIDAtribuiArray);
+		} else if (sintaticoHelper.isPalavraReservadaIgualSemErro(tokenIgualAbreParenteses.getPalavraReservada())) {
+			NoVO cmdIDAtribui = cmdIDAtribui();
+			cmdID.getUltimoFilho().getFilhos().add(cmdIDAtribui);
+		} 
+		return cmdID;
+	}
+	
+	private NoVO cmdIDAtribui() throws AnaliseSintaticaException {
+		NoVO cmdIDAtribui = igual();
+		NoVO expressao = expressao();
+		cmdIDAtribui.getFilhos().add(expressao);
+		NoVO pontoVirgula = pontoVirgula();
+		expressao.getUltimoFilho().getFilhos().add(pontoVirgula);
+		return cmdIDAtribui;
+	}
+	
+	private NoVO cmdIDAtribuiArray() throws AnaliseSintaticaException {
+		NoVO cmdIDAtribuiArray = abreColchete();
+		NoVO expressao = expressao();
+		cmdIDAtribuiArray.getFilhos().add(expressao);
+		NoVO fechaColchete = fechaColchete();
+		expressao.getUltimoFilho().getFilhos().add(fechaColchete);
+		NoVO igual = igual();
+		fechaColchete.getFilhos().add(igual);
+		NoVO expressao2 = expressao();
+		igual.getFilhos().add(expressao2);
+		NoVO pontoVirgula = pontoVirgula();
+		expressao2.getUltimoFilho().getFilhos().add(pontoVirgula);
+		return cmdIDAtribuiArray;
+	}
+	
+	//TODO
+	private NoVO cmdIDFuncao() throws AnaliseSintaticaException {
+		NoVO cmdIDFuncao = abreParenteses();
+		NoVO expressao = expressao();
+		cmdIDFuncao.getFilhos().add(expressao);
+		NoVO fechaParenteses = fechaParenteses();
+		expressao.getUltimoFilho().getFilhos().add(fechaParenteses);
+		NoVO pontoVirgula = pontoVirgula();
+		fechaParenteses.getFilhos().add(pontoVirgula);
+		return cmdIDFuncao;
+	}
+	
 	private NoVO listaArg() throws AnaliseSintaticaException {
 		NoVO noListaArg = new NoVO();
 		LinhaVO linha = getLinhaAtual();

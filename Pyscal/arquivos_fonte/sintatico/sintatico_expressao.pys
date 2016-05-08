@@ -1,0 +1,7 @@
+class TesteComandos:
+	defstatic void main(String[] args):
+		integer inteiro; 
+		if (inteiro > 2);
+		end;
+	end;			
+end.

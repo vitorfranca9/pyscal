@@ -26,6 +26,8 @@ public interface PyscalConstantUtil {
 		String SINTATICO_ATRIBUI = ARQUIVO_FONTE + SINTATICO + "sintatico_atribui.pys";
 		String SINTATICO_FUNCAO = ARQUIVO_FONTE + SINTATICO + "sintatico_funcao.pys";
 		String SINTATICO_FUNCAO2 = ARQUIVO_FONTE + SINTATICO + "sintatico_funcao2.pys";
+		String SINTATICO_EXPRESSAO = ARQUIVO_FONTE + SINTATICO + "sintatico_expressao.pys";
+		String SINTATICO_COMANDOS = ARQUIVO_FONTE + SINTATICO + "sintatico_comandos.pys";
 		String SINTATICO_IF = ARQUIVO_FONTE + SINTATICO + "sintatico_if.pys";
 		String SINTATICO_RETURN = ARQUIVO_FONTE + SINTATICO + "sintatico_return.pys";
 		String SINTATICO_WHILE = ARQUIVO_FONTE + SINTATICO + "sintatico_while.pys";

@@ -119,6 +119,10 @@ public class SintaticoHelper {
 		return isPalavraReservada(PalavraReservada.PONTO, palavra, "esperava ponto final");
 	}
 	
+	public boolean isPalavraReservadaIgual(PalavraReservada palavra) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.IGUAL, palavra, "esperava ponto final");
+	}
+	
 	public boolean isPalavraReservadaClass(PalavraReservada palavra) throws AnaliseSintaticaException {
 		return isPalavraReservada(PalavraReservada.CLASS, palavra, "esperava class");
 	}
@@ -187,6 +191,20 @@ public class SintaticoHelper {
 		return isPalavraReservada(PalavraReservada.IF, palavraReservada, "esperava if");
 	}
 	
+	public boolean isPalavraReservadaWhile(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WHILE, palavraReservada, "esperava while");
+	}
+
+	public boolean isPalavraReservadaWrite(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WRITE, palavraReservada, "esperava write");
+	}
+	
+	public boolean isPalavraReservadaWriteLn(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WRITELN, palavraReservada, "esperava writeln");
+	}
+	
+	
+	
 	public boolean isPalavraReservadaOp(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
 		if(isPalavraReservadaOpSemErro(palavraReservada)) {
 			return true;
@@ -209,6 +227,10 @@ public class SintaticoHelper {
 	
 	public boolean isPalavraReservadaAbreParentesesSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.ABRE_PARENTESES, palavra);
+	}
+	
+	public boolean isPalavraReservadaIgualSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.IGUAL, palavra);
 	}
 	
 	public boolean isPalavraReservadaAbreColcheteSemErro(PalavraReservada palavra) {

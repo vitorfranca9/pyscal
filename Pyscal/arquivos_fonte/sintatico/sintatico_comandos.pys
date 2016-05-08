@@ -1,0 +1,19 @@
+class TesteComandos:
+	defstatic void main(String[] args):
+		//integer inteiro;
+		//inteiro = 1;
+		//inteiro[0] = 1; 
+		//if (inteiro > 2);
+		//end;
+		
+		//if (1 > 2):
+		//end;
+		
+		//write("Teste");
+		
+		//writeln("Teste");
+		
+		//while(1>2):
+		//end;
+	end;			
+end.
