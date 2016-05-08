@@ -66,14 +66,17 @@ public class FileUtil {
 		NoVO noAux = arquivo.getNoRaiz();
 		
 		while(!noAux.getFilhos().isEmpty()) {
-			System.out.print("Nivel: "+noAux.getNivel());
-			System.out.print(" Tokens: "+noAux.getTokens());
-			System.out.print( noAux.getLinha() != null ? " Linha: "+noAux.getLinha().getConteudo() : "");
-			
+			imprimir(noAux);
 			noAux = noAux.getFilhos().get(0);
 			System.out.println();
 		}
-		
+		imprimir(noAux);
+	}
+	
+	private static void imprimir(NoVO noAux) {
+		System.out.print("Nivel: "+noAux.getNivel());
+		System.out.print(" Tokens: "+noAux.getTokens());
+//		System.out.print( noAux.getLinha() != null ? " Linha: "+noAux.getLinha().getConteudo() : "");
 	}
 
 }

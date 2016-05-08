@@ -63,12 +63,20 @@ public class SintaticoHelper {
 	});
 	
 	private List<PalavraReservada> constantes = Arrays.asList(new PalavraReservada[]{
-			PalavraReservada.CONST_STRING,
-			PalavraReservada.CONSTDOUBLE,
-			PalavraReservada.CONSTINTEGER,
-			PalavraReservada.TRUE,
-			PalavraReservada.FALSE
-		});
+		PalavraReservada.CONST_STRING,
+		PalavraReservada.CONSTDOUBLE,
+		PalavraReservada.CONSTINTEGER,
+		PalavraReservada.TRUE,
+		PalavraReservada.FALSE
+	});
+	
+	private List<PalavraReservada> cmd = Arrays.asList(new PalavraReservada[]{
+		PalavraReservada.IF,
+		PalavraReservada.WHILE,
+		PalavraReservada.WRITE,
+		PalavraReservada.WRITELN,
+		PalavraReservada.ID
+	});
 	
 	public ArquivoVO getArquivoExecutavel(ArquivoVO arquivo) {
 		ArquivoVO arquivoExecutavel = new ArquivoVO();
@@ -191,6 +199,18 @@ public class SintaticoHelper {
 //			return isPalavraReservada(PalavraReservada.ID, palavra, "funcao espera id dps de tipo macro");
 //		}
 	
+	public boolean isPalavraReservadaEndSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.END, palavra);
+	}
+	
+	public boolean isPalavraReservadaElseSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.ELSE, palavra);
+	}
+	
+	public boolean isPalavraReservadaAbreParentesesSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.ABRE_PARENTESES, palavra);
+	}
+	
 	public boolean isPalavraReservadaAbreColcheteSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.ABRE_COLCHETE, palavra);
 	}
@@ -245,6 +265,10 @@ public class SintaticoHelper {
 	
 	public boolean isPalavraReservadaConstanteSemErro(PalavraReservada palavra) {
 		return constantes.contains(palavra);
+	}
+	
+	public boolean isPalavraReservadaCmdSemErro(PalavraReservada palavra) {
+		return cmd.contains(palavra);
 	}
 	
 	public boolean isPalavraReservadaOpUnarioSemErro(PalavraReservada palavraReservada) {
