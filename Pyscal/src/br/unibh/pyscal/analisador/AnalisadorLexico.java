@@ -553,5 +553,11 @@ public class AnalisadorLexico {
 		ABRE_COLCHETE.getRegex(),
 		FECHA_COLCHETE.getRegex()
 	});
+	
+	public static void main(String[] args) {
+		
+		System.out.println("Total"+2*(2+2));
+		
+	}
 
 }

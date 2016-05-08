@@ -5,11 +5,12 @@ import java.util.List;
 
 import br.unibh.pyscal.enumerador.TipoExpressao;
 
-public class NoVO {
+public class NoVO implements Cloneable {
 	private List<NoVO> filhos = new ArrayList<>();
 	private TipoExpressao tipoExpressao;
 	private LinhaVO linha;
 	private List<TokenVO> tokens = new ArrayList<>();
+	private int nivel;
 	
 	public NoVO getUltimoFilho() {
 		if (filhos != null && !filhos.isEmpty()) {
@@ -51,9 +52,22 @@ public class NoVO {
 	public void setTokens(List<TokenVO> tokens) {
 		this.tokens = tokens;
 	}
+	public int getNivel() {
+		return nivel;
+	}
+	public void setNivel(int nivel) {
+		this.nivel = nivel;
+	}
+
 	@Override
 	public String toString() {
-		return "NoVO [filhos=" + filhos + ", tipoExpressao=" + tipoExpressao + ", linha=" + linha + ", tokens=" + tokens
+		return "NoVO [tipoExpressao=" + tipoExpressao + ", linha=" + linha + ", tokens=" + tokens + ", nivel=" + nivel
 				+ "]";
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
+	
 }

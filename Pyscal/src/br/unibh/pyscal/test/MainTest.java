@@ -19,15 +19,15 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		@SuppressWarnings("unused") String lexicoEntrada3Pys = LEXICO_ENTRADA3_PYS;
-		String sintaticoEntrada1Pys = SINTATICO_ENTRADA3_PYS;
+		@SuppressWarnings("unused") String lexicoEntrada3Pys = LEXICO_ENTRADA3;
+		String sintaticoEntrada1Pys = SINTATICO_FUNCAO2;
 		ArquivoVO arquivo = FileUtil.montarArquivo(sintaticoEntrada1Pys);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
 			analisadorLexico.analisar(arquivo);
 			AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 			analisadorSintatico.analisar(arquivo);
-			FileUtil.imprimirTokens(arquivo);
+//			FileUtil.imprimirTokens(arquivo);
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {
 				System.out.println("Erro léxico: "+e.getMessage());

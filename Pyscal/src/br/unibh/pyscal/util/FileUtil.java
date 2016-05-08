@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
+import br.unibh.pyscal.vo.NoVO;
 import br.unibh.pyscal.vo.TokenVO;
 
 public class FileUtil {
@@ -59,6 +60,20 @@ public class FileUtil {
 		for (TokenVO token : tokens) {
 			System.out.println(token.getValor()+","+token.getPalavraReservada());
 		}
+	}
+
+	public static void imprimirAST(ArquivoVO arquivo) {
+		NoVO noAux = arquivo.getNoRaiz();
+		
+		while(!noAux.getFilhos().isEmpty()) {
+			System.out.print("Nivel: "+noAux.getNivel());
+			System.out.print(" Tokens: "+noAux.getTokens());
+			System.out.print( noAux.getLinha() != null ? " Linha: "+noAux.getLinha().getConteudo() : "");
+			
+			noAux = noAux.getFilhos().get(0);
+			System.out.println();
+		}
+		
 	}
 
 }

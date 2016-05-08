@@ -13,6 +13,7 @@ public class ArquivoVO {
 	private ArvoreVO arvore = new ArvoreVO();
 	private Map<Integer, NoVO> mapa = new HashMap<Integer, NoVO>();
 	private static Integer nivelAtual = 1;
+	private NoVO noRaiz;
 	
 	public void adicionarNoMapa(NoVO no) {
 		if (mapa.get(nivelAtual) == null) {
@@ -66,6 +67,12 @@ public class ArquivoVO {
 	}
 	public void setMapa(Map<Integer, NoVO> mapa) {
 		this.mapa = mapa;
+	}
+	public NoVO getNoRaiz() {
+		return noRaiz;
+	}
+	public void setNoRaiz(NoVO noRaiz) {
+		this.noRaiz = noRaiz;
 	}
 	
 }

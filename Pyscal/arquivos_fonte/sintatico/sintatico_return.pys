@@ -1,4 +1,4 @@
-class TesteFuncao:
+class TesteReturn:
 
 	def integer retornaCalculo():
 		return 2+2/2;

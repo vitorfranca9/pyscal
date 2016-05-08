@@ -1,0 +1,22 @@
+class TesteFuncao2:
+
+	def void retornaCalculo1():
+		//if (2 > 0):
+			
+		//end;
+	end;
+	
+	def void retornaCalculo2():
+	end;
+	
+	def void retornaCalculo3():
+	end;
+	
+	/*def void retornaCalculo4():
+	end;*/
+	
+	defstatic void main(String[] args):
+		retornaCalculo1();
+	end;			
+	
+end.

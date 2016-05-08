@@ -13,7 +13,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo1() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA1_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA1);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -21,7 +21,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo2() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA2_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA2);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -29,7 +29,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo3() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA3_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA3);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -37,7 +37,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo4() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA4_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA4);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -45,7 +45,7 @@ public class AnaliseLexicaTest {
 	
 	@Test(expected=AnaliseLexicaException.class)
 	public void testeArquivo5() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA5_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA5);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -53,7 +53,7 @@ public class AnaliseLexicaTest {
 	
 	@Test(expected=AnaliseLexicaException.class)
 	public void testeArquivo6() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA6_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA6);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -61,7 +61,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo7() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA7_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA7);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -69,7 +69,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo8() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA8_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA8);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -77,7 +77,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo9() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA9_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA9);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -85,7 +85,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo10() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA10_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA10);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
@@ -93,7 +93,7 @@ public class AnaliseLexicaTest {
 	
 	@Test
 	public void testeArquivo11() throws Exception {
-		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA11_PYS);
+		ArquivoVO arquivo = FileUtil.montarArquivo(LEXICO_ENTRADA11);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 //		FileUtil.imprimirTokens(arquivo);
