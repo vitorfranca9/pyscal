@@ -2,7 +2,6 @@ package br.unibh.pyscal.analisador;
 
 import br.unibh.pyscal.enumerador.TipoExpressao;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
-import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.NoVO;
@@ -68,7 +67,7 @@ public class AnalisadorSintatico {
 		noMain.getUltimoFilho().getFilhos().add(noEndPonto);
 		
 		arquivo.setNoRaiz(noClasse);
-		FileUtil.imprimirAST(arquivo);
+//		FileUtil.imprimirAST(arquivo);
 	}
 	
 	private NoVO classe() throws AnaliseSintaticaException {
@@ -776,6 +775,16 @@ public class AnalisadorSintatico {
 		if (sintaticoHelper.isPalavraReservadaElseSemErro(tokenEndElse.getPalavraReservada())) {
 			NoVO noElse = noElse();
 			listaCmd.getUltimoFilho().getFilhos().add(noElse);
+			NoVO doisPontosElse = doisPontos();
+			noElse.getFilhos().add(doisPontosElse);
+			NoVO listaCmdElse = listaCmd();
+			if (listaCmdElse.getFilhos().isEmpty()) {
+				listaCmdElse = doisPontosElse;
+			} else {
+				doisPontosElse.getFilhos().add(listaCmdElse);
+			}
+			NoVO endPontoVirgula = endPontoVirgula();
+			listaCmdElse.getUltimoFilho().getFilhos().add(endPontoVirgula);
 		} else if (sintaticoHelper.isPalavraReservadaEndSemErro(tokenEndElse.getPalavraReservada())) {
 			NoVO endPontoVirgula = endPontoVirgula();
 			listaCmd.getUltimoFilho().getFilhos().add(endPontoVirgula);

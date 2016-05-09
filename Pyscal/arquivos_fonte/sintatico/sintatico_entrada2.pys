@@ -1,12 +1,10 @@
 class CalculaSomaInteiros:
 
 	def void soma(integer valor, integer total):
-		
 		integer coisa;
 		double opa;
 		String eita;
-		
-		total += valor;	
+		total = valor;	
 	end;
 
 	def integer retornaTotal(integer total):
@@ -14,20 +12,25 @@ class CalculaSomaInteiros:
 	end;
 
 	def void imprime(integer total):
-		integer resultado = retornaTotal();
-		write("Soma até agora:"+resultado+".");
+		integer resultado;
+		resultado = retornaTotal();
+		write(resultado);
+		//write("Soma até agora:"+resultado+".");
 	end;
 
-	def void imprimeSeMaiorQue100(integer total):		
-		if(retornaTotal(total) >= 100):
+	def void imprimeSeMaiorQue100(integer total):
+		if(3 >= 100):		
+		//if(retornaTotal(total) >= 100):
 			writeln("Atingiu o máximo esperado.");
-		else:
-			writeln("Não atingiu o máximo esperado.");
+		//else:
+			//writeln("Não atingiu o máximo esperado.");
 		end;
 	end;
 
 	defstatic void main(String[] args):
-		integer total = 0;
+		//integer total = 0;
+		integer total;
+		total = 0;
 		soma(5,total);
 		soma(10,total);
 		imprime(total);

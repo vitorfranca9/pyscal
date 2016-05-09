@@ -16,6 +16,7 @@ import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SIN
 
 import java.io.FileNotFoundException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import br.unibh.pyscal.analisador.AnalisadorLexico;
@@ -26,7 +27,7 @@ import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
 
 public class AnaliseSintaticaTest {
-	
+	@Ignore
 	@Test
 	public void testeAtribui() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_ATRIBUI;
@@ -36,7 +37,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeComandos() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_COMANDOS;
@@ -46,7 +47,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeEntrada1() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_ENTRADA1;
@@ -56,7 +57,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeEntrada2() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_ENTRADA2;
@@ -76,7 +77,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeExpressao() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_EXPRESSAO;
@@ -86,7 +87,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeFuncao() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_FUNCAO;
@@ -96,7 +97,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeFuncao2() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_FUNCAO2;
@@ -106,7 +107,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeIf() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_IF;
@@ -116,7 +117,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeMain() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_MAIN;
@@ -126,7 +127,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeReturn() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_RETURN;
@@ -136,7 +137,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeWhile() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_WHILE;
@@ -146,7 +147,7 @@ public class AnaliseSintaticaTest {
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
 		analisadorSintatico.analisar(arquivo);
 	}
-	
+	@Ignore
 	@Test
 	public void testeWrite() throws AnaliseSintaticaException, AnaliseLexicaException, FileNotFoundException {
 		String sintaticoEntrada1Pys = SINTATICO_WRITE;

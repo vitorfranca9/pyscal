@@ -6,6 +6,7 @@ import java.util.List;
 public class LinhaVO {
 	
 	private int numero;
+	private int numeroReal;
 	private String conteudo;
 	private List<String> palavras = new ArrayList<>();
 	private List<TokenVO> tokens = new ArrayList<>();
@@ -27,6 +28,12 @@ public class LinhaVO {
 	}
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+	public int getNumeroReal() {
+		return numeroReal;
+	}
+	public void setNumeroReal(int numeroReal) {
+		this.numeroReal = numeroReal;
 	}
 	public String getConteudo() {
 		return conteudo;

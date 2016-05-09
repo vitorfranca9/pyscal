@@ -2,7 +2,8 @@ class TesteAtribui:
 
 	defstatic void main(String[] args):
 		integer inteiro;
-		inteiro = 2*(2+2);
+		inteiro = 2*2+2;
+		//inteiro = 2*(2+2);
 		write(inteiro);
 	end;			
 	

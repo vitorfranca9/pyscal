@@ -88,6 +88,7 @@ public class SintaticoHelper {
 			if (!tokensLinha.isEmpty()) {
 				LinhaVO linhaExecutavel = new LinhaVO();
 				linhaExecutavel.getTokens().addAll(tokensLinha);
+				linhaExecutavel.setNumeroReal(linhaVO.getNumero());
 				linhaExecutavel.setNumero(numLinha);
 				linhaExecutavel.setConteudo(conteudo);
 				arquivoExecutavel.getLinhas().add(linhaExecutavel);
@@ -359,7 +360,7 @@ public class SintaticoHelper {
 	public void erro(String mensagem, LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
 		errosCount++;
 		String msgErro = String.format("Erro %s na linha %s no lexema '%s' proximo a coluna %s: %s",
-			errosCount, linha.getNumero()+"", token.getValor(), getIndexToken(linha, token), mensagem)+"\n";
+			errosCount, linha.getNumeroReal()+"", token.getValor(), getIndexToken(linha, token), mensagem)+"\n";
 		errors += msgErro;
 		System.out.println(msgErro);
 		if (errosCount >= MAX_ERROS) {

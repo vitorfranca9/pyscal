@@ -1,11 +1,13 @@
 class TesteWhile:
 
 	defstatic void main(String[] args):
-		integer inteiro = 10;
+		integer inteiro;
+		inteiro = 10;
 		
-		while (inteiro < 1):
-			writeln(inteiro);
-			inteiro = inteiro - 1;
+		while(2 < 1):
+		//while(inteiro < 1):
+			//writeln(inteiro);
+			//inteiro = inteiro - 1;
 		end;
 			
 	end;			
