@@ -1,17 +1,18 @@
-package br.unibh.pyscal;
+package br.unibh.pyscal.vo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Linha {
+public class LinhaVO {
 	
 	private int numero;
 	private String conteudo;
 	private List<String> palavras = new ArrayList<>();
+	private List<TokenVO> tokens = new ArrayList<>();
 	
-	public Linha() { }
+	public LinhaVO() { }
 	
-	public Linha(int numero, String linha) {
+	public LinhaVO(int numero, String linha) {
 		this.numero = numero;
 		this.conteudo = linha;
 		for (String palavra : linha.split(" ")) {
@@ -39,5 +40,15 @@ public class Linha {
 	public void setPalavras(List<String> palavras) {
 		this.palavras = palavras;
 	}
-	
+	public List<TokenVO> getTokens() {
+		return tokens;
+	}
+	public void setTokens(List<TokenVO> tokens) {
+		this.tokens = tokens;
+	}
+	@Override
+	public String toString() {
+		return "LinhaVO [numero=" + numero + ", conteudo=" + conteudo + ", palavras=" + palavras + ", tokens=" + tokens
+				+ "]";
+	}
 }

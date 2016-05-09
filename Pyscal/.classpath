@@ -4,5 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="junit-4.12.jar"/>
+	<classpathentry kind="lib" path="jflex-1.6.1.jar" sourcepath="/home/vitor/Documents/ambienteJava/maven/.m2/repository/de/jflex/jflex/1.6.1/jflex-1.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="jasmin.jar"/>
+	<classpathentry kind="lib" path="org.apache.commons.collections-3.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

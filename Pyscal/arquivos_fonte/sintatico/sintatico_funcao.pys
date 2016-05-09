@@ -1,0 +1,13 @@
+class TesteFuncao:
+
+	def integer retornaCalculo():
+		return 2+2/2;
+	end;
+
+	defstatic void main(String[] args):
+		integer inteiro;
+		inteiro = retornaCalculo();
+		write(inteiro);
+	end;			
+	
+end.

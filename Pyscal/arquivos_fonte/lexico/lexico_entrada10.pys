@@ -1,0 +1,6 @@
+class QueroSoVer:
+	defstatic void main(String[] args):
+		writeline(writeln("opa");;;)0.0;
+	end;
+end.
+	
