@@ -211,6 +211,10 @@ public class SintaticoHelper {
 		return PalavraReservada.FECHA_PARENTESES.equals(palavraReservada);
 	}
 	
+	public boolean isPalavraReservadaPontoVirgulaSemErro(PalavraReservada palavraReservada) {
+		return PalavraReservada.FECHA_PARENTESES.equals(palavraReservada);
+	}
+	
 	public boolean isComentarioSemErro(TokenVO tokenVO) {
 		return PalavraReservada.COMENTARIO_GERAL.equals(tokenVO.getPalavraReservada()) ||
 				PalavraReservada.COMENTARIO_LINHA.equals(tokenVO.getPalavraReservada());

@@ -1,12 +1,8 @@
-class TesteComandos:
+class TesteExpressao:
 	defstatic void main(String[] args):
-	asd;
-	opa;
-	eita;
 		integer inteiro;
-		
+		inteiro = retorna1() + 2;
 		//inteiro = retorna1(retorna2());
-		//inteiro = retorna(1,2,3);
 		//inteiro = 2 - 3 +3 *2; 
 		//integer = 
 	end;			
