@@ -1,13 +1,5 @@
 package br.unibh.pyscal.analisador;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import br.unibh.pyscal.enumerador.PalavraReservada;
-import br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper;
 import br.unibh.pyscal.enumerador.TipoExpressao;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
@@ -30,14 +22,14 @@ public class AnalisadorSintatico {
 		init();
 	}
 	
-	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
+//	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
 	//	t1.getOrdem().compareTo(t2.getOrdem()
-		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
-	);
+//		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
+//	);
 		
-	private void ordenar(LinhaVO linha) {
-		Collections.sort(linha.getTokens(),compararPorOrdem);
-	}
+//	private void ordenar(LinhaVO linha) {
+//		Collections.sort(linha.getTokens(),compararPorOrdem);
+//	}
 	
 	private void init() {
 //		this.tokens = null;
