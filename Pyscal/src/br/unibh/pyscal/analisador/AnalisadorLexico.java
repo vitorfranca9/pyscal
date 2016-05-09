@@ -200,6 +200,7 @@ public class AnalisadorLexico {
 						//pode vir a ser comentário 
 					} else if (isMultiplicar(tokenAtual)) {
 						token.setPalavraReservada(MULTIPLICAR);
+						token.setValor(tokenAtual);
 						tokens.add(token);
 						tokenAtual = "";
 						token = new TokenVO();

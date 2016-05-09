@@ -27,6 +27,6 @@ public class TokenVO {
 	}
 	@Override
 	public String toString() {
-		return "TokenVO [valor=" + valor + ", palavraReservada=" + palavraReservada + "]";
+		return "TokenVO [valor='" + valor + "', palavraReservada=" + palavraReservada + "]";
 	}
 }

@@ -27,15 +27,14 @@ public class SintaticoHelper {
 		return instancia;
 	}
 	
-	private List<PalavraReservada> tiposPrimitivos = Arrays.asList(new PalavraReservada[]{
+	private final List<PalavraReservada> tiposPrimitivos = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.BOOL,
 		PalavraReservada.INTEGER,
 		PalavraReservada.STRING,
 		PalavraReservada.DOUBLE,
 		PalavraReservada.VOID
 	});
-	
-	private List<PalavraReservada> op = Arrays.asList(new PalavraReservada[]{
+	private final List<PalavraReservada> op = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.OR,
 		PalavraReservada.AND,
 		PalavraReservada.MENOR,
@@ -49,28 +48,24 @@ public class SintaticoHelper {
 		PalavraReservada.SUBTRAIR,
 		PalavraReservada.SOMAR
 	});
-	
-	private List<PalavraReservada> opUnario = Arrays.asList(new PalavraReservada[]{
+	private final List<PalavraReservada> opUnario = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.NOT,
 		PalavraReservada.SUBTRAIR
 	});
-	
 	private List<PalavraReservada> tiposPrimitivosSemVoid = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.BOOL,
 		PalavraReservada.INTEGER,
 		PalavraReservada.STRING,
 		PalavraReservada.DOUBLE,
 	});
-	
-	private List<PalavraReservada> constantes = Arrays.asList(new PalavraReservada[]{
+	private final List<PalavraReservada> constantes = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.CONST_STRING,
 		PalavraReservada.CONSTDOUBLE,
 		PalavraReservada.CONSTINTEGER,
 		PalavraReservada.TRUE,
 		PalavraReservada.FALSE
 	});
-	
-	private List<PalavraReservada> cmd = Arrays.asList(new PalavraReservada[]{
+	private final List<PalavraReservada> cmd = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.IF,
 		PalavraReservada.WHILE,
 		PalavraReservada.WRITE,
@@ -85,7 +80,7 @@ public class SintaticoHelper {
 			List<TokenVO> tokensLinha = new ArrayList<>();
 			String conteudo = "";
 			for (TokenVO tokenVO : linhaVO.getTokens()) {
-				if (!isComentario(tokenVO)){
+				if (!isComentarioSemErro(tokenVO)){
 					tokensLinha.add(tokenVO);
 					conteudo += tokenVO.getValor()+" ";
 				}
@@ -107,7 +102,7 @@ public class SintaticoHelper {
 		List<TokenVO> tokensAExecutar = new ArrayList<>();
 		for (LinhaVO linha : arquivo.getLinhas()) {
 			for (TokenVO tokenVO : linha.getTokens()) {
-				if (!isComentario(tokenVO)) {
+				if (!isComentarioSemErro(tokenVO)) {
 					tokensAExecutar.add(tokenVO);
 				}
 			}
@@ -115,107 +110,17 @@ public class SintaticoHelper {
 		return tokensAExecutar;
 	}
 	
-	public boolean isPalavraReservadaPonto(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.PONTO, palavra, "esperava ponto final");
-	}
-	
-	public boolean isPalavraReservadaIgual(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.IGUAL, palavra, "esperava ponto final");
-	}
-	
-	public boolean isPalavraReservadaClass(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.CLASS, palavra, "esperava class");
-	}
-	
-	public boolean isPalavraReservadaString(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.STRING, palavra, "esperava string");
-	}
-	
-	public boolean isPalavraReservadaReturn(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.RETURN, palavra, "funcao esperava return");
-	}
-	
-	public boolean isPalavraReservadaPontoVirgula(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.PONTO_VIRGULA, palavra, "funcao espera ponto virgula dps de end");
-	}
-	
-	public boolean isPalavraReservadaVirgula(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.VIRGULA, palavra, "funcao esperava token virgula");
-	}
-	
-	public boolean isPalavraReservadaEnd(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.END, palavra, "funcao espera end dps de retorno");
-	}
-	
-	public boolean isPalavraReservadaElse(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.ELSE, palavra, "funcao esperava else");
-	}
-	
-	public boolean isPalavraReservadaDoisPontos(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.DOIS_PONTOS, palavra, "funcao espera dois pontos dps de fecha parenteses");
-	}
-	
-	public boolean isPalavraReservadaAbreParenteses(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.ABRE_PARENTESES, palavra, "funcao espera abre parenteses dps do id");
-	}
-	
-	public boolean isPalavraReservadaFechaParenteses(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.FECHA_PARENTESES, palavra, "funcao espera fecha parenteses dps de lista arg");
-	}
-	
-	public boolean isPalavraReservadaAbreColchete(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.ABRE_COLCHETE, palavra, "Esperava abre colchete");
-	}
-	
-	public boolean isPalavraReservadaFechaColchete(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.FECHA_COLCHETE, palavra, "Esperava fecha colchete");
-	}
-	
-	public boolean isPalavraReservadaDef(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.DEF, palavra, "funcao deve iniciar com def");
-	}
-	
-	public boolean isPalavraReservadaDefStatic(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.DEFSTATIC, palavra, "funcao main deve iniciar com defstatic");
-	}
-	
-	public boolean isPalavraReservadaVoid(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.VOID, palavra, "esperava void");
-	}
-	
-	public boolean isPalavraReservadaMain(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.MAIN, palavra, "esperava main");
-	}
-	
-	public boolean isPalavraReservadaIf(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.IF, palavraReservada, "esperava if");
-	}
-	
-	public boolean isPalavraReservadaWhile(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.WHILE, palavraReservada, "esperava while");
-	}
-
-	public boolean isPalavraReservadaWrite(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.WRITE, palavraReservada, "esperava write");
-	}
-	
-	public boolean isPalavraReservadaWriteLn(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.WRITELN, palavraReservada, "esperava writeln");
-	}
-	
-	
-	
-	public boolean isPalavraReservadaOp(PalavraReservada palavraReservada) throws AnaliseSintaticaException {
-		if(isPalavraReservadaOpSemErro(palavraReservada)) {
-			return true;
-		}
-		erro("Esperava op");
-		return false;
-	}
-	
 //		private boolean isPalavraReservadaID(PalavraReservada palavra) throws AnaliseSintaticaException {
 //			return isPalavraReservada(PalavraReservada.ID, palavra, "funcao espera id dps de tipo macro");
 //		}
+	
+	public boolean isPalavraReservadaConstIntegerSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.CONSTINTEGER, palavra);
+	}
+	
+	public boolean isPalavraReservadaConstDoubleSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.CONSTDOUBLE, palavra);
+	}
 	
 	public boolean isPalavraReservadaEndSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.END, palavra);
@@ -237,7 +142,7 @@ public class SintaticoHelper {
 		return isPalavraReservadaSemErro(PalavraReservada.ABRE_COLCHETE, palavra);
 	}
 	
-	public boolean isPalavraReservadaDefSemErro(PalavraReservada palavra) throws AnaliseSintaticaException {
+	public boolean isPalavraReservadaDefSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.DEF, palavra);
 	}
 	
@@ -294,65 +199,177 @@ public class SintaticoHelper {
 	}
 	
 	public boolean isPalavraReservadaOpUnarioSemErro(PalavraReservada palavraReservada) {
-		return PalavraReservada.SUBTRAIR.equals(palavraReservada) || PalavraReservada.NOT.equals(palavraReservada);
+		return opUnario.contains(palavraReservada);
 	}
 	
-	public boolean isPalavraReservadaOpUnario(PalavraReservada palavraReservada, String mensagemValidacao) 
-			throws AnaliseSintaticaException {
-		if (isPalavraReservadaOpUnarioSemErro(palavraReservada)) {
-			return true;
-		} 
-		erro(mensagemValidacao);
-		return false;
+	public boolean isPalavraReservadaVectorSemErro(PalavraReservada palavraReservada) {
+		return PalavraReservada.VECTOR.equals(palavraReservada);
 	}
 	
-	public boolean isPalavraReservada(PalavraReservada palavraReservada, PalavraReservada palavraAtual, String mensagemValidacao) 
-			throws AnaliseSintaticaException {
-		if (palavraReservada.equals(palavraAtual)) {
-			return true;
-		} 
-		erro(mensagemValidacao);
-		return false;
+	public boolean isPalavraReservadaFechaParentesesSemErro(PalavraReservada palavraReservada) {
+		return PalavraReservada.FECHA_PARENTESES.equals(palavraReservada);
 	}
 	
-	public boolean isPalavraReservadaTipoPrimitivo(PalavraReservada palavra, String mensagemValidacao) 
-			throws AnaliseSintaticaException {
-		if (tiposPrimitivos.contains(palavra)) {
-			return true;
-		}
-		erro(mensagemValidacao);
-		return false;
-	}
-	
-	public boolean isPalavraReservadaTipoPrimitivoSemVoid(PalavraReservada palavra, String mensagemValidacao) 
-			throws AnaliseSintaticaException {
-		if (tiposPrimitivosSemVoid.contains(palavra)) {
-			return true;
-		}
-		erro(mensagemValidacao);
-		return false;
-	}
-	
-	public boolean isPalavraReservadaTipoPrimitivo(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservadaTipoPrimitivo(palavra, "Não é um tipo primitivo");
-	}
-	
-	public boolean isComentario(TokenVO tokenVO) {
+	public boolean isComentarioSemErro(TokenVO tokenVO) {
 		return PalavraReservada.COMENTARIO_GERAL.equals(tokenVO.getPalavraReservada()) ||
 				PalavraReservada.COMENTARIO_LINHA.equals(tokenVO.getPalavraReservada());
 	}
 	
-	public boolean isPalavraReservadaID(PalavraReservada palavra) throws AnaliseSintaticaException {
-		return isPalavraReservada(PalavraReservada.ID, palavra, "funcao espera id dps de tipo macro");
+	///////////////////////// lançando exceptions //////////////////////////
+	public boolean isPalavraReservadaPonto(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.PONTO, "esperava ponto final", linha, token);
 	}
 	
-	public void erro(String mensagem) throws AnaliseSintaticaException {
-		errosCount++;
-		errors += mensagem+"\n";
-		System.out.println(String.format("Erro %s: %s",errosCount,mensagem));
-		if (errosCount >= MAX_ERROS) {
-			throw new AnaliseSintaticaException(errors);
+	public boolean isPalavraReservadaIgual(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.IGUAL, "esperava ponto final", linha, token);
+	}
+	
+	public boolean isPalavraReservadaClass(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.CLASS, "esperava class", linha, token);
+	}
+	
+	public boolean isPalavraReservadaString(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.STRING, "esperava string", linha, token);
+	}
+	
+	public boolean isPalavraReservadaReturn(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.RETURN, "funcao esperava return", linha, token);
+	}
+	
+	public boolean isPalavraReservadaPontoVirgula(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.PONTO_VIRGULA, "funcao espera ponto virgula dps de end", linha, token);
+	}
+	
+	public boolean isPalavraReservadaVirgula(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.VIRGULA, "funcao esperava token virgula", linha, token);
+	}
+	
+	public boolean isPalavraReservadaEnd(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.END, "funcao espera end dps de retorno", linha, token);
+	}
+	
+	public boolean isPalavraReservadaElse(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.ELSE, "funcao esperava else", linha, token);
+	}
+	
+	public boolean isPalavraReservadaDoisPontos(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.DOIS_PONTOS, "funcao espera dois pontos dps de fecha parenteses", linha, token);
+	}
+	
+	public boolean isPalavraReservadaAbreParenteses(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.ABRE_PARENTESES, "funcao espera abre parenteses dps do id", linha, token);
+	}
+	
+	public boolean isPalavraReservadaFechaParenteses(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.FECHA_PARENTESES, "funcao espera fecha parenteses dps de lista arg", linha, token);
+	}
+	
+	public boolean isPalavraReservadaAbreColchete(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.ABRE_COLCHETE, "Esperava abre colchete", linha, token);
+	}
+	
+	public boolean isPalavraReservadaFechaColchete(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.FECHA_COLCHETE, "Esperava fecha colchete", linha, token);
+	}
+	
+	public boolean isPalavraReservadaDef(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.DEF, "funcao deve iniciar com def", linha, token);
+	}
+	
+	public boolean isPalavraReservadaDefStatic(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.DEFSTATIC, "funcao main deve iniciar com defstatic", linha, token);
+	}
+	
+	public boolean isPalavraReservadaVoid(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.VOID, "esperava void", linha, token);
+	}
+	
+	public boolean isPalavraReservadaMain(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.MAIN, "esperava main", linha, token);
+	}
+	
+	public boolean isPalavraReservadaIf(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.IF, "esperava if", linha, token);
+	}
+	
+	public boolean isPalavraReservadaWhile(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WHILE, "esperava while", linha, token);
+	}
+
+	public boolean isPalavraReservadaWrite(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WRITE, "esperava write", linha, token);
+	}
+	
+	public boolean isPalavraReservadaWriteLn(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.WRITELN, "esperava writeln", linha, token);
+	}
+	
+	public boolean isPalavraReservadaTipoPrimitivo(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservadaTipoPrimitivo("Não é um tipo primitivo", linha, token);
+	}
+	
+	public boolean isPalavraReservadaID(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		return isPalavraReservada(PalavraReservada.ID, "funcao espera id dps de tipo macro", linha, token);
+	}
+	
+	public boolean isPalavraReservadaOp(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		if(isPalavraReservadaOpSemErro(token.getPalavraReservada())) {
+			return true;
 		}
+		erro("Esperava OP", linha, token);
+		return false;
+	}
+	
+	public boolean isPalavraReservadaOpUnario(String mensagemValidacao, LinhaVO linha, TokenVO token) 
+			throws AnaliseSintaticaException {
+		if (isPalavraReservadaOpUnarioSemErro(token.getPalavraReservada())) {
+			return true;
+		} 
+		erro(mensagemValidacao, linha, token);
+		return false;
+	}
+	
+	public boolean isPalavraReservada(PalavraReservada palavraReservada, String mensagemValidacao, LinhaVO linha, TokenVO token) 
+			throws AnaliseSintaticaException {
+		if (palavraReservada.equals(token.getPalavraReservada())) {
+			return true;
+		} 
+		erro(mensagemValidacao, linha, token);
+		return false;
+	}
+	
+	public boolean isPalavraReservadaTipoPrimitivo(String mensagemValidacao, LinhaVO linha, TokenVO token) 
+			throws AnaliseSintaticaException {
+		if (tiposPrimitivos.contains(token.getPalavraReservada())) {
+			return true;
+		}
+		erro(mensagemValidacao, linha, token);
+		return false;
+	}
+	
+	public boolean isPalavraReservadaTipoPrimitivoSemVoid(String mensagemValidacao, LinhaVO linha, TokenVO token) 
+			throws AnaliseSintaticaException {
+		if (tiposPrimitivosSemVoid.contains(token.getPalavraReservada())) {
+			return true;
+		}
+		erro(mensagemValidacao, linha, token);
+		return false;
+	}
+	
+	public void erro(String mensagem, LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
+		errosCount++;
+		String msgErro = String.format("Erro %s na linha %s no lexema '%s' proximo a coluna %s: %s",
+			errosCount, linha.getNumero()+"", token.getValor(), getIndexToken(linha, token), mensagem)+"\n";
+		errors += msgErro;
+		System.out.println(msgErro);
+		if (errosCount >= MAX_ERROS) {
+			throw new AnaliseSintaticaException(errors, linha, token);
+		}
+	}
+	
+	private int getIndexToken(LinhaVO linha, TokenVO token) {
+		int indexOf = linha.getConteudo().indexOf(token.getValor());
+		return indexOf;
 	}
 	
 }

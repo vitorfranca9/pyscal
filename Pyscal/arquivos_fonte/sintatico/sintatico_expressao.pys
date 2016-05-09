@@ -1,7 +1,13 @@
 class TesteComandos:
 	defstatic void main(String[] args):
-		integer inteiro; 
-		if (inteiro > 2);
-		end;
+	asd;
+	opa;
+	eita;
+		integer inteiro;
+		
+		//inteiro = retorna1(retorna2());
+		//inteiro = retorna(1,2,3);
+		//inteiro = 2 - 3 +3 *2; 
+		//integer = 
 	end;			
 end.
