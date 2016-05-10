@@ -818,17 +818,17 @@ public class AnalisadorSintatico {
 		TokenVO tokenEndElse = linha.getTokens().get(numTokenAtual-1);
 		if (sintaticoHelper.isPalavraReservadaElseSemErro(tokenEndElse.getPalavraReservada())) {
 			NoVO noElse = noElse();
-			listaCmd.getUltimoFilho().getFilhos().add(noElse);
-			NoVO doisPontosElse = doisPontos();
-			noElse.getFilhos().add(doisPontosElse);
-			NoVO listaCmdElse = listaCmd();
-			if (listaCmdElse.getFilhos().isEmpty()) {
-				listaCmdElse = doisPontosElse;
+			if (noElse.getFilhos().isEmpty()) {
+				if (noElse.getTokens().isEmpty()) {
+					noElse = listaCmd;
+				} else {
+					listaCmd.getUltimoFilho().getFilhos().add(noElse);
+				}
 			} else {
-				doisPontosElse.getFilhos().add(listaCmdElse);
+				listaCmd.getUltimoFilho().getFilhos().add(noElse);
 			}
 			NoVO endPontoVirgula = endPontoVirgula();
-			listaCmdElse.getUltimoFilho().getFilhos().add(endPontoVirgula);
+			noElse.getUltimoFilho().getFilhos().add(endPontoVirgula);
 		} else if (sintaticoHelper.isPalavraReservadaEndSemErro(tokenEndElse.getPalavraReservada())) {
 			NoVO endPontoVirgula = endPontoVirgula();
 			listaCmd.getUltimoFilho().getFilhos().add(endPontoVirgula);
@@ -844,10 +844,15 @@ public class AnalisadorSintatico {
 		TokenVO tokenElse = linha.getTokens().get(numTokenAtual-1);
 		if (sintaticoHelper.isPalavraReservadaElse(linha, tokenElse)) {
 			noElse = criarNo(linha, tokenElse);
+			NoVO listaCmd = listaCmd();
+			if (listaCmd.getFilhos().isEmpty()) {
+				listaCmd = noElse;
+			} else {
+				noElse.getFilhos().add(listaCmd);
+			}
 		}
 		return noElse;
 	}
-	
 	
 	private NoVO noIf() throws AnaliseSintaticaException {
 		NoVO noIf = new NoVO();
