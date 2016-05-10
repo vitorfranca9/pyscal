@@ -3,9 +3,8 @@ class TesteIf:
 	defstatic void main(String[] args):
 		integer inteiro;
 		inteiro = 10;
-		
-		if (1 > 2):
-		//if (inteiro > 2):
+
+		if (inteiro > 2):
 			write("if");
 		else
 			write("else");

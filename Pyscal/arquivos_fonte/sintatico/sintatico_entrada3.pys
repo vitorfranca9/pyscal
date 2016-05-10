@@ -24,7 +24,7 @@ class CalculaSomaInteiros:
 		if (4 <= 100):		
 		//if(retornaTotal(total) >= 100):
 			writeln("Atingiu o máximo esperado.");
-		else:
+		else
 			writeln("Não atingiu o máximo esperado.");
 		end;
 	end;

@@ -50,7 +50,6 @@ public class AnalisadorSintatico {
 	}
 	
 	private void compilar() throws AnaliseSintaticaException {
-		numLinhaAtual = 1;
 		NoVO noClasse = classe();
 		NoVO noFuncao = listaFuncao();
 		if (noFuncao.getFilhos().isEmpty()) {
@@ -63,8 +62,8 @@ public class AnalisadorSintatico {
 		NoVO noEndPonto = endPonto();
 		noMain.getUltimoFilho().getFilhos().add(noEndPonto);
 		
-		arquivo.setNoRaiz(noClasse);
-		FileUtil.imprimirAST(arquivo);
+//		arquivo.setNoRaiz(noClasse);
+//		FileUtil.imprimirAST(arquivo);
 	}
 	
 	private NoVO classe() throws AnaliseSintaticaException {

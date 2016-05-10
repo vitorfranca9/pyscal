@@ -4,10 +4,9 @@ class TesteWhile:
 		integer inteiro;
 		inteiro = 10;
 		
-		while(2 < 1):
-		//while(inteiro < 1):
-			//writeln(inteiro);
-			//inteiro = inteiro - 1;
+		while(inteiro < 1):
+			writeln(inteiro);
+			inteiro = inteiro - 1;
 		end;
 			
 	end;			

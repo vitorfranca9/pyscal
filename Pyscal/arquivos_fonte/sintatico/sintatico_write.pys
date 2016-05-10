@@ -2,6 +2,7 @@ class TesteWrite:
 
 	defstatic void main(String[] args):
 		write("opa");
+		writeln("eita");
 		//write("Total: "+2*(2+2));
 	end;			
 	
