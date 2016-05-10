@@ -34,7 +34,7 @@ public class SintaticoHelper {
 		PalavraReservada.DOUBLE,
 		PalavraReservada.VOID
 	});
-	private final List<PalavraReservada> op = Arrays.asList(new PalavraReservada[]{
+	public final List<PalavraReservada> op = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.OR,
 		PalavraReservada.AND,
 		PalavraReservada.MENOR,
@@ -48,7 +48,7 @@ public class SintaticoHelper {
 		PalavraReservada.SUBTRAIR,
 		PalavraReservada.SOMAR
 	});
-	private final List<PalavraReservada> opUnario = Arrays.asList(new PalavraReservada[]{
+	public final List<PalavraReservada> opUnario = Arrays.asList(new PalavraReservada[]{
 		PalavraReservada.NOT,
 		PalavraReservada.SUBTRAIR
 	});

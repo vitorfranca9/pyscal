@@ -16,7 +16,6 @@ import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SIN
 
 import java.io.FileNotFoundException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import br.unibh.pyscal.analisador.AnalisadorLexico;

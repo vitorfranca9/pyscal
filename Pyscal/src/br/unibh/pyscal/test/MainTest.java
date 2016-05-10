@@ -1,8 +1,7 @@
 package br.unibh.pyscal.test;
 
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteLexico.*;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.*;
-
+import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteLexico.LEXICO_ENTRADA3;
+import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_EXPRESSAO;
 
 import java.io.FileNotFoundException;
 

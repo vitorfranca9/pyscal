@@ -15,7 +15,7 @@ public enum PalavraReservada {
 	DOIS_PONTOS(":",4),
 //	início da classe
 	CLASS("class",2), //
-	ID("/[^A-Za-z0-9]*/",2), //regex [a-zA-Z][a-zA-Z][a-zA-Z0-9] [^A-Za-z0-9]*
+	ID("/[^A-Za-z0-9]*/",1), //regex [a-zA-Z][a-zA-Z][a-zA-Z0-9] [^A-Za-z0-9]*
 	DEF("def",1),
 	DEFSTATIC("defstatic",1),
 	END("end",1),
@@ -29,14 +29,14 @@ public enum PalavraReservada {
 	MAIOR(">",3),
 	MENOR_IGUAL("<=",3),
 	MAIOR_IGUAL(">=",3),
-	IGUAL("=",3), //atribuições
-	IGUAL_IGUAL("==",3), //fazer comparações
-	DIFERENTE("!=",3),
-	DIVIDIR("/",3),
-	MULTIPLICAR("*",3),
+	IGUAL("=",1), //atribuições
+	IGUAL_IGUAL("==",2), //fazer comparações
+	DIFERENTE("!=",2),
+	DIVIDIR("/",4),
+	MULTIPLICAR("*",4),
 	SOMAR("+",3),
-	SUBTRAIR("-",3), //opUnario, tratar
-	NOT("!",3), //opUnario
+	SUBTRAIR("-",3), //opUnario, tratar(n funfa como opunario)
+	NOT("!",5), //opUnario
 //	tipos primitivos, tipo retorno
 	BOOL("bool",3),
 	INTEGER("integer",3),

@@ -64,18 +64,30 @@ public class FileUtil {
 
 	public static void imprimirAST(ArquivoVO arquivo) {
 		NoVO noAux = arquivo.getNoRaiz();
-		
-		while(!noAux.getFilhos().isEmpty()) {
-			imprimir(noAux);
-			noAux = noAux.getFilhos().get(0);
-			System.out.println();
-		}
 		imprimir(noAux);
+		System.out.println();
+		imprimirFilhos(noAux);
+	}
+	
+	private static void imprimirFilhos(NoVO noPai) {
+//		System.out.println("	Filhos de "+noPai.getTokens()+":");
+		if (!noPai.getFilhos().isEmpty()) {
+			System.out.println("	Filhos de '"+noPai.getTokens().get(0).getValor()+"':");
+			for (NoVO filho : noPai.getFilhos()) {
+				imprimir(filho);
+				System.out.print(" Filho de: '"+noPai.getTokens().get(0).getValor()+"'");
+				System.out.println();
+				if (!filho.getFilhos().isEmpty()) {
+					System.out.println();
+					imprimirFilhos(filho);
+				}
+			}
+		}
 	}
 	
 	private static void imprimir(NoVO noAux) {
-		System.out.print("Nivel: "+noAux.getNivel());
-		System.out.print(" Tokens: "+noAux.getTokens());
+//		System.out.print("Nivel: "+noAux.getNivel());
+		System.out.print(" Nó: '"+noAux.getTokens().get(0).getValor()+"'");
 //		System.out.print( noAux.getLinha() != null ? " Linha: "+noAux.getLinha().getConteudo() : "");
 	}
 

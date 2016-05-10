@@ -1,5 +1,10 @@
 package br.unibh.pyscal.analisador;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import br.unibh.pyscal.enumerador.PalavraReservada;
 import br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper;
 import br.unibh.pyscal.enumerador.TipoExpressao;
@@ -9,7 +14,9 @@ import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.NoVO;
 import br.unibh.pyscal.vo.TokenVO;
+import java_cup.runtime.token;
 
+@SuppressWarnings("unused")
 public class AnalisadorSintatico {
 	private ArquivoVO arquivo;
 	private int numLinhaAtual;
@@ -21,17 +28,16 @@ public class AnalisadorSintatico {
 		init();
 	}
 	
-//	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
-	//	t1.getOrdem().compareTo(t2.getOrdem()
-//		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
-//	);
+	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
+//		t1.getOrdem().compareTo(t2.getOrdem()
+		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
+	);
 		
 //	private void ordenar(LinhaVO linha) {
 //		Collections.sort(linha.getTokens(),compararPorOrdem);
 //	}
 	
 	private void init() {
-//		this.tokens = null;
 		this.arquivo = null;
 		this.numLinhaAtual = 1;
 		this.numTokenAtual = 1;
@@ -43,8 +49,7 @@ public class AnalisadorSintatico {
 	public void analisar(ArquivoVO arquivo) throws AnaliseSintaticaException {
 		init();
 		ArquivoVO arquivoExecutavel = sintaticoHelper.getArquivoExecutavel(arquivo);
-		/*List<TokenVO> tokens = */sintaticoHelper.getTokensAExecutar(arquivo);
-//		this.tokens = tokens;
+//		sintaticoHelper.getTokensAExecutar(arquivo);
 		this.arquivo = arquivoExecutavel;
 		compilar();
 	}
@@ -52,28 +57,42 @@ public class AnalisadorSintatico {
 	private void compilar() throws AnaliseSintaticaException {
 		NoVO noClasse = classe();
 		NoVO noFuncao = listaFuncao();
-		if (noFuncao.getFilhos().isEmpty()) {
-			noFuncao = noClasse;
-		} else {
-			noClasse.getUltimoFilho().getFilhos().add(noFuncao);
-		}
+//		if (noFuncao.getFilhos().isEmpty()) {
+//			noFuncao = noClasse;
+//		} else {
+//			noClasse.getUltimoFilho().getFilhos().add(noFuncao);
+//		}
 		NoVO noMain = main();
-		noFuncao.getUltimoFilho().getFilhos().add(noMain);
+//		noFuncao.getUltimoFilho().getFilhos().add(noMain);
 		NoVO noEndPonto = endPonto();
-		noMain.getUltimoFilho().getFilhos().add(noEndPonto);
+//		noMain.getUltimoFilho().getFilhos().add(noEndPonto);
 		
-//		arquivo.setNoRaiz(noClasse);
-//		FileUtil.imprimirAST(arquivo);
+		noClasse.getFilhos().add(noMain);
+		arquivo.setNoRaiz(noClasse);
+		System.out.println();
+		System.out.println();
+		FileUtil.imprimirAST(arquivo);
 	}
 	
 	private NoVO classe() throws AnaliseSintaticaException {
-		NoVO noClasse = noClass();
+		NoVO noClasse = null;
+		NoVO noClass = noClass();
+//		noClasse = noClass;
 		NoVO noID = id();
-		noClasse.getFilhos().add(noID);
+//		noClasse.getFilhos().add(noID);
 		NoVO noDoisPontos = doisPontos();
-		noID.getFilhos().add(noDoisPontos);
+//		noID.getFilhos().add(noDoisPontos);
+		noClasse = ordenarClasse(noClass,noID);
+		return noClasse;
+//		return noClasse;
+	}
+	
+	private NoVO ordenarClasse(NoVO noClass, NoVO noID) {
+		NoVO noClasse = noID;
+		noClasse.getFilhos().add(noClass);
 		return noClasse;
 	}
+	
 	/*
 	 * if pode ter 2 ou 3 filhos;
 	 * if,then else
@@ -109,7 +128,7 @@ public class AnalisadorSintatico {
 			}
 		}
 		return noFuncao;
-	}
+	}//
 	
 	private NoVO funcao() throws AnaliseSintaticaException {
 		NoVO noFuncao = def();
@@ -160,43 +179,55 @@ public class AnalisadorSintatico {
 	}
 	
 	private NoVO main() throws AnaliseSintaticaException {
-		NoVO noMain = defstatic();
+		NoVO noMain = null; 
+		NoVO defstatic = defstatic();
+//		noMain = defstatic;
 		NoVO noVoid = noVoid();
-		noMain.getFilhos().add(noVoid);
+//		noMain.getFilhos().add(noVoid);
 		NoVO main = noMain();
-		noVoid.getFilhos().add(main);
+//		noVoid.getFilhos().add(main);
 		NoVO noAbreParenteses = abreParenteses();
-		main.getFilhos().add(noAbreParenteses);
+//		main.getFilhos().add(noAbreParenteses);
 		NoVO noString = string();
-		noAbreParenteses.getFilhos().add(noString);
+//		noAbreParenteses.getFilhos().add(noString);
 		NoVO noAbreColchete = abreColchete();
-		noString.getFilhos().add(noAbreColchete);
+//		noString.getFilhos().add(noAbreColchete);
 		NoVO noFechaColchete = fechaColchete();
-		noAbreColchete.getFilhos().add(noFechaColchete);
+//		noAbreColchete.getFilhos().add(noFechaColchete);
 		NoVO noID = id();
-		noFechaColchete.getFilhos().add(noID);
+//		noFechaColchete.getFilhos().add(noID);
 		NoVO noFechaParenteses = fechaParenteses();
-		noID.getFilhos().add(noFechaParenteses);
+//		noID.getFilhos().add(noFechaParenteses);
 		NoVO noDoisPontos = doisPontos();
-		noFechaParenteses.getFilhos().add(noDoisPontos);
-		
+//		noFechaParenteses.getFilhos().add(noDoisPontos);
 		NoVO declaraIDS = declaraIDS();
-		
-		if (declaraIDS.getFilhos().isEmpty()) {
-			declaraIDS = noDoisPontos;
-		} else {
-			noDoisPontos.getFilhos().add(declaraIDS);
-		}
-		
+//		if (declaraIDS.getFilhos().isEmpty()) {
+//			declaraIDS = noDoisPontos;
+//		} else {
+//			noDoisPontos.getFilhos().add(declaraIDS);
+//		}
 		NoVO noListaCmd = listaCmd();
-		if (noListaCmd.getFilhos().isEmpty()) {
-			noListaCmd = noDoisPontos;
-		} else {
-			noDoisPontos.getUltimoFilho().getFilhos().add(noListaCmd);
-		}
+//		if (noListaCmd.getFilhos().isEmpty()) {
+//			noListaCmd = noDoisPontos;
+//		} else {
+//			noDoisPontos.getUltimoFilho().getFilhos().add(noListaCmd);
+//		}
 		NoVO noEndPontoVirgula = endPontoVirgula();
-		noListaCmd.getUltimoFilho().getFilhos().add(noEndPontoVirgula);
-		
+//		noListaCmd.getUltimoFilho().getFilhos().add(noEndPontoVirgula);
+		noMain = ordenarMain(defstatic, main, noID, declaraIDS, noListaCmd);
+		return noMain;
+	}
+	
+	private NoVO ordenarMain(NoVO defstatic, NoVO main, NoVO args, NoVO declaraIDS, NoVO noListaCmd) {
+		NoVO noMain = main;
+		noMain.getFilhos().add(defstatic);
+		noMain.getFilhos().add(args);
+//		if (!declaraIDS.getFilhos().isEmpty()) {
+//			noMain.getFilhos().add(declaraIDS);
+//		}
+		if (!noListaCmd.getFilhos().isEmpty()) {
+			noMain.getFilhos().addAll(noListaCmd.getFilhos());
+		}
 		return noMain;
 	}
 	
@@ -207,9 +238,19 @@ public class AnalisadorSintatico {
 		if (sintaticoHelper.isPalavraReservadaTipoPrimitivoSemErro(tokenTipoPrimitivo.getPalavraReservada())) {
 			noDeclaraIDS = declaraIDL(noDeclaraIDS);
 		}
+//		noDeclaraIDS = ordenaDeclaraIDS(noDeclaraIDS);
 		return noDeclaraIDS;
 	}
-	
+//	private NoVO ordenaDeclaraIDS(NoVO declaraIDS) {
+//		NoVO declaraIDSOrdenado = new NoVO();
+//		while (!declaraIDS.getFilhos().isEmpty()) {
+//			NoVO filho = declaraIDS.getFilhos().get(0);
+//			NoVO neto = filho.getFilhos().get(0);
+//			System.out.println();
+//		}
+//		return null;
+//	}
+
 	private NoVO declaraIDL(NoVO noPai) throws AnaliseSintaticaException {
 		LinhaVO linha = getLinhaAtual();
 		TokenVO tokenTipoPrimitivo = linha.getTokens().get(numTokenAtual-1);
@@ -308,8 +349,8 @@ public class AnalisadorSintatico {
 	}
 	
 	private void imprimir(NoVO no) {
-		System.out.println("Nivel:"+no.getNivel()+
-			" Linha:"+no.getLinha().getNumero()+" No:"+no.getTokens());
+		System.out.println(//"Nivel:"+no.getNivel()+
+			" Linha:"+no.getLinha().getNumero()+" No:'"+no.getTokens().get(0).getValor()+"'");
 	}
 	
 	private NoVO criarNo(LinhaVO linha, NoVO noPai, TokenVO tokenDEF) {
@@ -522,6 +563,12 @@ public class AnalisadorSintatico {
 	}
 	
 	private NoVO expressao() throws AnaliseSintaticaException {
+		NoVO noExpressao = expressaoL();
+		noExpressao = ordenarExpressao(noExpressao);
+		return noExpressao;
+	}
+	
+	private NoVO expressaoL() throws AnaliseSintaticaException {
 		NoVO noExpressao = new NoVO();
 		LinhaVO linha = getLinhaAtual();
 		TokenVO tokenExpressao = linha.getTokens().get(numTokenAtual-1);
@@ -532,7 +579,7 @@ public class AnalisadorSintatico {
 			if (sintaticoHelper.isPalavraReservadaOpSemErro(tokenOp.getPalavraReservada())) {
 				NoVO op = op();
 				noExpressao.getFilhos().add(op);
-				NoVO expressaoL = expressao();
+				NoVO expressaoL = expressaoL();
 				op.getFilhos().add(expressaoL);
 			} else if (isTokenValorNegativo(tokenOp)){
 				String valorTokenValor = tokenOp.getValor().substring(1, tokenOp.getValor().length());
@@ -544,7 +591,7 @@ public class AnalisadorSintatico {
 				linha.getTokens().add(numLinhaAtual, tokenValor);
 				NoVO op = op();
 				noExpressao.getFilhos().add(op);
-				NoVO expressaoL = expressao();
+				NoVO expressaoL = expressaoL();
 				op.getFilhos().add(expressaoL);
 			}
 		} else if (sintaticoHelper.isPalavraReservadaOpUnarioSemErro(tokenExpressao.getPalavraReservada())) {
@@ -554,7 +601,7 @@ public class AnalisadorSintatico {
 			if (sintaticoHelper.isPalavraReservadaOpSemErro(tokenOp.getPalavraReservada())) {
 				NoVO op = op();
 				noExpressao.getUltimoFilho().getFilhos().add(op);
-				NoVO expressaoL = expressao();
+				NoVO expressaoL = expressaoL();
 				op.getFilhos().add(expressaoL);
 			} 
 		} else if (sintaticoHelper.isPalavraReservadaIDSemErro(tokenExpressao.getPalavraReservada())) {
@@ -564,7 +611,7 @@ public class AnalisadorSintatico {
 			if (sintaticoHelper.isPalavraReservadaOpSemErro(tokenOp.getPalavraReservada())) {
 				NoVO op = op();
 				noExpressao.getUltimoFilho().getFilhos().add(op);
-				NoVO expressaoL = expressao();
+				NoVO expressaoL = expressaoL();
 				op.getFilhos().add(expressaoL);
 			} 
 		} else if (sintaticoHelper.isPalavraReservadaVectorSemErro(tokenExpressao.getPalavraReservada())) {
@@ -574,13 +621,13 @@ public class AnalisadorSintatico {
 			if (sintaticoHelper.isPalavraReservadaOpSemErro(tokenOp.getPalavraReservada())) {
 				NoVO op = op();
 				noExpressao.getUltimoFilho().getFilhos().add(op);
-				NoVO expressaoL = expressao();
+				NoVO expressaoL = expressaoL();
 				op.getFilhos().add(expressaoL);
 			} 
 		} else if (sintaticoHelper.isPalavraReservadaAbreParentesesSemErro(tokenExpressao.getPalavraReservada())) {
 //			noExpressao = expressaoAbreParenteses();
 			noExpressao = abreParenteses();
-			NoVO expressao = expressao();
+			NoVO expressao = expressaoL();
 			noExpressao.getFilhos().add(expressao);
 			NoVO fechaParenteses = fechaParenteses();
 			noExpressao.getUltimoFilho().getFilhos().add(fechaParenteses);
@@ -589,22 +636,103 @@ public class AnalisadorSintatico {
 			if (sintaticoHelper.isPalavraReservadaOpSemErro(tokenOp.getPalavraReservada())) {
 				NoVO op = op();
 				noExpressao.getUltimoFilho().getFilhos().add(op);
-				NoVO expressao2 = expressao();
+				NoVO expressao2 = expressaoL();
 				op.getFilhos().add(expressao2);
 			} 
 		} /*else if (sintaticoHelper.isPalavraReservadaPontoVirgulaSemErro(tokenExpressao.getPalavraReservada())) {
 			
 		}*/
-		noExpressao = ordenarExpressao(noExpressao);
 		return noExpressao;
 	}
 	
 	//TODO
 	private NoVO ordenarExpressao(NoVO noExpressao) {
 		NoVO noOrdenado = new NoVO();
-		noOrdenado = noExpressao;
+		if (!noExpressao.getFilhos().isEmpty()) {
+			List<NoVO> nos = new ArrayList<>();
+			try {
+				NoVO noExpressaoAux = (NoVO) noExpressao.clone();
+				noExpressaoAux.setFilhos(new ArrayList<>());
+				nos.add(noExpressaoAux);
+				while (!noExpressao.getFilhos().isEmpty()) {
+					NoVO noExpressaoAux2 = (NoVO)noExpressao.getFilhos().get(0).clone();
+					noExpressaoAux2.setFilhos(new ArrayList<>());
+					nos.add(noExpressaoAux2);
+					noExpressao = noExpressao.getFilhos().get(0);
+				}
+				noOrdenado = ordenarExpressao(nos);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			noOrdenado = noExpressao;
+		}
+		
 		return noOrdenado;
 	}
+	
+	private int nivel = 0;
+	private NoVO ordenarExpressao(List<NoVO> nos) {
+		NoVO noOrdenado = new NoVO();
+		NoVO noAux = null;
+		List<NoVO> nosAux = new ArrayList<>();
+		List<TokenVO> tokens = new ArrayList<>();
+			
+		for (NoVO no : nos) {
+			if (!isOperador(no.getTokens().get(0))) {
+				noAux = no;
+			} else {
+				no.getFilhos().add(noAux);
+				nosAux.add(no);
+				noAux = null;
+			}
+			tokens.add(no.getTokens().get(0));
+		}
+		if (noAux != null) {
+//			nosAux.get(nosAux.size()-1).getFilhos().add(noAux);
+			nosAux.add(noAux);
+		}
+		
+		noOrdenado = ordenarTokens(tokens);
+		noOrdenado = ordenarNos(nosAux);
+		return noOrdenado;
+	}
+	
+	private NoVO ordenarTokens(List<TokenVO> tokens) {
+		NoVO no = new NoVO();
+		TokenVO token = new TokenVO();
+		for (int i = 0; i < tokens.size(); i++) {
+			TokenVO tokenVO = tokens.get(i);
+			System.out.println(tokenVO);
+		}
+		
+//		Collections.sort(nos, (o1, o2) -> 
+//			o1.getTokens().get(0).getPalavraReservada()
+//				.compareTo(o2.getTokens().get(0).getPalavraReservada()));
+//		no.getFilhos().addAll(nos);
+		return no;
+	}
+	
+	private NoVO ordenarNos(List<NoVO> nos) {
+		NoVO no = new NoVO();
+		
+		for (int i = 0; i < nos.size(); i++) {
+			NoVO noVO = nos.get(i);
+			System.out.println(noVO);
+		}
+		
+//		Collections.sort(nos, (o1, o2) -> 
+//			o1.getTokens().get(0).getPalavraReservada()
+//				.compareTo(o2.getTokens().get(0).getPalavraReservada()));
+//		no.getFilhos().addAll(nos);
+		return no;
+	}
+	
+	private boolean isOperador(TokenVO tokenVO) {
+		return sintaticoHelper.op.contains(tokenVO.getPalavraReservada())
+			|| sintaticoHelper.opUnario.contains(tokenVO.getPalavraReservada());
+	}
+	
 	//TODO CONST_DOUBLE ou CONST_INTEGER com valor negativo - tratar?
 	private boolean isTokenValorNegativo(TokenVO token) {
 		if (sintaticoHelper.isPalavraReservadaConstIntegerSemErro(token.getPalavraReservada()) ||
@@ -766,16 +894,20 @@ public class AnalisadorSintatico {
 		LinhaVO linha = getLinhaAtual();
 		TokenVO tokenCmd = linha.getTokens().get(numTokenAtual-1);
 		if (sintaticoHelper.isPalavraReservadaCmdSemErro(tokenCmd.getPalavraReservada())) {
-			NoVO noListaCmd = listaCmd();
+//			NoVO noListaCmd = listaCmd();
+			NoVO noListaCmd = listaCmdL(noPai);
 			if (noListaCmd.getFilhos().isEmpty()) {
-				noPai.getUltimoFilho().getFilhos().add(noCmd);
-				return noPai;
+//				noPai.getUltimoFilho().getFilhos().add(noCmd);
+				return noPai; //NAO PAROU AQUI
 			} else {
 				if (!noCmd.equals(noListaCmd)) {
-					noCmd.getUltimoFilho().getFilhos().add(noListaCmd);
+//					noCmd.getUltimoFilho().getFilhos().add(noListaCmd);
+					noPai.getFilhos().add(0,noCmd);
+					return noPai;
 				}
 			}
 		}
+		noPai.getFilhos().add(0,noCmd);
 		return noCmd;
 	}
 	
