@@ -17,6 +17,25 @@ import br.unibh.pyscal.vo.TokenVO;
 
 public class AnalisadorLexico {
 	
+	private static final List<String> tokensDeUmCharactere = Arrays.asList(new String[]{
+		ABRE_PARENTESES.getRegex(),
+		FECHA_PARENTESES.getRegex(),
+		DOIS_PONTOS.getRegex(),
+		PONTO.getRegex(),
+		PONTO_VIRGULA.getRegex(),
+		VIRGULA.getRegex(),
+		MENOR.getRegex(),
+		MAIOR.getRegex(),
+		IGUAL.getRegex(),
+		NOT.getRegex(),
+		DIVIDIR.getRegex(),
+		MULTIPLICAR.getRegex(),
+		SOMAR.getRegex(),
+		SUBTRAIR.getRegex(),
+		ABRE_COLCHETE.getRegex(),
+		FECHA_COLCHETE.getRegex()
+	});
+	
 	public void analisar(ArquivoVO arquivo) throws AnaliseLexicaException {
 		for (LinhaVO linha : arquivo.getLinhas()) {
 			for (String palavra : linha.getPalavras()) {
@@ -489,8 +508,7 @@ public class AnalisadorLexico {
 						tokenAtual = "";
 						token = new TokenVO();
 					} else {
-						//perai q deu merda
-						System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
+						//System.out.println("VAI DAR(DEU) MERDA NO TOKEN "+tokenAtual);
 					}
 				}
 			}
@@ -536,29 +554,6 @@ public class AnalisadorLexico {
 		return tokensDeUmCharactere.contains(tokenAtual);
 	}
 	
-	private static final List<String> tokensDeUmCharactere = Arrays.asList(new String[]{
-		ABRE_PARENTESES.getRegex(),
-		FECHA_PARENTESES.getRegex(),
-		DOIS_PONTOS.getRegex(),
-		PONTO.getRegex(),
-		PONTO_VIRGULA.getRegex(),
-		VIRGULA.getRegex(),
-		MENOR.getRegex(),
-		MAIOR.getRegex(),
-		IGUAL.getRegex(),
-		NOT.getRegex(),
-		DIVIDIR.getRegex(),
-		MULTIPLICAR.getRegex(),
-		SOMAR.getRegex(),
-		SUBTRAIR.getRegex(),
-		ABRE_COLCHETE.getRegex(),
-		FECHA_COLCHETE.getRegex()
-	});
 	
-	public static void main(String[] args) {
-		
-		System.out.println("Total"+2*(2+2));
-		
-	}
-
+	
 }

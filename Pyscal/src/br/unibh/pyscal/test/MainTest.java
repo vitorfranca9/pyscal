@@ -13,9 +13,6 @@ import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
 
-//
-/**/
-//definir ordem de inserção em árvore: esquerda pra direita, direita pra esquerda, ordem de importancia
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
@@ -40,5 +37,5 @@ public class MainTest {
 			}
 		}
 	}
-	
+//	System.out.println("Total"+2*(2+2));
 }

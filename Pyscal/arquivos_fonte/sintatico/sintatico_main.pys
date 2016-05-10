@@ -1,7 +1,7 @@
 class TesteMain:
 
 	defstatic void main(String[] args):
-		
+				
 	end;			
 	
 end.

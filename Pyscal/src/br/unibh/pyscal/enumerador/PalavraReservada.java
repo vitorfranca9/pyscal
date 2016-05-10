@@ -310,11 +310,13 @@ public enum PalavraReservada {
 			boolean isConstInteger = true;
 			boolean primeiro = true;
 			for (char c : valor.toCharArray()) {
-				if ((primeiro && c != SUBTRAIR.getRegex().charAt(0)) && !StringUtil.isDigito(c)) {
+				if (((primeiro && c != SUBTRAIR.getRegex().charAt(0)) && !StringUtil.isDigito(c)) 
+						||
+						(!primeiro && !StringUtil.isDigito(c))) {
 					isConstInteger = false;
-					primeiro = false;
 					break;
 				}
+				primeiro = false;
 			}
 			return isConstInteger;
 		}

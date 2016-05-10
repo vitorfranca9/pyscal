@@ -21,7 +21,6 @@ public class StringUtil {
 		return temp.replaceAll("[^\\p{ASCII}]","");
 	}
 
-	//TODO Atribuir responsabilidade a uma classe utilitária
 	public static boolean isLetra(char valor) {
 		return Character.isLetter(valor);
 	}

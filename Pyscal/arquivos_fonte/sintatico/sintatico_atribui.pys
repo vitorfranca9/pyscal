@@ -3,6 +3,7 @@ class TesteAtribui:
 	defstatic void main(String[] args):
 		integer inteiro;
 		inteiro = 2*2+2;
+		inteiro = retorna1(retorna2(1,2,3,4,retorna3())) + 2 - 1;
 		//inteiro = 2*(2+2);
 		write(inteiro);
 	end;			
