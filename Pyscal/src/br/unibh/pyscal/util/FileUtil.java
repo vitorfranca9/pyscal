@@ -69,13 +69,28 @@ public class FileUtil {
 		imprimirFilhos(noAux);
 	}
 	
+//	public void test() {
+//		if (this.pai != null) {
+//            for (int i = 0; i < espaco; i++) {
+//                System.out.print(".   ");
+//            }
+//            System.out.print(this.pai.toString());
+//            espaco++;
+//        }
+//        for (No filho : listaFilhos) {
+//            filho.imprimeConteudo();
+//        }
+//        if (this.pai != null) {
+//            espaco--;
+//        }
+//	}
 	private static void imprimirFilhos(NoVO noPai) {
 //		System.out.println("	Filhos de "+noPai.getTokens()+":");
 		if (!noPai.getFilhos().isEmpty()) {
-			System.out.println("	Filhos de '"+noPai.getTokens().get(0).getValor()+"':");
+//			System.out.println("	Filhos de '"+noPai.getTokens().get(0)+"':");
 			for (NoVO filho : noPai.getFilhos()) {
 				imprimir(filho);
-				System.out.print(" Filho de: '"+noPai.getTokens().get(0).getValor()+"'");
+				System.out.print(" Filho de: '"+noPai.getTokens().get(0)+"'");
 				System.out.println();
 				if (!filho.getFilhos().isEmpty()) {
 					System.out.println();
@@ -87,7 +102,7 @@ public class FileUtil {
 	
 	private static void imprimir(NoVO noAux) {
 //		System.out.print("Nivel: "+noAux.getNivel());
-		System.out.print(" Nó: '"+noAux.getTokens().get(0).getValor()+"'");
+		System.out.print(" Nó: '"+noAux.getTokens().get(0)+"'");
 //		System.out.print( noAux.getLinha() != null ? " Linha: "+noAux.getLinha().getConteudo() : "");
 	}
 

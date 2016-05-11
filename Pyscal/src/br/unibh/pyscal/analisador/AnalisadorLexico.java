@@ -495,7 +495,7 @@ public class AnalisadorLexico {
 		
 		if (!isComentario && !isComentarioGeral) {
 			if (token.getPalavraReservada() != null && !tokenAtual.isEmpty()) {
-				token.setValor(token.getValor()+tokenAtual);
+				token.setValor(token.getValor()+tokenAtual); //tratar voide
 				tokens.add(token);
 				tokenAtual = "";
 				token = new TokenVO();

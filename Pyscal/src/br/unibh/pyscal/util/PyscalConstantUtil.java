@@ -33,6 +33,7 @@ public interface PyscalConstantUtil {
 		String SINTATICO_WHILE = ARQUIVO_FONTE + SINTATICO + "sintatico_while.pys";
 		String SINTATICO_WRITE = ARQUIVO_FONTE + SINTATICO + "sintatico_write.pys";
 		String SINTATICO_MAIN = ARQUIVO_FONTE + SINTATICO + "sintatico_main.pys";
+		String SINTATICO_APRESENTACAOTP2 = ARQUIVO_FONTE + SINTATICO + "ApresentacaoTP2.pys";
 	}
 	
 }
