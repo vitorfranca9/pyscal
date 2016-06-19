@@ -1,14 +1,16 @@
 package br.unibh.pyscal.exception;
 
 import br.unibh.pyscal.vo.LinhaVO;
+import lombok.Getter;
+import lombok.Setter;
 
 public class AnaliseLexicaException extends Exception {
 	private static final long serialVersionUID = -1395958669132540575L;
 	private static final String FRASE_ERRO = "Erro na linha %s próximo a palavra %s próximo a coluna %s";
 	
-	private LinhaVO linha;
-	private String palavra;
-	private Integer coluna;
+	@Getter @Setter private LinhaVO linha;
+	@Getter @Setter private String palavra;
+	@Getter @Setter private Integer coluna;
 	
 	public AnaliseLexicaException(LinhaVO linha, String palavra) {
 		super(String.format(FRASE_ERRO, linha.getNumero(),palavra));
@@ -24,19 +26,6 @@ public class AnaliseLexicaException extends Exception {
 	
 	private static int valorColuna(LinhaVO linha, String palavra) {
 		return 0;
-	}
-
-	public LinhaVO getLinha() {
-		return linha;
-	}
-	public void setLinha(LinhaVO linha) {
-		this.linha = linha;
-	}
-	public String getPalavra() {
-		return palavra;
-	}
-	public void setPalavra(String palavra) {
-		this.palavra = palavra;
 	}
 
 }

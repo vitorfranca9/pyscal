@@ -18,9 +18,8 @@ import java_cup.runtime.token;
 
 @SuppressWarnings("unused")
 public class AnalisadorSintatico extends AnalisadorAbstrato {
-	private int nivelAtual;
+
 	private SintaticoHelper sintaticoHelper/* = SintaticoHelper.getInstancia()*/;
-	
 	
 	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
 		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
@@ -32,7 +31,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		sintaticoHelper = SintaticoHelper.getInstancia();
 		sintaticoHelper.errors = "";
 		sintaticoHelper.errosCount = 0;
-		nivelAtual = 0;
 	}
 
 	public void analisar(ArquivoVO arquivo) throws AnaliseSintaticaException {
@@ -264,8 +262,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		NoVO no = new NoVO();
 		no.setLinha(linha);
 		no.getTokens().add(token);
-		no.setNivel(nivelAtual);
-		nivelAtual++;
 		imprimir(no);
 		contarProximoToken(linha);
 		return no;

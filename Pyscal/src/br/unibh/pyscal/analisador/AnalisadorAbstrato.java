@@ -2,12 +2,14 @@ package br.unibh.pyscal.analisador;
 
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class AnalisadorAbstrato {
 	
-	protected ArquivoVO arquivo;
-	protected int numLinhaAtual;
-	protected int numTokenAtual;
+	@Getter @Setter protected ArquivoVO arquivo;
+	@Getter @Setter protected int numLinhaAtual;
+	@Getter @Setter protected int numTokenAtual;
 	
 	public abstract void analisar(ArquivoVO arquivo) throws Exception;
 	
@@ -31,29 +33,5 @@ public abstract class AnalisadorAbstrato {
 		}
 		return linha;
 	}
-
-	public ArquivoVO getArquivo() {
-		return arquivo;
-	}
-
-	public void setArquivo(ArquivoVO arquivo) {
-		this.arquivo = arquivo;
-	}
-
-	public int getNumLinhaAtual() {
-		return numLinhaAtual;
-	}
-
-	public void setNumLinhaAtual(int numLinhaAtual) {
-		this.numLinhaAtual = numLinhaAtual;
-	}
-
-	public int getNumTokenAtual() {
-		return numTokenAtual;
-	}
-
-	public void setNumTokenAtual(int numTokenAtual) {
-		this.numTokenAtual = numTokenAtual;
-	}
-
+	
 }
