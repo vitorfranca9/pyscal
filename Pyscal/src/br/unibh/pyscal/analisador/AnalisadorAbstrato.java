@@ -2,6 +2,7 @@ package br.unibh.pyscal.analisador;
 
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.LinhaVO;
+import br.unibh.pyscal.vo.TokenVO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,24 @@ public abstract class AnalisadorAbstrato {
 		this.arquivo = null;
 		this.numLinhaAtual = 1;
 		this.numTokenAtual = 1;
+	}
+	
+	protected void contarProximoToken(LinhaVO linhaAtual) {
+		if (linhaAtual.getTokens().size() > numTokenAtual) {
+			numTokenAtual++;
+		} else {
+			numLinhaAtual++;
+			numTokenAtual = 1;
+		}
+	}
+	
+	protected void contarProximaLinha() {
+		numLinhaAtual++;
+		numTokenAtual = 1;
+	}
+	
+	protected TokenVO getTokenAtual() {
+		return getLinhaAtual().getTokens().get(numTokenAtual-1);
 	}
 	
 	protected LinhaVO getLinhaAtual() {

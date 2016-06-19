@@ -175,6 +175,10 @@ public class SintaticoHelper {
 		return isPalavraReservadaSemErro(PalavraReservada.WRITELN, palavraReservada);
 	}
 	
+	public boolean isPalavraReservadaClassSemErro(PalavraReservada palavraReservada) {
+		return isPalavraReservadaSemErro(PalavraReservada.CLASS, palavraReservada);
+	}
+	
 	public boolean isPalavraReservadaSemErro(PalavraReservada palavraReservada, PalavraReservada palavraAtual) {
 		return palavraReservada.equals(palavraAtual);
 	}

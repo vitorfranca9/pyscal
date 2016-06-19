@@ -41,7 +41,6 @@ public class AnaliseSintaticaException extends Exception {
 				return linha.getConteudo().indexOf(t.getValor());
 			}
 		} 
-		
 		return 0;
 	}
 

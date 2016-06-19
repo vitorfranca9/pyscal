@@ -1,5 +1,12 @@
 package br.unibh.pyscal.vo;
 
-public class VariavelVO {
+import br.unibh.pyscal.enumerador.TipoVariavel;
+import lombok.Data;
 
+@Data
+public class VariavelVO {
+	private LinhaVO linha;
+	private TokenVO token;
+	private TipoVariavel tipoVariavel;
+	
 }

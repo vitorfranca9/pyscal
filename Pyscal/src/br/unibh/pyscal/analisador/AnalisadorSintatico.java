@@ -127,7 +127,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		if (!noListaCmd.getFilhos().isEmpty()) {
 			noFuncao.getFilhos().addAll(noListaCmd.getFilhos());
 		}
-		if (noRetorno.getFilhos().isEmpty()) {
+		if (!noRetorno.getFilhos().isEmpty()) {
 			noFuncao.getFilhos().add(noRetorno);
 		}
 		return noFuncao;
@@ -276,20 +276,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		NoVO noFilho = criarNo(linha, tokenDEF);
 		noPai.getFilhos().add(noFilho);
 		return noFilho;
-	}
-	
-	private void contarProximoToken(LinhaVO linhaAtual) {
-		if (linhaAtual.getTokens().size() > numTokenAtual) {
-			numTokenAtual++;
-		} else {
-			numLinhaAtual++;
-			numTokenAtual = 1;
-		}
-	}
-	
-	private void contarProximaLinha() {
-		numLinhaAtual++;
-		numTokenAtual = 1;
 	}
 	
 	private NoVO defstatic() throws AnaliseSintaticaException {
@@ -1067,7 +1053,9 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 			}
 		}
 		NoVO noOrdenado = new NoVO();
-		noOrdenado.getFilhos().addAll(getNos(noListaArg));
+		if (!noListaArg.getFilhos().isEmpty()) {
+			noOrdenado.getFilhos().addAll(getNos(noListaArg));
+		}
 		return noOrdenado;
 	}
 	
@@ -1084,11 +1072,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 			noPai.getUltimoFilho().getFilhos().add(noArg);
 			return noPai;
 		}
-	}
-	
-	private TokenVO getTokenAtual() {
-		LinhaVO linha = getLinhaAtual();
-		return linha.getTokens().get(numTokenAtual-1);
 	}
 	
 }
