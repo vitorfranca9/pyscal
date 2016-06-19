@@ -2,6 +2,7 @@ package br.unibh.pyscal.exception;
 
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.TokenVO;
+import jdk.nashorn.internal.parser.Token;
 
 public class AnaliseSintaticaException extends Exception {
 	private static final long serialVersionUID = 4790611655304230694L;
@@ -33,6 +34,13 @@ public class AnaliseSintaticaException extends Exception {
 	}
 	
 	private static int valorColuna(LinhaVO linha, TokenVO token) {
+		for (TokenVO t : linha.getTokens()) {
+			if (t.equals(token)) {
+				System.out.println();
+				return linha.getConteudo().indexOf(t.getValor());
+			}
+		} 
+		
 		return 0;
 	}
 

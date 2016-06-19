@@ -10,7 +10,6 @@ public class ArquivoVO {
 	private String nomeArquivo = "";
 	private String conteudoOriginal = "";
 	private List<LinhaVO> linhas = new ArrayList<>();
-	private ArvoreVO arvore = new ArvoreVO();
 	private Map<Integer, NoVO> mapa = new HashMap<Integer, NoVO>();
 	private static Integer nivelAtual = 1;
 	private NoVO noRaiz;
@@ -21,9 +20,6 @@ public class ArquivoVO {
 		}
 		adicionarNoMapa(nivelAtual,no);
 		
-		if (arvore.getNoRaiz() == null) {
-			arvore.setNoRaiz(no);
-		}
 	}
 	
 	public void adicionarNoMapa(Integer nivel, NoVO no) {
@@ -55,12 +51,6 @@ public class ArquivoVO {
 	}
 	public void setLinhas(List<LinhaVO> linhas) {
 		this.linhas = linhas;
-	}
-	public ArvoreVO getArvore() {
-		return arvore;
-	}
-	public void setArvore(ArvoreVO arvore) {
-		this.arvore = arvore;
 	}
 	public Map<Integer, NoVO> getMapa() {
 		return mapa;

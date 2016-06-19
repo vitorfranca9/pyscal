@@ -1,22 +1,11 @@
 class ApresentacaoTP2:
-	def integer fatorial(integer n, String t):
-		integer fat;
-		integer i;
-
-		fat = 1;
-		i = n;
-		while (i >= 1):
-			fat = fat * i;
-		end;
-		write(s);
-		return fat;
-	end;
-
-	defstatic voide main(String[] args):
+	defstatic void main(String[] args):
 		integer x;
 		x = 5;
-		if (x < 10 or x > 290.5):
-			writeln (fatorial(5, "O valor do fatorial de 5"));
+		if (x < 10 or a > 290.0):
+			//integer_input("");
+			writeln("opa");
+			
 		end;	
 	end;
 end.

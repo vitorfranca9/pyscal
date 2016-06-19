@@ -481,7 +481,13 @@ public class AnalisadorLexico {
 										"Um ID deve começar com letra e a partir daí deve possuir apenas letras, dígitos ou underline!",linha,palavra);
 								}
 								
-							} 
+							} else if (podeSerID(tokenAtual)){
+								token.setPalavraReservada(ID);
+								token.setValor(tokenAtual);
+								tokens.add(token);
+								tokenAtual = "";
+								token = new TokenVO();
+							}
 							
 						}
 						
@@ -553,7 +559,5 @@ public class AnalisadorLexico {
 	public boolean podeSerProximaExpressao(String tokenAtual) {
 		return tokensDeUmCharactere.contains(tokenAtual);
 	}
-	
-	
 	
 }

@@ -1,0 +1,12 @@
+class Codigo:
+
+	def void funfa():
+		int x;
+		int x;
+	end;
+
+	defstatic void main(String[] args):
+		//int y;
+		//int y;
+	end;
+end.

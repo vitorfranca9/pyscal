@@ -36,4 +36,9 @@ public interface PyscalConstantUtil {
 		String SINTATICO_APRESENTACAOTP2 = ARQUIVO_FONTE + SINTATICO + "ApresentacaoTP2.pys";
 	}
 	
+	interface ArquivosTesteSemantico {
+		String SEMANTICO = "semantico/";
+		String CODIGO = ARQUIVO_FONTE + SEMANTICO + "Codigo.pys";
+	}
+	
 }

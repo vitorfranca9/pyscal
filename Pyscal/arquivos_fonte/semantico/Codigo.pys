@@ -1,0 +1,12 @@
+class Codigo:
+	def integer func(integer i, integer j):
+		return (i + j * 5);
+	end;
+	defstatic void main(String[] args):
+		int x;
+		int y;
+		x = 5;
+		y = 2;
+		writeln(func(x,y));
+	end;
+end.

@@ -1,7 +1,5 @@
 package br.unibh.pyscal.test;
 
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteLexico.LEXICO_ENTRADA3;
-
 import java.io.FileNotFoundException;
 
 import br.unibh.pyscal.analisador.AnalisadorLexico;
@@ -15,10 +13,9 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		@SuppressWarnings("unused") String lexicoEntrada3Pys = LEXICO_ENTRADA3;
-		String sintaticoEntrada1Pys = PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_APRESENTACAOTP2;
-//		String sintaticoEntrada1Pys = SINTATICO_EXPRESSAO;
-		ArquivoVO arquivo = FileUtil.montarArquivo(sintaticoEntrada1Pys);
+//		String path = LEXICO_ENTRADA3;
+		String path = PyscalConstantUtil.ArquivosTesteSemantico.CODIGO;
+		ArquivoVO arquivo = FileUtil.montarArquivo(path);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		try {
 			analisadorLexico.analisar(arquivo);
