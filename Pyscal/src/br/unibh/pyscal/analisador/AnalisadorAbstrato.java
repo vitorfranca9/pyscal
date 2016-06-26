@@ -29,13 +29,37 @@ public abstract class AnalisadorAbstrato {
 		}
 	}
 	
+	protected void contarProximoToken() {
+		if (getLinhaAtual().getTokens().size() > (numTokenAtual+1)) {
+			numTokenAtual++;
+		} else {
+			numLinhaAtual++;
+			numTokenAtual = 1;
+		}
+	}
+//	protected boolean contarProximoToken() {
+//		if (getLinhaAtual().getTokens().size() > numTokenAtual) {
+//			numTokenAtual++;
+//			return true;
+//		}
+//		return false;
+//	}
+	
 	protected void contarProximaLinha() {
 		numLinhaAtual++;
 		numTokenAtual = 1;
 	}
 	
 	protected TokenVO getTokenAtual() {
-		return getLinhaAtual().getTokens().get(numTokenAtual-1);
+		return getToken(numTokenAtual);
+//		return getLinhaAtual().getTokens().get(numTokenAtual-1);
+	}
+	
+	protected TokenVO getToken(int num) {
+		if (getLinhaAtual().getTokens().size() >= num) {
+			return getLinhaAtual().getTokens().get(num-1);
+		}
+		return null;
 	}
 	
 	protected LinhaVO getLinhaAtual() {

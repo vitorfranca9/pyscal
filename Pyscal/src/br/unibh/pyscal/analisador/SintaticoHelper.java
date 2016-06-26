@@ -147,6 +147,10 @@ public class SintaticoHelper {
 		return isPalavraReservadaSemErro(PalavraReservada.DEF, palavra);
 	}
 	
+	public boolean isPalavraReservadaDefStaticSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.DEFSTATIC, palavra);
+	}
+	
 	public boolean isPalavraReservadaReturnSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.RETURN, palavra);
 	}
@@ -177,6 +181,10 @@ public class SintaticoHelper {
 	
 	public boolean isPalavraReservadaClassSemErro(PalavraReservada palavraReservada) {
 		return isPalavraReservadaSemErro(PalavraReservada.CLASS, palavraReservada);
+	}
+	
+	public boolean isPalavraReservadaVoidSemErro(PalavraReservada palavraReservada) {
+		return isPalavraReservadaSemErro(PalavraReservada.VOID, palavraReservada);
 	}
 	
 	public boolean isPalavraReservadaSemErro(PalavraReservada palavraReservada, PalavraReservada palavraAtual) {
@@ -216,7 +224,7 @@ public class SintaticoHelper {
 	}
 	
 	public boolean isPalavraReservadaPontoVirgulaSemErro(PalavraReservada palavraReservada) {
-		return PalavraReservada.FECHA_PARENTESES.equals(palavraReservada);
+		return PalavraReservada.PONTO_VIRGULA.equals(palavraReservada);
 	}
 	
 	public boolean isComentarioSemErro(TokenVO tokenVO) {
@@ -224,7 +232,7 @@ public class SintaticoHelper {
 				PalavraReservada.COMENTARIO_LINHA.equals(tokenVO.getPalavraReservada());
 	}
 	
-	///////////////////////// lançando exceptions //////////////////////////
+	// ----------------------- LANÇANDO EXCEPTIONS ----------------------------//
 	public boolean isPalavraReservadaPonto(LinhaVO linha, TokenVO token) throws AnaliseSintaticaException {
 		return isPalavraReservada(PalavraReservada.PONTO, "esperava ponto final", linha, token);
 	}

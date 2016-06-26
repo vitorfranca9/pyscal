@@ -14,5 +14,4 @@ public class MetodoVO {
 	private TipoRetornoMetodo tipoRetornoMetodo;
 	private boolean main;
 	private boolean estatico;
-	
 }

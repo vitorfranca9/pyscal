@@ -6,6 +6,7 @@ import br.unibh.pyscal.analisador.AnalisadorLexico;
 import br.unibh.pyscal.analisador.AnalisadorSemantico;
 import br.unibh.pyscal.analisador.AnalisadorSintatico;
 import br.unibh.pyscal.exception.AnaliseLexicaException;
+import br.unibh.pyscal.exception.AnaliseSemanticaException;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.util.PyscalConstantUtil;
@@ -30,6 +31,8 @@ public class MainTest {
 				System.out.println("Erro léxico: "+e.getMessage());
 			} else if (e instanceof AnaliseSintaticaException) {
 				System.out.println("Erro sintático: "+e.getMessage());
+			} else if (e instanceof AnaliseSemanticaException){
+				System.out.println("Erro semântico: "+e.getMessage());
 			} else {
 				e.printStackTrace();
 				System.out.println("Erro: "+e.getMessage());

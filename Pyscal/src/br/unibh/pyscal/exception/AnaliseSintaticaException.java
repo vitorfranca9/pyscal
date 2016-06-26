@@ -13,13 +13,6 @@ public class AnaliseSintaticaException extends Exception {
 	@Getter @Setter private TokenVO token;
 	@Getter @Setter private Integer coluna;
 	
-	public AnaliseSintaticaException() {
-		super();
-	}
-	public AnaliseSintaticaException(String message) {
-		super(message);
-	}
-	
 	public AnaliseSintaticaException(LinhaVO linha, TokenVO token) {
 		super(String.format(FRASE_ERRO, linha.getNumero(),token.getValor()));
 		this.linha = linha;
@@ -37,7 +30,6 @@ public class AnaliseSintaticaException extends Exception {
 	private static int valorColuna(LinhaVO linha, TokenVO token) {
 		for (TokenVO t : linha.getTokens()) {
 			if (t.equals(token)) {
-				System.out.println();
 				return linha.getConteudo().indexOf(t.getValor());
 			}
 		} 

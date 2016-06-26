@@ -52,7 +52,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		arquivo.setNoRaiz(noClasse);
 		System.out.println();
 		System.out.println();
-		FileUtil.imprimirAST(arquivo);
+//		FileUtil.imprimirAST(arquivo);
 	}
 	
 	private NoVO classe() throws AnaliseSintaticaException {

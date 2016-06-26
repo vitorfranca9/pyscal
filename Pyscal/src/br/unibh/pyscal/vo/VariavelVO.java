@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class VariavelVO {
 	private LinhaVO linha;
-	private TokenVO token;
 	private TipoVariavel tipoVariavel;
 	
 }
