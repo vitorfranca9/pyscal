@@ -3,7 +3,6 @@ package br.unibh.pyscal.vo;
 import java.util.List;
 
 import br.unibh.pyscal.enumerador.TipoRetornoMetodo;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +16,6 @@ public class MetodoVO {
 	@Getter @Setter private TipoRetornoMetodo tipoRetornoMetodo;
 	@Getter @Setter private boolean main;
 	@Getter @Setter private boolean estatico;
+	@Getter @Setter private Object retorno;
 	
 }

@@ -36,9 +36,42 @@ public class AnaliseSemanticaTest {
 		analisadorSemantico.analisar(arquivo);
 	}
 	
+	@Test
+	public void ex9() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(EX9_RETORNO_METODO);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
 	@Test(expected=AnaliseSemanticaException.class)
 	public void metodoDuplicado() throws Exception {
 		ArquivoVO arquivo = FileUtil.montarArquivo(METODO_DUPLICADO);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
+	@Test
+	public void parametros() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(PARAMETROS);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
+	@Test(expected=AnaliseSemanticaException.class)
+	public void parametros2() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(PARAMETROS2);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 		analisadorLexico.analisar(arquivo);
 		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();

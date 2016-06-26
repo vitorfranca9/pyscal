@@ -16,7 +16,7 @@ public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 //		String path = LEXICO_ENTRADA3;
-		String path = PyscalConstantUtil.ArquivosTesteSemantico.PARAMETROS;
+		String path = PyscalConstantUtil.ArquivosTesteSemantico.EX9_RETORNO_METODO;
 		ArquivoVO arquivo = FileUtil.montarArquivo(path);
 		try {
 			AnalisadorLexico analisadorLexico = new AnalisadorLexico();

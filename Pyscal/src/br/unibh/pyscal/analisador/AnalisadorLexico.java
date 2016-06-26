@@ -49,7 +49,7 @@ public class AnalisadorLexico {
 		if (!tokensPalavra.isEmpty()) {
 			TokenVO ultimoTokenAtual = tokensPalavra.get(tokensPalavra.size()-1);
 			
-			if (CONST_STRING.equals(ultimoTokenAtual.getPalavraReservada())) {
+			if (CONSTSTRING.equals(ultimoTokenAtual.getPalavraReservada())) {
 				if (!linha.getTokens().isEmpty()) {
 					TokenVO ultimoTokenLinha = getUltimoTokenString(linha.getTokens());
 					if (ultimoTokenAtual != ultimoTokenLinha ) {
@@ -61,7 +61,7 @@ public class AnalisadorLexico {
 				
 			} else {
 				for (TokenVO tokenVO : tokensPalavra) {
-					if (CONST_STRING.equals(tokenVO.getPalavraReservada())) {
+					if (CONSTSTRING.equals(tokenVO.getPalavraReservada())) {
 						TokenVO ultimoTokenLinha = getUltimoTokenString(linha.getTokens());
 						if (tokenVO != ultimoTokenLinha) {
 							linha.getTokens().add(tokenVO);
@@ -77,7 +77,7 @@ public class AnalisadorLexico {
 	private TokenVO getUltimoTokenString(List<TokenVO> tokens) {
 		TokenVO tokenString = null;
 		for(int i = tokens.size()-1; i >= 0; i--) {
-			if (CONST_STRING.equals(tokens.get(i).getPalavraReservada())){
+			if (CONSTSTRING.equals(tokens.get(i).getPalavraReservada())){
 				tokenString = tokens.get(i);
 				break;
 			}
@@ -111,7 +111,7 @@ public class AnalisadorLexico {
 			
 			if (linha.getTokens().size() > 0 && !abriuAspas) {
 				TokenVO ultimoToken = linha.getTokens().get(linha.getTokens().size()-1);
-				if (CONST_STRING.equals(ultimoToken.getPalavraReservada()) 
+				if (CONSTSTRING.equals(ultimoToken.getPalavraReservada()) 
 						&& !isAspas(ultimoToken.getValor().substring(
 								ultimoToken.getValor().length()-1, ultimoToken.getValor().length()))) {
 					token = ultimoToken;
@@ -133,7 +133,7 @@ public class AnalisadorLexico {
 			} 
 			
 			if (token.getPalavraReservada() != null && 
-					CONST_STRING.equals(token.getPalavraReservada())) {
+					CONSTSTRING.equals(token.getPalavraReservada())) {
 				String ultimaLetra = tokenAtual.substring(tokenAtual.length()-1,tokenAtual.length());
 				if (isAspas(ultimaLetra)) { //fecha ConstString
 					token.setValor(token.getValor()+tokenAtual);
@@ -160,7 +160,7 @@ public class AnalisadorLexico {
 				if (i == 0 || tokenAtual.length() == 1) {
 					
 					if (isAspas(tokenAtual)) {
-						token.setPalavraReservada(CONST_STRING);
+						token.setPalavraReservada(CONSTSTRING);
 						if (!abriuAspas) {
 							abriuAspas = true;
 						} else {

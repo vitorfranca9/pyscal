@@ -1,18 +1,6 @@
 package br.unibh.pyscal.test;
 
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_ATRIBUI;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_COMANDOS;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_ENTRADA1;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_ENTRADA2;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_ENTRADA3;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_EXPRESSAO;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_FUNCAO;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_FUNCAO2;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_IF;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_MAIN;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_RETURN;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_WHILE;
-import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.SINTATICO_WRITE;
+import static br.unibh.pyscal.util.PyscalConstantUtil.ArquivosTesteSintatico.*;
 
 import java.io.FileNotFoundException;
 

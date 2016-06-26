@@ -44,7 +44,6 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 //	@SuppressWarnings("unused")
 	private void compilar() throws AnaliseSemanticaException {
 		boolean isMetodo = false;
-		boolean isVariavel = false;
 		boolean isComando = false;
 		List<MetodoVO> metodos = new ArrayList<>();
 		MetodoVO metodoVO = new MetodoVO();
@@ -61,11 +60,10 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					if (sintaticoHelper.isPalavraReservadaTipoPrimitivoSemErro(getTokenAtual().getPalavraReservada())) {
 						// declaração de variáveis
 
-						isVariavel = true;
 						TokenVO token = getToken(3);
 						VariavelVO variavelVO = new VariavelVO();
 						if (sintaticoHelper.isPalavraReservadaPontoVirgulaSemErro(token.getPalavraReservada())) {
-							variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(tokenAtual.getPalavraReservada()));
+							variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(tokenAtual.getPalavraReservada(),getLinhaAtual(),tokenAtual));
 							
 							TokenVO id = getToken(2);
 							variavelVO.setNome(id.getValor());
@@ -91,17 +89,14 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 						System.out.println();
 					} else if (sintaticoHelper.isPalavraReservadaReturnSemErro(getTokenAtual().getPalavraReservada())) {
 						// retorno do método
-						contarProximoToken();
+						tratarRetorno(metodoVO);
 						System.out.println();
-						//verificar se o tipo do retorno do método é o mesmo q a expressão do return
-//						if ()
 					} else if (sintaticoHelper.isPalavraReservadaEndSemErro(getTokenAtual().getPalavraReservada())) {
 						metodoVO.setVariaveis(new ArrayList<>(mapaVariaveis.get(metodoVO.getNome()).values()));
 						metodos.add(metodoVO);
 						metodoVO = new MetodoVO();
 						isMetodo = false;
 						isComando = false;
-						isVariavel = false;
 						contarProximaLinha();
 					}
 				} else if (isComando) { 
@@ -119,6 +114,56 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		}
 	}
 	
+	private void tratarRetorno(MetodoVO metodoVO) throws AnaliseSemanticaException {
+		//verificar se o tipo do retorno do método é o mesmo q a expressão do return
+		contarProximoToken();
+		TokenVO tokenAtual = getTokenAtual();
+		if (!TipoRetornoMetodo.VOID.equals(metodoVO.getTipoRetornoMetodo())) {
+			//TODO pegar o retorno da expressão e validar
+			if (sintaticoHelper.isPalavraReservadaIDSemErro(tokenAtual.getPalavraReservada())) {
+				System.out.println();
+			} else if (sintaticoHelper.isPalavraReservadaConstanteSemErro(tokenAtual.getPalavraReservada())) {
+				System.out.println();
+//				boolean isValid = true;
+				TipoRetornoMetodo retornoInesperado = null;
+				if (sintaticoHelper.isPalavraReservadaConstStringSemErro(tokenAtual.getPalavraReservada())
+						&& !TipoRetornoMetodo.STRING.equals(metodoVO.getTipoRetornoMetodo())) {
+//					isValid = false;
+					retornoInesperado = TipoRetornoMetodo.STRING; 
+				} else if (sintaticoHelper.isPalavraReservadaConstDoubleSemErro(tokenAtual.getPalavraReservada())
+						&& !TipoRetornoMetodo.DOUBLE.equals(metodoVO.getTipoRetornoMetodo())) {
+//					isValid = false;
+					retornoInesperado = TipoRetornoMetodo.DOUBLE;
+				} else if (sintaticoHelper.isPalavraReservadaConstIntegerSemErro(tokenAtual.getPalavraReservada())
+						&& !TipoRetornoMetodo.INTEGER.equals(metodoVO.getTipoRetornoMetodo())) {
+//					isValid = false;
+					retornoInesperado = TipoRetornoMetodo.INTEGER;
+				} else if (sintaticoHelper.isPalavraReservadaConstBoolSemErro(tokenAtual.getPalavraReservada())
+						&& !TipoRetornoMetodo.BOOL.equals(metodoVO.getTipoRetornoMetodo())) {
+//					isValid = false;
+					retornoInesperado = TipoRetornoMetodo.BOOL;
+				}
+				
+				if (retornoInesperado != null) {
+					throw new AnaliseSemanticaException(
+						"Tipo do retorno esperado do método "+metodoVO.getNome()+" é "+metodoVO.getTipoRetornoMetodo()+
+						", recebeu "+tokenAtual.getPalavraReservada(), getLinhaAtual(), getTokenAtual()); 
+				}
+			} else {
+				System.out.println("tratarRetorno");
+			}
+		} else {
+			throw new AnaliseSemanticaException(
+				"Tipo do retorno esperado do método "+metodoVO.getNome()+" é void, não deveria ter retorno", getLinhaAtual(), getTokenAtual());
+		}
+	}
+	
+//	private void validarTipoRetorno() {
+//	}
+	//TODO
+//	private void tratarExpressao() {
+//	}
+	
 	private void tratarMetodo(MetodoVO metodoVO) throws AnaliseSemanticaException {
 		String nomeMetodo = getToken(3).getValor();
 		if (sintaticoHelper.isPalavraReservadaDefStaticSemErro(getTokenAtual().getPalavraReservada())) {
@@ -126,7 +171,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 			metodoVO.setMain(PalavraReservada.MAIN.getRegex().equals(nomeMetodo));
 		}
 		metodoVO.setNome(nomeMetodo);
-		metodoVO.setTipoRetornoMetodo(semanticoHelper.getTipoRetornoMetodo(getToken(2).getPalavraReservada()));
+		metodoVO.setTipoRetornoMetodo(semanticoHelper.getTipoRetornoMetodo(getToken(2).getPalavraReservada(),getLinhaAtual(),getToken(2)));
 		adicionarMetodoMapa(metodoVO);
 		tratarParametros(metodoVO);
 		contarProximaLinha();
@@ -139,7 +184,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 			TokenVO token = getToken(numToken);
 			VariavelVO variavelVO = new VariavelVO();
 			variavelVO.setLinha(getLinhaAtual());
-			variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(getToken(numToken).getPalavraReservada()));
+			variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(getToken(numToken).getPalavraReservada(),getLinhaAtual(),getToken(numToken)));
 			variavelVO.setEscopoVariavel(EscopoVariavel.PARAMETRO);
 			variavelVO.setArray(false);
 			numToken++;
@@ -167,7 +212,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		if (!mapaVariaveis.get(metodoVO.getNome()).containsKey(variavelVO.getNome())) {
 			mapaVariaveis.get(metodoVO.getNome()).put(variavelVO.getNome(), variavelVO);
 		} else {
-			throw new AnaliseSemanticaException("Variável "+variavelVO.getNome()+" já foi declarada no método "+metodoVO.getNome()+".");
+			throw new AnaliseSemanticaException(
+				"Variável "+variavelVO.getNome()+" já foi declarada no método "+metodoVO.getNome()+".",getLinhaAtual(),getTokenAtual());
 		}
 	}
 	
@@ -175,7 +221,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		if (!mapaVariaveis.containsKey(metodoVO.getNome())) {
 			mapaVariaveis.put(metodoVO.getNome(), new HashMap<>());
 		} else {
-			throw new AnaliseSemanticaException("Método "+metodoVO.getNome()+" já foi declarado.");
+			throw new AnaliseSemanticaException("Método "+metodoVO.getNome()+" já foi declarado.", getLinhaAtual(),getTokenAtual());
 //			validarMetodoJaExistente(metodoVO);
 		}
 	}
@@ -231,7 +277,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 				}
 		}
 		//Pode isso Arnaldo?
-		throw new AnaliseSemanticaException("Não é possível somar uma variável do tipo "+v1+" com uma do tipo "+v2+".");
+		throw new AnaliseSemanticaException(
+			"Não é possível somar uma variável do tipo "+v1+" com uma do tipo "+v2+".",getLinhaAtual(),getTokenAtual());
 	}
 	
 	private TipoVariavel retornarTipoVariavel(Object objeto) throws AnaliseSemanticaException {
@@ -244,7 +291,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		} else if (objeto instanceof String) {
 			return TipoVariavel.STRING;
 		} else {
-			throw new AnaliseSemanticaException("Erro ao retornarVariavel");
+			throw new AnaliseSemanticaException("Erro ao retornarVariavel",getLinhaAtual(),getTokenAtual());
 		}
 	}
 	
@@ -262,7 +309,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 			return instancia; 
 		}
 		
-		public TipoRetornoMetodo getTipoRetornoMetodo(PalavraReservada palavraReservada) throws AnaliseSemanticaException {
+		public TipoRetornoMetodo getTipoRetornoMetodo(PalavraReservada palavraReservada, LinhaVO linhaAtual, TokenVO tokenAtual) 
+				throws AnaliseSemanticaException {
 			switch (palavraReservada) {
 				case VOID:
 					return TipoRetornoMetodo.VOID;
@@ -274,11 +322,12 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					return TipoRetornoMetodo.DOUBLE;
 				case STRING:
 					return TipoRetornoMetodo.STRING;
-				default: throw new AnaliseSemanticaException("Erro TipoRetornoMetodo.");
+				default: throw new AnaliseSemanticaException("Erro TipoRetornoMetodo.",linhaAtual, tokenAtual);
 			}
 		}
 		
-		public TipoVariavel getTipoVariavel(PalavraReservada palavraReservada) throws AnaliseSemanticaException {
+		public TipoVariavel getTipoVariavel(PalavraReservada palavraReservada, LinhaVO linhaAtual, TokenVO tokenAtual) 
+				throws AnaliseSemanticaException {
 			switch (palavraReservada) {
 				case BOOL:
 					return TipoVariavel.BOOL;
@@ -289,8 +338,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 				case STRING:
 					return TipoVariavel.STRING;
 				case VOID: 
-					throw new AnaliseSemanticaException("Não deve-se declarar variável do tipo void.");
-				default: throw new AnaliseSemanticaException("Erro TipoVariavel.");
+					throw new AnaliseSemanticaException("Não deve-se declarar variável do tipo void.",linhaAtual, tokenAtual);
+				default: throw new AnaliseSemanticaException("Erro TipoVariavel.",linhaAtual, tokenAtual);
 			}
 		}
 		

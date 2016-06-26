@@ -1,0 +1,6 @@
+class Codigo:
+	def void funfai(void i, String j, double k, bool l):
+	end;
+	defstatic void main(String[] args):
+	end;
+end.

@@ -59,7 +59,7 @@ public class SintaticoHelper {
 		PalavraReservada.DOUBLE,
 	});
 	private final List<PalavraReservada> constantes = Arrays.asList(new PalavraReservada[]{
-		PalavraReservada.CONST_STRING,
+		PalavraReservada.CONSTSTRING,
 		PalavraReservada.CONSTDOUBLE,
 		PalavraReservada.CONSTINTEGER,
 		PalavraReservada.TRUE,
@@ -114,6 +114,15 @@ public class SintaticoHelper {
 //		private boolean isPalavraReservadaID(PalavraReservada palavra) throws AnaliseSintaticaException {
 //			return isPalavraReservada(PalavraReservada.ID, palavra, "funcao espera id dps de tipo macro");
 //		}
+	
+	public boolean isPalavraReservadaConstStringSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.CONSTSTRING, palavra);
+	}
+	
+	public boolean isPalavraReservadaConstBoolSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaSemErro(PalavraReservada.TRUE, palavra) || 
+			isPalavraReservadaSemErro(PalavraReservada.FALSE, palavra);
+	}
 	
 	public boolean isPalavraReservadaConstIntegerSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.CONSTINTEGER, palavra);

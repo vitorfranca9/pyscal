@@ -62,7 +62,7 @@ public enum PalavraReservada {
 	FALSE("false",3), //será um "CONST_BOOL"
 	CONSTINTEGER("ConstInteger",3),
 	CONSTDOUBLE("ConstDouble",3),
-	CONST_STRING("ConstString",3),
+	CONSTSTRING("ConstString",3),
 	RETURN("return",2),
 	COMENTARIO_LINHA("//",3),
 	COMENTARIO_GERAL("/*",3);
