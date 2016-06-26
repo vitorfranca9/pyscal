@@ -143,6 +143,10 @@ public class SintaticoHelper {
 		return isPalavraReservadaSemErro(PalavraReservada.ABRE_COLCHETE, palavra);
 	}
 	
+	public boolean isPalavraReservadaDefOuDefstaticSemErro(PalavraReservada palavra) {
+		return isPalavraReservadaDefSemErro(palavra) || isPalavraReservadaDefStaticSemErro(palavra);
+	}
+	
 	public boolean isPalavraReservadaDefSemErro(PalavraReservada palavra) {
 		return isPalavraReservadaSemErro(PalavraReservada.DEF, palavra);
 	}

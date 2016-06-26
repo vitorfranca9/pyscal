@@ -1,0 +1,10 @@
+class Codigo:
+	//TODO: validar void em parâmetros
+	//def void opa(void eita):
+		//integer x;
+	//end;
+	defstatic void main(String[] args):
+		integer x;
+		void x;
+	end;
+end.

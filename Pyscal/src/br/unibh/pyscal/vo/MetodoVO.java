@@ -4,14 +4,18 @@ import java.util.List;
 
 import br.unibh.pyscal.enumerador.TipoRetornoMetodo;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+//@Data
 public class MetodoVO {
-	private List<LinhaVO> linhas;
-	private List<VariavelVO> parametros;
-	private List<VariavelVO> variaveis;
-	private List<ComandoVO> funcoes;
-	private TipoRetornoMetodo tipoRetornoMetodo;
-	private boolean main;
-	private boolean estatico;
+	@Getter @Setter private List<LinhaVO> linhas;
+	@Getter @Setter private List<VariavelVO> parametros;
+	@Getter @Setter private List<VariavelVO> variaveis;
+	@Getter @Setter private List<ComandoVO> funcoes;
+	@Getter @Setter private String nome;
+	@Getter @Setter private TipoRetornoMetodo tipoRetornoMetodo;
+	@Getter @Setter private boolean main;
+	@Getter @Setter private boolean estatico;
+	
 }

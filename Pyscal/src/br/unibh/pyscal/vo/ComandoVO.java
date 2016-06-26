@@ -1,8 +1,12 @@
 package br.unibh.pyscal.vo;
 
-import br.unibh.pyscal.enumerador.TipoComando;
+import java.util.List;
 
+import br.unibh.pyscal.enumerador.TipoComando;
+import lombok.Data;
+
+@Data
 public class ComandoVO {
-	private LinhaVO linha;
+	private List<LinhaVO> linhas;
 	private TipoComando tipoComando;
 }

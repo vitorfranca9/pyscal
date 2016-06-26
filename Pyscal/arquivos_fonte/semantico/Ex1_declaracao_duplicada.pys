@@ -1,10 +1,11 @@
+//class Ex1_declaracao_duplicada:
 class Codigo:
 	def void funfa():
 		integer x;
-		integer x;
+		integer y;
 	end;
 	defstatic void main(String[] args):
-		//integer y;
-		//integer y;
+		integer y;
+		integer y;
 	end;
 end.

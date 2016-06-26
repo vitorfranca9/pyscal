@@ -39,7 +39,11 @@ public interface PyscalConstantUtil {
 	interface ArquivosTesteSemantico {
 		String SEMANTICO = "semantico/";
 		String CODIGO = ARQUIVO_FONTE + SEMANTICO + "Codigo.pys";
-		String N1_DECLARACAO_DUPLICADA = ARQUIVO_FONTE + SEMANTICO + "1_declaracao_duplicada.pys";
+		String EX1_DECLARACAO_DUPLICADA = ARQUIVO_FONTE + SEMANTICO + "Ex1_declaracao_duplicada.pys";
+		String EX2_VARIAVEL_VOID = ARQUIVO_FONTE + SEMANTICO + "Ex2_variavel_void.pys";
+		String EX3_VARIAVEL_NAO_DECLARADA = ARQUIVO_FONTE + SEMANTICO + "Ex3_variavel_nao_declarada.pys";
+		String METODO_DUPLICADO = ARQUIVO_FONTE + SEMANTICO + "metodo_duplicado.pys";
+		String PARAMETROS = ARQUIVO_FONTE + SEMANTICO + "parametros.pys";
 	}
 	
 }
