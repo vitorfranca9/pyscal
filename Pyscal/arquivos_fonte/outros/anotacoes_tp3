@@ -1,0 +1,22 @@
+//TODO: 
+
+1 Declaração duplicada na função(mapa de variáveis por função); OK
+2 Declaração somente dos tipos permitidos(excluir void); OK
+3 Utilização de identificadores antes da declaração(usar variavel antes de declarar);
+4 Resultado das expressões(int + double = double,etc);
+5 Resultado das expressoes dos comandos devem ser bool( if (DEVE_RETORNAR_BOOL) );
+6 Tipo do índice do vetor int( vector v[const_int ou id do tipo int] );
+7 Em uma atribuição, a expressão que recebe o valor deve ser um ID ou uma posição de vetor COMPATIVEL 
+	com o valor atribuido(a(int) = 2, b[1](String) = "b");
+8 Número e tipos dos parâmetros das chamadas de funções com a declaração dessas funções
+	(só usar funções q já existam, e com os parâmetros-num e tipos- corretos(?) );
+9 Se a função retorna expressão compativel com o tipo de retorno declarado(def int opa(): return 1;end;); OK
+10 A não atribuição de funções void (int i = funcao(), onde funcao é def void funcao());
+
+//DESAFIOS:
+* Refatorar tratarMetodo2;
+* Tratar comandos;
+* VENCER EXPRESSÃO(URGENTE)
+* não tô conseguindo rodar o Yasmin;
+* tem como compilar .j para .class, e assim poder rodar no soot
+* (java -jar jasmin.jar -d ./ ./arquivos_fonte/semantico/Codigo.j);

@@ -1,7 +1,7 @@
 package br.unibh.pyscal.enumerador;
 
 //TODO
-public enum TipoExpressao {
+public enum TipoExpressaoEnum {
 	CLASSE,
 //	LISTA_FUNCAO,
 	FUNCAO,

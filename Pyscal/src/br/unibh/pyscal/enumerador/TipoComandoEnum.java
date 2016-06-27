@@ -1,6 +1,6 @@
 package br.unibh.pyscal.enumerador;
 
-public enum TipoComando {
+public enum TipoComandoEnum {
 	IF,
 	WHILE,
 	WRITE,

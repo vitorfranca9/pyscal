@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import br.unibh.pyscal.enumerador.PalavraReservada;
-import br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper;
-import br.unibh.pyscal.enumerador.TipoExpressao;
+import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
+import br.unibh.pyscal.enumerador.PalavraReservadaEnum.PalavraReservadaHelper;
+import br.unibh.pyscal.enumerador.TipoExpressaoEnum;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
@@ -19,7 +19,7 @@ import java_cup.runtime.token;
 @SuppressWarnings("unused")
 public class AnalisadorSintatico extends AnalisadorAbstrato {
 
-	private SintaticoHelper sintaticoHelper;
+	private AnalisadorSintaticoHelper sintaticoHelper;
 	
 	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
 		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
@@ -28,7 +28,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 	@Override
 	protected void init() {
 		super.init();
-		sintaticoHelper = SintaticoHelper.getInstancia();
+		sintaticoHelper = AnalisadorSintaticoHelper.getInstancia();
 		sintaticoHelper.errors = "";
 		sintaticoHelper.errosCount = 0;
 	}
@@ -253,7 +253,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		TokenVO tokenTipoPrimitivo = getTokenAtual();
 		if (sintaticoHelper.isPalavraReservadaTipoPrimitivo(linha, tokenTipoPrimitivo)) {
 			noTipoPrimitivo = criarNo(linha, tokenTipoPrimitivo);
-			noTipoPrimitivo.setTipoExpressao(TipoExpressao.TIPO_PRIMITIVO);
+			noTipoPrimitivo.setTipoExpressao(TipoExpressaoEnum.TIPO_PRIMITIVO);
 		}
 		return noTipoPrimitivo;
 	}
@@ -496,7 +496,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 				TokenVO tokenValor = new TokenVO();
 				tokenValor.setValor(valorTokenValor);
 				tokenValor.setPalavraReservada(tokenOp.getPalavraReservada());
-				tokenOp.setPalavraReservada(PalavraReservada.SUBTRAIR);
+				tokenOp.setPalavraReservada(PalavraReservadaEnum.SUBTRAIR);
 				linha.getTokens().add(numLinhaAtual, tokenValor);
 				NoVO op = op();
 				noExpressao.getFilhos().add(op);
@@ -893,7 +893,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		TokenVO tokenIf = getTokenAtual();
 		if (sintaticoHelper.isPalavraReservadaIf(linha, tokenIf)) {
 			noIf = criarNo(linha, tokenIf);
-			noIf.setTipoExpressao(TipoExpressao.CMD_IF);
+			noIf.setTipoExpressao(TipoExpressaoEnum.CMD_IF);
 		}
 		return noIf;
 	}
@@ -903,7 +903,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		LinhaVO linha = getLinhaAtual();
 		TokenVO tokenOp = getTokenAtual();
 		op = criarNo(linha, tokenOp);
-		op.setTipoExpressao(TipoExpressao.OP);
+		op.setTipoExpressao(TipoExpressaoEnum.OP);
 		return op;
 	}
 	
@@ -912,7 +912,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		LinhaVO linha = getLinhaAtual();
 		TokenVO tokenOp = getTokenAtual();
 		opUnario = criarNo(linha, tokenOp);
-		opUnario.setTipoExpressao(TipoExpressao.OP_UNARIO);
+		opUnario.setTipoExpressao(TipoExpressaoEnum.OP_UNARIO);
 		return opUnario;
 	}
 
@@ -935,7 +935,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		TokenVO tokenWrite = getTokenAtual();
 		if (sintaticoHelper.isPalavraReservadaWhile(linha, tokenWrite)) {
 			noIf = criarNo(linha, tokenWrite);
-			noIf.setTipoExpressao(TipoExpressao.CMD_WHILE);
+			noIf.setTipoExpressao(TipoExpressaoEnum.CMD_WHILE);
 		}
 		return noIf;
 	}
@@ -956,7 +956,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		TokenVO tokenWrite = getTokenAtual();
 		if (sintaticoHelper.isPalavraReservadaWrite(linha, tokenWrite)) {
 			noIf = criarNo(linha, tokenWrite);
-			noIf.setTipoExpressao(TipoExpressao.CMD_WRITE);
+			noIf.setTipoExpressao(TipoExpressaoEnum.CMD_WRITE);
 		}
 		return noIf;
 	}
@@ -977,7 +977,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		TokenVO tokenWrite = getTokenAtual();
 		if (sintaticoHelper.isPalavraReservadaWriteLn(linha, tokenWrite)) {
 			noIf = criarNo(linha, tokenWrite);
-			noIf.setTipoExpressao(TipoExpressao.CMD_WRITELN);
+			noIf.setTipoExpressao(TipoExpressaoEnum.CMD_WRITELN);
 		}
 		return noIf;
 	}

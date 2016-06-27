@@ -3,13 +3,13 @@ package br.unibh.pyscal.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unibh.pyscal.enumerador.TipoExpressao;
+import br.unibh.pyscal.enumerador.TipoExpressaoEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 public class NoVO implements Cloneable {
 	@Getter @Setter private List<NoVO> filhos = new ArrayList<>();
-	@Getter @Setter private TipoExpressao tipoExpressao;
+	@Getter @Setter private TipoExpressaoEnum tipoExpressao;
 	@Getter @Setter private LinhaVO linha;
 	@Getter @Setter private List<TokenVO> tokens = new ArrayList<>();
 	

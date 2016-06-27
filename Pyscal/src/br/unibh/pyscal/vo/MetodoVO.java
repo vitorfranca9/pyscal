@@ -2,7 +2,7 @@ package br.unibh.pyscal.vo;
 
 import java.util.List;
 
-import br.unibh.pyscal.enumerador.TipoRetornoMetodo;
+import br.unibh.pyscal.enumerador.TipoRetornoMetodoEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ public class MetodoVO {
 	@Getter @Setter private List<VariavelVO> variaveis;
 	@Getter @Setter private List<ComandoVO> funcoes;
 	@Getter @Setter private String nome;
-	@Getter @Setter private TipoRetornoMetodo tipoRetornoMetodo;
+	@Getter @Setter private TipoRetornoMetodoEnum tipoRetornoMetodo;
 	@Getter @Setter private boolean main;
 	@Getter @Setter private boolean estatico;
 	@Getter @Setter private Object retorno;

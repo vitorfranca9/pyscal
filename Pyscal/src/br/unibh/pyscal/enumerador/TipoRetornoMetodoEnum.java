@@ -1,8 +1,9 @@
 package br.unibh.pyscal.enumerador;
 
-public enum TipoVariavel {
+public enum TipoRetornoMetodoEnum {
 	BOOL,
 	INTEGER,
 	STRING,
-	DOUBLE;
+	DOUBLE,
+	VOID;
 }

@@ -43,6 +43,7 @@ public interface PyscalConstantUtil {
 		String EX2_VARIAVEL_VOID = ARQUIVO_FONTE + SEMANTICO + "Ex2_variavel_void.pys";
 		String EX3_VARIAVEL_NAO_DECLARADA = ARQUIVO_FONTE + SEMANTICO + "Ex3_variavel_nao_declarada.pys";
 		String EX9_RETORNO_METODO = ARQUIVO_FONTE + SEMANTICO + "Ex9_retorno_metodo.pys";
+		String EX9_ERRO_RETORNO_METODO = ARQUIVO_FONTE + SEMANTICO + "Ex9_erro_retorno_metodo.pys";
 		String METODO_DUPLICADO = ARQUIVO_FONTE + SEMANTICO + "metodo_duplicado.pys";
 		String PARAMETROS = ARQUIVO_FONTE + SEMANTICO + "parametros.pys";
 		String PARAMETROS2 = ARQUIVO_FONTE + SEMANTICO + "parametros2.pys";

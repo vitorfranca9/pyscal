@@ -1,0 +1,9 @@
+public class Teste
+    numInt x;
+    String y;
+    x = 6;
+    x = 6 * x;
+    y = "Uma String";
+    SystemOutDispln(x);
+    SystemOutDispln(y);
+end

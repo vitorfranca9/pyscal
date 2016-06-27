@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import br.unibh.pyscal.util.StringUtil;
 import lombok.Getter;
 
-public enum PalavraReservada {
+public enum PalavraReservadaEnum {
 
 	ABRE_PARENTESES("(", 3),
 	FECHA_PARENTESES(")",4),
@@ -72,7 +72,7 @@ public enum PalavraReservada {
 //	private TipoToken tipo;
 
 	//TODO regex
-	private PalavraReservada(String regex, Integer ordem) {
+	private PalavraReservadaEnum(String regex, Integer ordem) {
 		this.regex = regex;
 		this.ordem = ordem;
 	}

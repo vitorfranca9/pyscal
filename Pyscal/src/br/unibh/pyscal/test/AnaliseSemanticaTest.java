@@ -48,6 +48,17 @@ public class AnaliseSemanticaTest {
 	}
 	
 	@Test(expected=AnaliseSemanticaException.class)
+	public void ex9Erro() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(EX9_ERRO_RETORNO_METODO);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
+	@Test(expected=AnaliseSemanticaException.class)
 	public void metodoDuplicado() throws Exception {
 		ArquivoVO arquivo = FileUtil.montarArquivo(METODO_DUPLICADO);
 		AnalisadorLexico analisadorLexico = new AnalisadorLexico();

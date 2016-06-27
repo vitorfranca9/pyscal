@@ -1,14 +1,14 @@
 package br.unibh.pyscal.analisador;
 
-import static br.unibh.pyscal.enumerador.PalavraReservada.*;
-import static br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper.*;
+import static br.unibh.pyscal.enumerador.PalavraReservadaEnum.*;
+import static br.unibh.pyscal.enumerador.PalavraReservadaEnum.PalavraReservadaHelper.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import br.unibh.pyscal.enumerador.PalavraReservada;
-import br.unibh.pyscal.enumerador.PalavraReservada.PalavraReservadaHelper;
+import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
+import br.unibh.pyscal.enumerador.PalavraReservadaEnum.PalavraReservadaHelper;
 import br.unibh.pyscal.exception.AnaliseLexicaException;
 import br.unibh.pyscal.util.StringUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
@@ -272,9 +272,9 @@ public class AnalisadorLexico {
 						} else if (isOr(tokenAtual)) {
 							token.setPalavraReservada(OR);
 						} else if (isBool(tokenAtual)) {
-							token.setPalavraReservada(PalavraReservada.BOOL);
+							token.setPalavraReservada(PalavraReservadaEnum.BOOL);
 						} else if (isInteger(tokenAtual)) {
-							token.setPalavraReservada(PalavraReservada.INTEGER);
+							token.setPalavraReservada(PalavraReservadaEnum.INTEGER);
 						} else if (isString(tokenAtual)) {
 							token.setPalavraReservada(STRING);
 							token.setValor(tokenAtual);
@@ -448,15 +448,15 @@ public class AnalisadorLexico {
 							}
 						} else if (SUBTRAIR.equals(token.getPalavraReservada())) { 
 							if (StringUtil.isDigito(tokenAtual.charAt(tokenAtual.length()-1))) {
-								token.setPalavraReservada(PalavraReservada.CONSTINTEGER);
+								token.setPalavraReservada(PalavraReservadaEnum.CONSTINTEGER);
 							}
 						} else if (DIVIDIR.equals(token.getPalavraReservada())) {
 							
 							if (PalavraReservadaHelper.isComentarioGeral(tokenAtual)) {
-								token.setPalavraReservada(PalavraReservada.COMENTARIO_GERAL);
+								token.setPalavraReservada(PalavraReservadaEnum.COMENTARIO_GERAL);
 //								isComentarioGeral = true;
 							} else if (PalavraReservadaHelper.isComentarioLinha(tokenAtual)) {
-								token.setPalavraReservada(PalavraReservada.COMENTARIO_LINHA);
+								token.setPalavraReservada(PalavraReservadaEnum.COMENTARIO_LINHA);
 							} else {
 								String tokenAux = tokenAtual.substring(0, tokenAtual.length()-1);
 								token.setValor(tokenAux);
@@ -535,9 +535,9 @@ public class AnalisadorLexico {
 	}
 	
 	@SuppressWarnings("unused")
-	private List<PalavraReservada> retornaPalavrasPossiveis(String tokenAtual, List<PalavraReservada> palavrasDisponiveis) {
-		List<PalavraReservada> palavrasPossiveis = new ArrayList<>();
-		for (PalavraReservada palavraReservada : palavrasDisponiveis) {
+	private List<PalavraReservadaEnum> retornaPalavrasPossiveis(String tokenAtual, List<PalavraReservadaEnum> palavrasDisponiveis) {
+		List<PalavraReservadaEnum> palavrasPossiveis = new ArrayList<>();
+		for (PalavraReservadaEnum palavraReservada : palavrasDisponiveis) {
 			if (palavraReservada.getRegex().startsWith(tokenAtual)) {
 				palavrasPossiveis.add(palavraReservada);
 			}

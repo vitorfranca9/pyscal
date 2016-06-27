@@ -1,13 +1,13 @@
 class Codigo:
 	def integer inteiro():
+		return "opa";
+	end;
+	def bool condicional():
 		return 1;
 	end;
-	//TODO: def bool booleano():
-	def bool condicional():
-		return TRUE;
-	end;
 	def double numerico():
-		return 2.0;
+		return 2;
+	//TODO: aceitar isso
 	end;
 	def String literal():
 		return "literal";
@@ -16,5 +16,6 @@ class Codigo:
 		//return 1;
 	//end;
 	defstatic void main(String[] args):
+		x = 2;
 	end;
 end.
