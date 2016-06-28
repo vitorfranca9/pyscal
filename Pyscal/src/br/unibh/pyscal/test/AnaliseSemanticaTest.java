@@ -90,5 +90,16 @@ public class AnaliseSemanticaTest {
 		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
 		analisadorSemantico.analisar(arquivo);
 	}
+	
+	@Test
+	public void comandos() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(COMANDOS);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
 
 }

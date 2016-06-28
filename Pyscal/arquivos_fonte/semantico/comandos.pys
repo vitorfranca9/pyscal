@@ -1,0 +1,22 @@
+class Codigo:
+	def String inteiro():
+		write("eita");
+		return "opa";
+	end;
+	//def bool condicional():
+	//	return 1;
+	//end;
+	//def double numerico():
+	//	return 2;
+	//TODO: aceitar isso
+	//end;
+	//def String literal():
+	//	return "literal";
+	//end;
+	//def integer opa():
+		//return 1;
+	//end;
+	defstatic void main(String[] args):
+		x = 2;
+	end;
+end.

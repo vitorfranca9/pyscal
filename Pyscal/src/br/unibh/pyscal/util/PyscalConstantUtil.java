@@ -47,6 +47,7 @@ public interface PyscalConstantUtil {
 		String METODO_DUPLICADO = ARQUIVO_FONTE + SEMANTICO + "metodo_duplicado.pys";
 		String PARAMETROS = ARQUIVO_FONTE + SEMANTICO + "parametros.pys";
 		String PARAMETROS2 = ARQUIVO_FONTE + SEMANTICO + "parametros2.pys";
+		String COMANDOS = ARQUIVO_FONTE + SEMANTICO + "comandos.pys";
 	}
 	
 }
