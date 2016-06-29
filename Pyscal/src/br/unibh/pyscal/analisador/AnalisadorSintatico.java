@@ -21,9 +21,9 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 
 	private AnalisadorSintaticoHelper sintaticoHelper;
 	
-	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
-		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
-	);
+//	public static Comparator<TokenVO> compararPorOrdem = (t1, t2) -> 
+//		t1.getPalavraReservada().getOrdem().compareTo(t2.getPalavraReservada().getOrdem()
+//	);
 	
 	@Override
 	protected void init() {
@@ -560,11 +560,11 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 			List<NoVO> nos = new ArrayList<>();
 			try {
 				NoVO noExpressaoAux = (NoVO) noExpressao.clone();
-				noExpressaoAux.setFilhos(new ArrayList<>());
+				noExpressaoAux.setFilhos(new ArrayList<NoVO>());
 				nos.add(noExpressaoAux);
 				while (!noExpressao.getFilhos().isEmpty()) {
 					NoVO noExpressaoAux2 = (NoVO)noExpressao.getFilhos().get(0).clone();
-					noExpressaoAux2.setFilhos(new ArrayList<>());
+					noExpressaoAux2.setFilhos(new ArrayList<NoVO>());
 					nos.add(noExpressaoAux2);
 					noExpressao = noExpressao.getFilhos().get(0);
 				}
@@ -583,11 +583,11 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		List<NoVO> nos = new ArrayList<>();
 		try {
 			NoVO noAux = (NoVO) no.clone();
-			noAux.setFilhos(new ArrayList<>());
+			noAux.setFilhos(new ArrayList<NoVO>());
 			nos.add(noAux);
 			while (!no.getFilhos().isEmpty()) {
 				NoVO noExpressaoAux2 = (NoVO)no.getFilhos().get(0).clone();
-				noExpressaoAux2.setFilhos(new ArrayList<>());
+				noExpressaoAux2.setFilhos(new ArrayList<NoVO>());
 				nos.add(noExpressaoAux2);
 				no = no.getFilhos().get(0);
 			}

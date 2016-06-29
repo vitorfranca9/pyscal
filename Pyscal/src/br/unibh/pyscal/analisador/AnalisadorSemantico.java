@@ -293,7 +293,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 	
 	private void adicionarMetodoMapa(MetodoVO metodoVO) throws AnaliseSemanticaException {
 		if (!mapaVariaveis.containsKey(metodoVO.getNome())) {
-			mapaVariaveis.put(metodoVO.getNome(), new HashMap<>());
+			mapaVariaveis.put(metodoVO.getNome(), new HashMap<String, VariavelVO>());
 		} else {
 			throw new AnaliseSemanticaException("Método "+metodoVO.getNome()+" já foi declarado.", getLinhaAtual(),getTokenAtual());
 //			validarMetodoJaExistente(metodoVO);
