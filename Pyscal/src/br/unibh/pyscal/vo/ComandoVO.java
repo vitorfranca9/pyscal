@@ -10,4 +10,5 @@ public class ComandoVO {
 	private List<LinhaVO> linhas;
 	private TipoComandoEnum tipoComando;
 	private List<ComandoVO> subComandos;
+	private VariavelVO variavelRetorno;
 }

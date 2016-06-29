@@ -101,5 +101,28 @@ public class AnaliseSemanticaTest {
 		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
 		analisadorSemantico.analisar(arquivo);
 	}
+	
+	@Test
+	public void comandos2() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(COMANDOS2);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
+	@Test
+	public void pyscal() throws Exception {
+		ArquivoVO arquivo = FileUtil.montarArquivo(COMANDOS2);
+		AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+		analisadorLexico.analisar(arquivo);
+		AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+		analisadorSintatico.analisar(arquivo);
+		AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+		analisadorSemantico.analisar(arquivo);
+	}
+	
 
 }
