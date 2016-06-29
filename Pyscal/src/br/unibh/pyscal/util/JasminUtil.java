@@ -1,7 +1,11 @@
 package br.unibh.pyscal.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.Collections;
 import java.util.Scanner;
@@ -36,8 +40,6 @@ public class JasminUtil {
 //identa + noExpLinhaPai.next + ":\n" +
 	
 //	private StringBuilder
-	
-	
 	
 	public static String getJCode(ArquivoVO arquivo) {
 		Collections.reverse(arquivo.getClasseVO().getMetodos());
@@ -82,7 +84,25 @@ public class JasminUtil {
 		return temp.replaceAll("[^\\p{ASCII}]","");
 	}
 	
-	public static void main(String[] args) throws FileNotFoundException {
+	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
+	
+	
+	public static void imprimeSaidaComando(InputStream tipoSaida) throws IOException {
+        String linha;
+        BufferedReader input = new BufferedReader(new InputStreamReader(tipoSaida));
+        while ((linha = input.readLine()) != null) {
+            System.out.println(linha);
+        }
+    }
+	
+	public static void compileJCodeToClass(String path) throws IOException {
+		path = DIR + path;
+		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + path);
+		imprimeSaidaComando(cmd.getInputStream());
+		imprimeSaidaComando(cmd.getErrorStream());
+	}
+	
+	public static void main(String[] args) throws IOException {
 		int x;
 		int y;
 		x = 5;
@@ -90,8 +110,12 @@ public class JasminUtil {
 //		System.out.println(func(x, y));
 //		String jCode = loadJ("C:\\Users\\11210971\\Desktop\\test\\src\\Codigo.j");
 //		String jCode = loadJ("C:/Users/11210971/Desktop/test/src/Codigo.j");
-		String jCode = loadJ(PyscalConstantUtil.ArquivosTesteOutros.CODIGO);
-		runAssemble(jCode);
+		String path = DIR + PyscalConstantUtil.ArquivosTesteOutros.CODIGO;
+		String jCode = loadJ(path);
+		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + path);
+		imprimeSaidaComando(cmd.getInputStream());
+		imprimeSaidaComando(cmd.getErrorStream());
+//		runAssemble(jCode);
 //		runAssemble(".class public Codigo 	.super java/lang/Object 		.method public static func(II)I .limit stack 10 .limit locals 10 	iload 1 	ldc 5 	imul 	iload 0 	iadd 	ireturn 		.end method 		.method public static main([Ljava/lang/String;)V .limit stack 10 .limit locals 10 ldc 5 istore 0 ldc 2 istore 1 ;println getstatic java/lang/System/out/println Ljava/io/PrintStream; iload 0 iload 1 invokestatic Codigo/func(II)I invokevirtual java/io/PrintStream/println(I)V  return 		.end method");
 		
 	}

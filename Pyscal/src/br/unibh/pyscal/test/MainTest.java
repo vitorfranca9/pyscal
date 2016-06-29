@@ -9,6 +9,7 @@ import br.unibh.pyscal.exception.AnaliseLexicaException;
 import br.unibh.pyscal.exception.AnaliseSemanticaException;
 import br.unibh.pyscal.exception.AnaliseSintaticaException;
 import br.unibh.pyscal.util.FileUtil;
+import br.unibh.pyscal.util.JasminUtil;
 import br.unibh.pyscal.util.PyscalConstantUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
 
@@ -27,6 +28,8 @@ public class MainTest {
 			analisadorSintatico.analisar(arquivo);
 			AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
 			analisadorSemantico.analisar(arquivo);
+			
+			JasminUtil.compileJCodeToClass(path);
 //			FileUtil.imprimirTokens(arquivo);
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {
