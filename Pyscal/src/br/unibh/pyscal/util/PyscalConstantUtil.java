@@ -53,7 +53,8 @@ public interface PyscalConstantUtil {
 	
 	interface ArquivosTesteOutros {
 		String OUTROS = "outros/";
-		String PYSCAL = "pyscal.pys";
+		String PYSCAL = ARQUIVO_FONTE + OUTROS + "pyscal.pys";
+		String CODIGO = ARQUIVO_FONTE + OUTROS + "Codigo.j";
 	}
 	
 }

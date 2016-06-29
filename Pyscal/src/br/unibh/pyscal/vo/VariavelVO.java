@@ -14,5 +14,33 @@ public class VariavelVO {
 	private EscopoVariavelEnum escopoVariavel;
 	private boolean array;
 	private int qtdPosicoes;
-	private List<VariavelVO> valoresArray;
+//	private List<VariavelVO> valoresArray;
+	private TokenVO tokem;
+	
+	public Object getValor() throws Exception {
+		Object valor = null;
+		try {
+			if (tokem != null) {
+				switch (tipoVariavel) {
+					case BOOL:
+						valor = Boolean.valueOf(tokem.getValor().toLowerCase());
+						break;
+					case INTEGER:
+						valor = Integer.valueOf(tokem.getValor());
+						break;
+					case DOUBLE:
+						valor = Integer.valueOf(tokem.getValor());
+						break;
+					case STRING:
+						valor = tokem.getValor();
+						break;
+					default: break;
+				}
+			}
+		} catch (Exception e) {
+			throw new Exception("Erro ao converter valor");
+		}
+		return valor;
+	}
+	
 }

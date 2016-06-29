@@ -1,11 +1,9 @@
 package br.unibh.pyscal.analisador;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import br.unibh.pyscal.enumerador.EscopoVariavelEnum;
 import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
@@ -13,7 +11,9 @@ import br.unibh.pyscal.enumerador.TipoComandoEnum;
 import br.unibh.pyscal.enumerador.TipoRetornoMetodoEnum;
 import br.unibh.pyscal.enumerador.TipoVariavelEnum;
 import br.unibh.pyscal.exception.AnaliseSemanticaException;
+import br.unibh.pyscal.util.JasminUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
+import br.unibh.pyscal.vo.ClasseVO;
 import br.unibh.pyscal.vo.ComandoVO;
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.MetodoVO;
@@ -34,8 +34,6 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 	@Override
 	protected void init() {
 		super.init();
-//		classe = new ClasseVO();
-//		treeMapVariavel.
 		sintaticoHelper = AnalisadorSintaticoHelper.getInstancia();
 		semanticoHelper = SemanticoHelper.getInstancia();
 		mapaVariaveis = new HashMap<>();
@@ -49,6 +47,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		isMetodo = false;
 		isComando = false;
 		compilar();
+		JasminUtil.getJCode(this.arquivo);
 	}
 	
 //	@SuppressWarnings("unused")
@@ -96,6 +95,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					tratarRetorno(metodoVO);
 					contarProximaLinha();
 					contarProximaLinha();
+					metodos.add(metodoVO);
+					metodoVO = new MetodoVO();
 					isMetodo = false;
 					isComando = false;
 					System.out.println();
@@ -118,6 +119,9 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 				}
 			}
 		}
+		ClasseVO classeVO = new ClasseVO();
+		classeVO.setMetodos(metodos);
+		arquivo.setClasseVO(classeVO);
 		System.out.println();
 	}
 	
@@ -126,6 +130,15 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		ComandoVO comandoVO = new ComandoVO(); 
 		TokenVO tokenAtual = getTokenAtual();
 		comandoVO.setTipoComando(semanticoHelper.getTipoComando(getLinhaAtual(), tokenAtual));
+		tokenAtual = getToken(3);
+		VariavelVO variavel = new VariavelVO();
+		variavel.setLinha(getLinhaAtual());
+		tokenAtual.getValor();
+		variavel.setTokem(getTokenAtual());
+//		variavel.setTipoVariavel();
+		comandoVO.getLinhas().add(getLinhaAtual());
+		comandoVO.setVariavelRetorno(variavel);
+		metodoVO.getComandos().add(comandoVO);
 		contarProximaLinha();
 		System.out.println();
 	}
@@ -382,8 +395,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					return TipoComandoEnum.WHILE;
 				case ID:
 					//pode ser atribui ou funcao
-//					return TipoComandoEnum.ATRIBUI;
-					return TipoComandoEnum.FUNCAO;
+					return TipoComandoEnum.ATRIBUI;
+//					return TipoComandoEnum.FUNCAO;
 				default: throw new AnaliseSemanticaException("Erro TipoComando.",linhaAtual, tokenAtual);
 			}
 			

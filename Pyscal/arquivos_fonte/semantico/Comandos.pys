@@ -1,9 +1,10 @@
 class Comandos:
-	def String rodar():
+	/*def void rodar():
 		write("eita");
-		return "opa";
-	end;
+		write("opa");
+	end;*/
 	defstatic void main(String[] args):
-		x = 2;
+		write("eita");
+		write("opa");
 	end;
 end.

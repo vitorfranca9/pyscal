@@ -17,6 +17,7 @@ public class ArquivoVO {
 	@Getter @Setter private List<LinhaVO> linhas = new ArrayList<>();
 	@Getter @Setter private Map<Integer, NoVO> mapa = new HashMap<Integer, NoVO>();
 	@Getter @Setter private NoVO noRaiz;
+	@Getter @Setter private ClasseVO classeVO;
 	
 	public void adicionarNoMapa(NoVO no) {
 		if (mapa.get(nivelAtual) == null) {

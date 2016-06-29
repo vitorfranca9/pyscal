@@ -1,0 +1,29 @@
+class Programa1:
+	def bool funcao1(integer arg1, double arg2):
+		String n;
+		integer a;
+		integer x;
+		if (i == 1):
+			//comandos;
+			i=(2*3)+2*2/1/1;
+		end;
+
+		if (i == 1):
+			writeln("kkkkkk");
+			/* comentario 
+			*em bloco 
+			*muito louco
+			*/
+			while (i <= 3):
+				j = j +(k*x);
+			end;
+		end;
+		return true;
+	end;
+
+	defstatic void main (String[] arg):
+		integer b;
+		//TEM ERRO AQUI -> funcao1(); 
+	end;
+
+end.

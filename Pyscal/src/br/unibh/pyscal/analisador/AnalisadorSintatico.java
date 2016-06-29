@@ -811,8 +811,14 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 				return noPai; //NAO PAROU AQUI
 			} else {
 				if (!noCmd.equals(noListaCmd)) {
-					noPai.getFilhos().add(0,noCmd);
-					return noPai;
+					if (noPai.getTokens().isEmpty()){
+//						return noCmd;
+						noListaCmd.getFilhos().add(0,noCmd);
+						return noListaCmd;
+					} else {
+						noPai.getFilhos().add(0,noCmd);
+						return noPai;
+					}
 				}
 			}
 		}

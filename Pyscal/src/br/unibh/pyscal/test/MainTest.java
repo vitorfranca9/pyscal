@@ -18,6 +18,7 @@ public class MainTest {
 //		String path = LEXICO_ENTRADA3;
 //		String path = PyscalConstantUtil.ArquivosTesteSemantico.EX9_RETORNO_METODO;
 		String path = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
+//		String path = PyscalConstantUtil.ArquivosTesteOutros.PYSCAL;
 		ArquivoVO arquivo = FileUtil.montarArquivo(path);
 		try {
 			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
