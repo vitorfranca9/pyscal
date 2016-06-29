@@ -1,8 +1,11 @@
 package br.unibh.pyscal.util;
 
+import jasmin.Main;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,7 +16,6 @@ import java.util.Scanner;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.ComandoVO;
 import br.unibh.pyscal.vo.MetodoVO;
-import jasmin.Main;
 
 public class JasminUtil {
 //	private String code = ".class public " + "lexema" + "\n" +
@@ -39,18 +41,32 @@ public class JasminUtil {
 //identa + "ldc 0\n" +
 //identa + noExpLinhaPai.next + ":\n" +
 	
-//	private StringBuilder
+	private static StringBuilder code = new StringBuilder()
+		.append(".class public Codigo \n")
+		.append(".super java/lang/Object\n")
+		.append(".method public static main([Ljava/lang/String;)V\n")
+		.append(".limit stack 50\n")
+		.append(".limit locals 50\n")
+		.append("ldc 5\n")
+		.append("istore 0\n")
+		.append("getstatic java/lang/System/out Ljava/io/PrintStream;\n")
+		.append("iload 0\n")
+//		.append(".invokevirtual java/io/PrintStream/println(\"Hello World\")V\n");
+		.append("invokevirtual java/io/PrintStream/println(I)V\n");
 	
 	public static String getJCode(ArquivoVO arquivo) {
-		Collections.reverse(arquivo.getClasseVO().getMetodos());
-		for (MetodoVO metodo : arquivo.getClasseVO().getMetodos()) {
-			System.out.println();
-			
-			for (ComandoVO comando : metodo.getComandos()) {
+		if (arquivo != null) {
+			Collections.reverse(arquivo.getClasseVO().getMetodos());
+			for (MetodoVO metodo : arquivo.getClasseVO().getMetodos()) {
 				System.out.println();
+				for (ComandoVO comando : metodo.getComandos()) {
+					System.out.println();
+				}
 			}
 		}
-		return null;
+		code.append("    return\n");
+		code.append(".end method");
+		return code.toString();
 	}
 	
 	public static int func(int i, int j) {
@@ -63,7 +79,7 @@ public class JasminUtil {
 	}
 	
 	@SuppressWarnings("resource")
-	public static String loadJ(String path) throws FileNotFoundException {
+	public static String loadJFile(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path), "UTF-8");
 		StringBuilder sb = new StringBuilder();
 		while (sc.hasNext()) {
@@ -74,18 +90,20 @@ public class JasminUtil {
 		return sb.toString();
 	}
 	
+	public static void writeJFile(String jCode) throws IOException {
+		FileWriter fileWriter = new FileWriter(new File(DIR+"Codigo.j"));
+		fileWriter.write(jCode);
+		fileWriter.flush();
+		fileWriter.close();
+	}
+	
 	public static String normalyze(String str) {
-//		Pattern p = Pattern.compile("{cntrl}");
-//		Matcher m = p.matcher("");
-//		m.reset(str);
-//		String result = m.replaceAll("");
-//		return result;
 		String temp = Normalizer.normalize(str, java.text.Normalizer.Form.NFD);
 		return temp.replaceAll("[^\\p{ASCII}]","");
 	}
 	
-	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
-	
+//	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
+	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
 	
 	public static void imprimeSaidaComando(InputStream tipoSaida) throws IOException {
         String linha;
@@ -102,23 +120,38 @@ public class JasminUtil {
 		imprimeSaidaComando(cmd.getErrorStream());
 	}
 	
+	public static void runClassCode(String path) throws IOException {
+//		path = DIR + path;
+		path = "Codigo";
+		Process cmd = Runtime.getRuntime().exec("java "+path);
+        imprimeSaidaComando(cmd.getInputStream());
+        imprimeSaidaComando(cmd.getErrorStream());
+	}
+	
 	public static void main(String[] args) throws IOException {
-		int x;
-		int y;
-		x = 5;
-		y = 2;
+		String path = "Codigo";
+		String jCode = getJCode(null);
+		writeJFile(jCode);
+		compileJCodeToClass(path+".j");
+		runClassCode(path);
+	}
+	
+//	public static void main(String[] args) throws IOException {
+//		int x;
+//		int y;
+//		x = 5;
+//		y = 2;
 //		System.out.println(func(x, y));
 //		String jCode = loadJ("C:\\Users\\11210971\\Desktop\\test\\src\\Codigo.j");
 //		String jCode = loadJ("C:/Users/11210971/Desktop/test/src/Codigo.j");
-		String path = DIR + PyscalConstantUtil.ArquivosTesteOutros.CODIGO;
-		String jCode = loadJ(path);
-		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + path);
-		imprimeSaidaComando(cmd.getInputStream());
-		imprimeSaidaComando(cmd.getErrorStream());
+//		String path = DIR + PyscalConstantUtil.ArquivosTesteOutros.CODIGO;
+//		String jCode = loadJ(path);
+//		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + path);
+//		imprimeSaidaComando(cmd.getInputStream());
+//		imprimeSaidaComando(cmd.getErrorStream());
 //		runAssemble(jCode);
 //		runAssemble(".class public Codigo 	.super java/lang/Object 		.method public static func(II)I .limit stack 10 .limit locals 10 	iload 1 	ldc 5 	imul 	iload 0 	iadd 	ireturn 		.end method 		.method public static main([Ljava/lang/String;)V .limit stack 10 .limit locals 10 ldc 5 istore 0 ldc 2 istore 1 ;println getstatic java/lang/System/out/println Ljava/io/PrintStream; iload 0 iload 1 invokestatic Codigo/func(II)I invokevirtual java/io/PrintStream/println(I)V  return 		.end method");
-		
-	}
+//	}
 //	id q tiver no class e passar pro j
 //	ldc carrega na pilha
 

@@ -16,10 +16,7 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-//		String path = LEXICO_ENTRADA3;
-//		String path = PyscalConstantUtil.ArquivosTesteSemantico.EX9_RETORNO_METODO;
 		String path = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
-//		String path = PyscalConstantUtil.ArquivosTesteOutros.PYSCAL;
 		ArquivoVO arquivo = FileUtil.montarArquivo(path);
 		try {
 			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
@@ -30,7 +27,7 @@ public class MainTest {
 			analisadorSemantico.analisar(arquivo);
 			
 			JasminUtil.compileJCodeToClass(path);
-//			FileUtil.imprimirTokens(arquivo);
+			/*FileUtil.imprimirTokens(arquivo);*/
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {
 				System.out.println("Erro léxico: "+e.getMessage());
@@ -44,5 +41,33 @@ public class MainTest {
 			}
 		}
 	}
+	
+//	public static void main(String[] args) throws FileNotFoundException {
+//		String path = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
+//		ArquivoVO arquivo = FileUtil.montarArquivo(path);
+//		try {
+//			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+//			analisadorLexico.analisar(arquivo);
+//			AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+//			analisadorSintatico.analisar(arquivo);
+//			AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+//			analisadorSemantico.analisar(arquivo);
+//			
+//			JasminUtil.compileJCodeToClass(path);
+//			/*FileUtil.imprimirTokens(arquivo);*/
+//		} catch (Exception e) {
+//			if (e instanceof AnaliseLexicaException) {
+//				System.out.println("Erro lexico: "+e.getMessage());
+//			} else if (e instanceof AnaliseSintaticaException) {
+//				System.out.println("Erro sintatico: "+e.getMessage());
+//			} else if (e instanceof AnaliseSemanticaException){
+//				System.out.println("Erro semantico: "+e.getMessage());
+//			} else {
+//				e.printStackTrace();
+//				System.out.println("Erro: "+e.getMessage());
+//			}
+//		}
+//	}
+	
 //	System.out.println("Total"+2*(2+2));
 }
