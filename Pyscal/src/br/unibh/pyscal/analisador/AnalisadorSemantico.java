@@ -47,7 +47,7 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		isMetodo = false;
 		isComando = false;
 		compilar();
-		JasminUtil.getJCode(this.arquivo);
+//		String jCode = JasminUtil.getJ(this.arquivo);
 	}
 	
 //	@SuppressWarnings("unused")

@@ -4,7 +4,7 @@ class Comandos:
 		write("opa");
 	end;*/
 	defstatic void main(String[] args):
-		write("eita");
-		write("opa");
+		write(2);
+		//write("opa");
 	end;
 end.

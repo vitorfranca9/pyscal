@@ -16,8 +16,8 @@ import br.unibh.pyscal.vo.ArquivoVO;
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		String path = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
-		ArquivoVO arquivo = FileUtil.montarArquivo(path);
+		String fullPath = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
+		ArquivoVO arquivo = FileUtil.montarArquivo(fullPath);
 		try {
 			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
 			analisadorLexico.analisar(arquivo);
@@ -26,7 +26,12 @@ public class MainTest {
 			AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
 			analisadorSemantico.analisar(arquivo);
 			
-			JasminUtil.compileJCodeToClass(path);
+//			JasminUtil.jToClass(path);
+			String jCode = JasminUtil.getJ(analisadorSemantico.getArquivo());
+			System.out.println(jCode);
+			JasminUtil.writeJFile(fullPath,jCode);
+			JasminUtil.jToClass(fullPath+".j");
+			JasminUtil.runClass(fullPath);
 			/*FileUtil.imprimirTokens(arquivo);*/
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {

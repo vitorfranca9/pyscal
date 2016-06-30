@@ -41,26 +41,31 @@ public class JasminUtil {
 //identa + "ldc 0\n" +
 //identa + noExpLinhaPai.next + ":\n" +
 	
-	private static StringBuilder code = new StringBuilder()
-		.append(".class public Codigo \n")
-		.append(".super java/lang/Object\n")
-		.append(".method public static main([Ljava/lang/String;)V\n")
-		.append(".limit stack 50\n")
-		.append(".limit locals 50\n")
-		.append("ldc 5\n")
-		.append("istore 0\n")
-		.append("getstatic java/lang/System/out Ljava/io/PrintStream;\n")
-		.append("iload 0\n")
-//		.append(".invokevirtual java/io/PrintStream/println(\"Hello World\")V\n");
-		.append("invokevirtual java/io/PrintStream/println(I)V\n");
+	private long startTime;
+	private long endTime;
 	
-	public static String getJCode(ArquivoVO arquivo) {
+//	private static StringBuilder code = new StringBuilder()
+//		.append(".class public Codigo \n")
+//		.append(".super java/lang/Object\n")
+//		.append(".method public static main([Ljava/lang/String;)V\n")
+//		.append(".limit stack 50\n")
+//		.append(".limit locals 50\n")
+//		.append("ldc 2\n")
+//		.append("istore 0\n")
+//		.append("getstatic java/lang/System/out Ljava/io/PrintStream;\n")
+//		.append("iload 0\n")
+//		.append(".invokevirtual java/io/PrintStream/println(\"Hello World\")V\n");
+//		.append("invokevirtual java/io/PrintStream/print(I)V\n")
+		;
+	
+	public static String getJ(ArquivoVO arquivo) {
+		StringBuilder code = new StringBuilder(getMain(arquivo));
 		if (arquivo != null) {
-			Collections.reverse(arquivo.getClasseVO().getMetodos());
+//			Collections.reverse(arquivo.getClasseVO().getMetodos());
 			for (MetodoVO metodo : arquivo.getClasseVO().getMetodos()) {
 				System.out.println();
 				for (ComandoVO comando : metodo.getComandos()) {
-					System.out.println();
+					code.append(comando.getTipoComando().getJCode());
 				}
 			}
 		}
@@ -69,17 +74,36 @@ public class JasminUtil {
 		return code.toString();
 	}
 	
+	
+	
+	public static String getMain(ArquivoVO arquivo) {
+		arquivo.setNomeArquivo("/arquivos_fonte/semantico/Comandos.pys");
+		return new StringBuilder()
+			.append(".class public ")
+			.append(arquivo.getNomeArquivo().substring(
+				arquivo.getNomeArquivo().lastIndexOf("/")+1, arquivo.getNomeArquivo().lastIndexOf(".")))
+			.append("\n")
+			.append(".super java/lang/Object\n")
+			.append(".method public static main([Ljava/lang/String;)V\n")
+			.append(".limit stack 50\n")
+			.append(".limit locals 50\n")
+			.append("ldc 9\n")
+			.append("istore 0\n")
+			.append("")
+			.toString();
+	}
+	
 	public static int func(int i, int j) {
 		return (i + j * 5);
 	}
 	
-	public static void runAssemble(String jCode) {
+	public synchronized static void runAssemble(String jCode) {
 		Main main = new Main();
 		main.assemble(jCode);
 	}
 	
 	@SuppressWarnings("resource")
-	public static String loadJFile(String path) throws FileNotFoundException {
+	public synchronized static String loadJFile(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path), "UTF-8");
 		StringBuilder sb = new StringBuilder();
 		while (sc.hasNext()) {
@@ -90,11 +114,25 @@ public class JasminUtil {
 		return sb.toString();
 	}
 	
-	public static void writeJFile(String jCode) throws IOException {
-		FileWriter fileWriter = new FileWriter(new File(DIR+"Codigo.j"));
+	public synchronized static void writeJFile(String fullPath, String jCode) throws IOException {
+		FileWriter fileWriter = new FileWriter(new File(DIR+getPath(fullPath)+getName(jCode)+".j"));
 		fileWriter.write(jCode);
 		fileWriter.flush();
 		fileWriter.close();
+	}
+	
+	private static String getFileName(String fullPath) {
+		String fileName = fullPath.substring(fullPath.lastIndexOf("/")+1, fullPath.lastIndexOf("."));
+		return fileName;
+	}
+	
+	private static String getPath(String fullPath) {
+		String path = fullPath.substring(0,fullPath.lastIndexOf("/")+1);
+		return path;
+	}
+	
+	private static String getName(String jCode) {
+		return jCode.substring(jCode.indexOf(".class public ")+14, jCode.indexOf("\n.super"));
 	}
 	
 	public static String normalyze(String str) {
@@ -102,8 +140,8 @@ public class JasminUtil {
 		return temp.replaceAll("[^\\p{ASCII}]","");
 	}
 	
-//	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
-	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
+	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
+//	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
 	
 	public static void imprimeSaidaComando(InputStream tipoSaida) throws IOException {
         String linha;
@@ -113,28 +151,30 @@ public class JasminUtil {
         }
     }
 	
-	public static void compileJCodeToClass(String path) throws IOException {
-		path = DIR + path;
-		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + path);
+	public synchronized static void jToClass(String fullPath) throws IOException {
+		fullPath = fullPath.replace(".pys", "");
+		fullPath = DIR+"/" + getFileName(fullPath);
+		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + fullPath);
 		imprimeSaidaComando(cmd.getInputStream());
 		imprimeSaidaComando(cmd.getErrorStream());
 	}
 	
-	public static void runClassCode(String path) throws IOException {
+	public synchronized static void runClass(String path) throws IOException {
 //		path = DIR + path;
-		path = "Codigo";
+		path = "Comandos";
 		Process cmd = Runtime.getRuntime().exec("java "+path);
         imprimeSaidaComando(cmd.getInputStream());
         imprimeSaidaComando(cmd.getErrorStream());
 	}
 	
-	public static void main(String[] args) throws IOException {
-		String path = "Codigo";
-		String jCode = getJCode(null);
-		writeJFile(jCode);
-		compileJCodeToClass(path+".j");
-		runClassCode(path);
-	}
+//	public static void main(String[] args) throws IOException {
+//		String path = "Codigo";
+//		System.out.println("Running "+path+"...");
+//		String jCode = getJ(null);
+//		writeJFile(jCode);
+//		jToClass(path+".j");
+//		runClass(path);
+//	}
 	
 //	public static void main(String[] args) throws IOException {
 //		int x;
