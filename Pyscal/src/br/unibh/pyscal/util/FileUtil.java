@@ -14,10 +14,10 @@ public class FileUtil {
 	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
 	
 	@SuppressWarnings("resource")
-	public static ArquivoVO montarArquivo(String path) throws FileNotFoundException {
-		Scanner sc = new Scanner(new File(DIR+path));
+	public static ArquivoVO montarArquivo(String fullPath) throws FileNotFoundException {
+		Scanner sc = new Scanner(new File(DIR+fullPath));
 		ArquivoVO arquivo = new ArquivoVO();
-		arquivo.setNomeArquivo(path);
+		arquivo.setNomeArquivo(fullPath);
 		int linhaCount = 1;
 		while (sc.hasNextLine()) {
 			String linha = sc.nextLine();

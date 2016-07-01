@@ -14,9 +14,15 @@
 10 A não atribuição de funções void (int i = funcao(), onde funcao é def void funcao());
 
 //DESAFIOS:
+* VENCER EXPRESSÃO(URGENTE)
+* variavel = "1" + 3 - Variáveis vira Variável resultante
+* variavel + variavel - concatenação de variáveis ou expressão matemática
+* integer (-,/,*) double - expressão matemática ou erro
+* integer (<,>,>=,<=,==,!=) - comparação de variáveis (compatíveis?)
+* boolean (or,and,!) boolean //boolean ou erro
+* variavel = integer+(integer+integer) //fudeu(erro ;p)
+
 * Refatorar tratarMetodo2;
 * Tratar comandos;
-* VENCER EXPRESSÃO(URGENTE)
-* não tô conseguindo rodar o Yasmin;
 * tem como compilar .j para .class, e assim poder rodar no soot
 * (java -jar jasmin.jar -d ./ ./arquivos_fonte/semantico/Codigo.j);

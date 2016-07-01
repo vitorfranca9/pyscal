@@ -153,7 +153,7 @@ public class AnalisadorLexico {
 				}
 			} else if (token.getPalavraReservada() != null && 
 					COMENTARIO_LINHA.equals(token.getPalavraReservada())){
-				System.out.println();
+//				System.out.println();
 			}else {
 				
 				//primeiro trata com 1 caractere

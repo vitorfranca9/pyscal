@@ -4,7 +4,8 @@ class Comandos:
 		write("opa");
 	end;*/
 	defstatic void main(String[] args):
-		write(2);
+		write("Hello World");
+		//write(2);
 		//write("opa");
 	end;
 end.

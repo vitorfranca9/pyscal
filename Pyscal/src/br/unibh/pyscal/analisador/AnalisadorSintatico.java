@@ -262,7 +262,7 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		NoVO no = new NoVO();
 		no.setLinha(linha);
 		no.getTokens().add(token);
-		imprimir(no);
+//		imprimir(no);
 		contarProximoToken(linha);
 		return no;
 	}

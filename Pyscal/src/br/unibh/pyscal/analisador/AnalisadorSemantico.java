@@ -130,11 +130,13 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		ComandoVO comandoVO = new ComandoVO(); 
 		TokenVO tokenAtual = getTokenAtual();
 		comandoVO.setTipoComando(semanticoHelper.getTipoComando(getLinhaAtual(), tokenAtual));
+//		variável deve ser resultado da expressão
 		tokenAtual = getToken(3);
 		VariavelVO variavel = new VariavelVO();
 		variavel.setLinha(getLinhaAtual());
 		tokenAtual.getValor();
-		variavel.setTokem(getTokenAtual());
+		variavel.setTokem(tokenAtual);
+		variavel.setTipoVariavel(semanticoHelper.getTipoVariavel(getLinhaAtual(), tokenAtual));
 //		variavel.setTipoVariavel();
 		comandoVO.getLinhas().add(getLinhaAtual());
 		comandoVO.setVariavelRetorno(variavel);
@@ -423,13 +425,23 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		public TipoVariavelEnum getTipoVariavel(LinhaVO linhaAtual, TokenVO tokenAtual) 
 				throws AnaliseSemanticaException {
 			switch (tokenAtual.getPalavraReservada()) {
+				case TRUE:
+					return TipoVariavelEnum.BOOL;
+				case FALSE:
+					return TipoVariavelEnum.BOOL;
 				case BOOL:
 					return TipoVariavelEnum.BOOL;
 				case INTEGER:
 					return TipoVariavelEnum.INTEGER;
+				case CONSTINTEGER:
+					return TipoVariavelEnum.INTEGER;
 				case DOUBLE:
 					return TipoVariavelEnum.DOUBLE;
+				case CONSTDOUBLE:
+					return TipoVariavelEnum.DOUBLE;
 				case STRING:
+					return TipoVariavelEnum.STRING;
+				case CONSTSTRING:
 					return TipoVariavelEnum.STRING;
 				case VOID: 
 					throw new AnaliseSemanticaException("Não deve-se declarar variável do tipo void.",linhaAtual, tokenAtual);

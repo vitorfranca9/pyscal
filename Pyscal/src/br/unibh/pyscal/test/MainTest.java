@@ -12,26 +12,30 @@ import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.util.JasminUtil;
 import br.unibh.pyscal.util.PyscalConstantUtil;
 import br.unibh.pyscal.vo.ArquivoVO;
+import br.unibh.pyscal.vo.CompiladorVO;
 
 public class MainTest {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		String fullPath = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS;
-		ArquivoVO arquivo = FileUtil.montarArquivo(fullPath);
+//		ArquivoVO arquivo = FileUtil.montarArquivo(fullPath);
 		try {
-			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
-			analisadorLexico.analisar(arquivo);
-			AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
-			analisadorSintatico.analisar(arquivo);
-			AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
-			analisadorSemantico.analisar(arquivo);
-			
+			CompiladorVO compilador = new CompiladorVO(fullPath);
+			compilador.analisar();
+			compilador.compilar(fullPath);
+			compilador.rodar();
+//			AnalisadorLexico analisadorLexico = new AnalisadorLexico();
+//			analisadorLexico.analisar(arquivo);
+//			AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico();
+//			analisadorSintatico.analisar(arquivo);
+//			AnalisadorSemantico analisadorSemantico = new AnalisadorSemantico();
+//			analisadorSemantico.analisar(arquivo);
 //			JasminUtil.jToClass(path);
-			String jCode = JasminUtil.getJ(analisadorSemantico.getArquivo());
-			System.out.println(jCode);
-			JasminUtil.writeJFile(fullPath,jCode);
-			JasminUtil.jToClass(fullPath+".j");
-			JasminUtil.runClass(fullPath);
+//			String jCode = JasminUtil.getJ(analisadorSemantico.getArquivo());
+//			System.out.println(jCode);
+//			JasminUtil.writeJFile(fullPath,jCode);
+//			JasminUtil.jToClass(fullPath+".j");
+//			JasminUtil.runClass(fullPath);
 			/*FileUtil.imprimirTokens(arquivo);*/
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {
