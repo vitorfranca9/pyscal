@@ -2,6 +2,7 @@ package br.unibh.pyscal.util;
 
 import java.io.IOException;
 
+import br.unibh.pyscal.analisador.AnalisadorSintaticoHelper;
 import br.unibh.pyscal.enumerador.TipoRetornoMetodoEnum;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.ComandoVO;
@@ -61,6 +62,7 @@ public class JasminUtil {
 			.append(getLine(".method public "+metodo.getNome()+"()"+metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null))
 			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null)).append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null));
 		for (ComandoVO comando : metodo.getComandos()) {
+			move(true);
 			method.append(getCmd(metodo, comando));
 		}
 		method.append(getLine(metodo.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
@@ -71,20 +73,37 @@ public class JasminUtil {
 	public static String getCmd(MetodoVO metodo, ComandoVO comando) {
 		switch (comando.getTipoComando()) {
 			case WRITE:
-				return getWrite(comando.getVariavelRetorno(), metodo.getTipoRetornoMetodo());
+				return getWrite(comando.getVariavelRetorno(), metodo.getTipoRetornoMetodo(), true);
+			case WRITELN:
+				return getWrite(comando.getVariavelRetorno(), metodo.getTipoRetornoMetodo(), false);
 			default: return null; 
 		}
 	}
 //	createWrite(TokenVO,LinhaVO,methodName)
-	public static String getWrite(VariavelVO variavel, TipoRetornoMetodoEnum tipoRetornoMetodoEnum) {
+	public static String getWrite(VariavelVO variavel, TipoRetornoMetodoEnum tipoRetornoMetodoEnum, boolean isPrint) {
 		return new StringBuilder()
-			.append(getLine("ldc "+getValue(variavel), null))
-			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store 0", null))
+			.append(putOnStack(variavel, null))
+			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store_0", null))
 			.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
-			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load 0", null))
-			.append(getLine("invokevirtual java/io/PrintStream/print("+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
+			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load_0", null))
+			.append(getLine("invokevirtual java/io/PrintStream/print"+(isPrint ? "" : "ln")+"("
+				+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
 				tipoRetornoMetodoEnum.getAssembleInvokeType(), null))
 			.toString();
+	}
+	
+	private static String putOnStack(VariavelVO variavel, Boolean move) {
+		StringBuilder ldc = new StringBuilder();
+		switch (variavel.getTipoVariavel()) {
+			case DOUBLE:
+				ldc.append("ldc2_w ");
+				break;
+			default:
+				ldc.append("ldc ");
+				break;
+		}
+		ldc.append(getValue(variavel));
+		return getLine(ldc.toString(), move);
 	}
 	
 	public static String getMain(ArquivoVO arquivo, MetodoVO metodoMain) {
@@ -92,7 +111,10 @@ public class JasminUtil {
 		main.append(getLine(".method public static main([Ljava/lang/String;)V", null))
 			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null))
 			.append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null))
-			.append(getClassInstance(arquivo));
+			.append(getClassInstance(arquivo))
+//			.append(getLine("aload_0", null))
+//			.append(getLine("bipush 100", null))
+			;
 		
 		for (ComandoVO comando : metodoMain.getComandos()) {
 			main.append(getCmd(metodoMain, comando));
@@ -162,7 +184,12 @@ public class JasminUtil {
 	private static String getValue(VariavelVO variavel) {
 		switch (variavel.getTipoVariavel()) {
 		case BOOL:
-			return variavel.getTokem().getValor().toLowerCase();
+			if (variavel.getTokem().getValor().equals("true")) {
+				return "1";
+			} else {
+				return "0";
+			}
+//			return variavel.getTokem().getValor().toLowerCase();
 		case DOUBLE:
 			return variavel.getTokem().getValor();
 		case INTEGER:
@@ -177,7 +204,6 @@ public class JasminUtil {
 		String fileName = arquivo.getLinhas().get(0).getTokens().get(1).getValor();
 		return fileName;
 	}
-	
 	
 	private static String getFileName(String fullPath) {
 		String fileName = fullPath.substring(fullPath.lastIndexOf("/")+1, fullPath.lastIndexOf("."));
@@ -243,7 +269,24 @@ public class JasminUtil {
 //		imprimeSaidaComando(cmd.getInputStream());
 //		imprimeSaidaComando(cmd.getErrorStream());
 //		runAssemble(jCode);
-//		runAssemble(".class public Codigo 	.super java/lang/Object 		.method public static func(II)I .limit stack 10 .limit locals 10 	iload 1 	ldc 5 	imul 	iload 0 	iadd 	ireturn 		.end method 		.method public static main([Ljava/lang/String;)V .limit stack 10 .limit locals 10 ldc 5 istore 0 ldc 2 istore 1 ;println getstatic java/lang/System/out/println Ljava/io/PrintStream; iload 0 iload 1 invokestatic Codigo/func(II)I invokevirtual java/io/PrintStream/println(I)V  return 		.end method");
+//		runAssemble(
+	/*".class public Codigo 	.super java/lang/Object 		
+	.method public static func(II)I 
+	.limit stack 10 .limit locals 10 	
+	  iload 1 ldc 5
+	  imul iload 0 iadd 	
+	  ireturn 		
+	.end method 	
+	.method public static main([Ljava/lang/String;)V 
+	.limit stack 10 .limit locals 10 
+	  ldc 5 istore 0 ldc 2 istore 1 
+	  ;println getstatic java/lang/System/out/
+	  println Ljava/io/PrintStream; iload 0 iload 1 invokestatic Codigo/func(II)I 
+	  invokevirtual java/io/PrintStream/println(I)V  
+	return 		
+	.end method");*/
+	
+	
 //	}
 //	id q tiver no class e passar pro j
 //	ldc carrega na pilha

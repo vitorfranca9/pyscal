@@ -119,9 +119,16 @@ public class AnalisadorSintaticoHelper {
 		return isPalavraReservadaSemErro(PalavraReservadaEnum.CONSTSTRING, palavra);
 	}
 	
+	public boolean isPalavraReservadaTrueSemErro(PalavraReservadaEnum palavra) {
+		return isPalavraReservadaSemErro(PalavraReservadaEnum.TRUE, palavra);
+	}
+	
+	public boolean isPalavraReservadaFalseSemErro(PalavraReservadaEnum palavra) {
+		return isPalavraReservadaSemErro(PalavraReservadaEnum.FALSE, palavra);
+	}
+	
 	public boolean isPalavraReservadaConstBoolSemErro(PalavraReservadaEnum palavra) {
-		return isPalavraReservadaSemErro(PalavraReservadaEnum.TRUE, palavra) || 
-			isPalavraReservadaSemErro(PalavraReservadaEnum.FALSE, palavra);
+		return isPalavraReservadaTrueSemErro(palavra) || isPalavraReservadaFalseSemErro(palavra);
 	}
 	
 	public boolean isPalavraReservadaConstIntegerSemErro(PalavraReservadaEnum palavra) {

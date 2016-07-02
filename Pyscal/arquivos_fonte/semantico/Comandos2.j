@@ -7,16 +7,47 @@
       return
    .end method
 
+   .method public imprimir()V
+   .limit stack 30
+   .limit locals 30
+      ldc2_w 0.5
+      dstore_0
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      dload_0
+      invokevirtual java/io/PrintStream/print(D)V
+      return
+   .end method
+
    .method public static main([Ljava/lang/String;)V
    .limit stack 30
    .limit locals 30
       new Comandos2
       dup
       invokespecial Comandos2/<init>()V
-      ldc "Hello World!"
-      astore 0
+      ldc2_w 0.5
+      dstore_0
       getstatic java/lang/System/out Ljava/io/PrintStream;
-      aload 0
+      dload_0
+      invokevirtual java/io/PrintStream/print(D)V
+      ldc 0
+      istore_0
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      iload_0
+      invokevirtual java/io/PrintStream/println(Z)V
+      ldc 2
+      istore_0
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      iload_0
+      invokevirtual java/io/PrintStream/print(I)V
+      ldc ""
+      astore_0
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      aload_0
+      invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+      ldc "Hello World"
+      astore_0
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      aload_0
       invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
       return
    .end method

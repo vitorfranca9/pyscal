@@ -30,5 +30,4 @@ public class MainTest {
 		}
 	}
 //	System.out.println("Total"+2*(2+2));
-	
 }

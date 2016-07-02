@@ -1,13 +1,18 @@
 class Comandos2:
-	//def void imprimir():
-		//write("Hello World");
-		//return; //verificar
-	//end;
-	defstatic void main(String[] args):
+	def void imprimir():
+		write(0.5);
 		//write(true);
-		write("Hello World!");
+		//write(-2);
+		//write("Hello World!");
+		//return; //verificar
+	end;
+	defstatic void main(String[] args):
+		write(0.5);
+		writeln(false);
+		//write(" "); //verificar
+		write(2);
+		write("Hello World");
 		//imprimir();
-		//write(2);
 		//write("opa");
 	end;
 end.

@@ -4,7 +4,9 @@ public enum TipoVariavelEnum {
 	BOOL,
 	INTEGER,
 	STRING,
-	DOUBLE;
+	DOUBLE
+	,VOID//?
+	;
 	
 	public String getAssembleType() {
 		switch (this) {
@@ -15,7 +17,7 @@ public enum TipoVariavelEnum {
 			case DOUBLE:
 				return "d";
 			case BOOL:
-				return "b";
+				return "i";
 			default: return null;
 		}
 	}
@@ -26,10 +28,13 @@ public enum TipoVariavelEnum {
 				return "I";
 			case DOUBLE:
 				return "D";
+//				return "Ljava/lang/Double;";
 			case BOOL:
-				return "B";
+				return "Z";
 			case STRING:
 				return "Ljava/lang/String;";
+			case VOID:
+				return "V";
 			default: return null;
 		}
 //		return getAssembleType().toUpperCase();
