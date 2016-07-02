@@ -36,7 +36,7 @@ public class CompiladorVO {
 //		JasminUtil.jToClass(path);
 		String jCode = JasminUtil.getJ(analisadorSemantico.getArquivo());
 		System.out.println(jCode);
-		JasminUtil.writeJFile(fullPath,jCode);
+		FileUtil.writeJFile(fullPath,jCode);
 		JasminUtil.jToClass(fullPath+".j");
 	}
 	

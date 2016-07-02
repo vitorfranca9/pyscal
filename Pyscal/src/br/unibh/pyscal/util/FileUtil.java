@@ -1,7 +1,12 @@
 package br.unibh.pyscal.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,6 +33,45 @@ public class FileUtil {
 		}
 		return arquivo;
 	}
+	
+	public static void writeJFile(String fullPath, String jCode) throws IOException {
+		FileWriter fileWriter = new FileWriter(new File(DIR+getPath(fullPath)+getName(jCode)+".j"));
+		fileWriter.write(jCode);
+		fileWriter.flush();
+		fileWriter.close();
+	}
+	
+	private static String getPath(String fullPath) {
+		String path = fullPath.substring(0,fullPath.lastIndexOf("/")+1);
+		return path;
+	}
+	
+	private static String getName(String jCode) {
+		String name = jCode.substring(jCode.indexOf(".class public ")+14, jCode.indexOf("\n.super"));
+		return name;
+	}
+	
+	public static void imprimeSaidaComando(InputStream tipoSaida, boolean isError, String message) throws IOException {
+        String linha;
+        BufferedReader input = new BufferedReader(new InputStreamReader(tipoSaida));
+        while ((linha = input.readLine()) != null) {
+            System.out.println(linha);
+        }
+    }
+//	@SuppressWarnings("resource")
+//	public static String loadJFile(String path) throws FileNotFoundException {
+//		Scanner sc = new Scanner(new File(path), "UTF-8");
+//		StringBuilder sb = new StringBuilder();
+//		while (sc.hasNext()) {
+//			String line = sc.nextLine();
+//			sb.append(normalyze(line));
+//		}
+//		return sb.toString();
+//	}
+//	private static String normalyze(String str) {
+//		String temp = Normalizer.normalize(str, java.text.Normalizer.Form.NFD);
+//		return temp.replaceAll("[^\\p{ASCII}]","");
+//	}
 	
 	public static void imprimirLinhas(ArquivoVO arquivo) {
 		for (LinhaVO linha : arquivo.getLinhas()) {
@@ -69,21 +113,6 @@ public class FileUtil {
 		imprimirFilhos(noAux);
 	}
 	
-//	public void test() {
-//		if (this.pai != null) {
-//            for (int i = 0; i < espaco; i++) {
-//                System.out.print(".   ");
-//            }
-//            System.out.print(this.pai.toString());
-//            espaco++;
-//        }
-//        for (No filho : listaFilhos) {
-//            filho.imprimeConteudo();
-//        }
-//        if (this.pai != null) {
-//            espaco--;
-//        }
-//	}
 	private static void imprimirFilhos(NoVO noPai) {
 //		System.out.println("	Filhos de "+noPai.getTokens()+":");
 		if (!noPai.getFilhos().isEmpty()) {

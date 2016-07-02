@@ -43,7 +43,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 	public void analisar(ArquivoVO arquivo) throws Exception {
 		init();
 		ArquivoVO arquivoExecutavel = sintaticoHelper.getArquivoExecutavel(arquivo);
-		this.arquivo = arquivoExecutavel;
+		arquivo.setLinhas(arquivoExecutavel.getLinhas());
+		this.arquivo = arquivo;
 		isMetodo = false;
 		isComando = false;
 		compilar();

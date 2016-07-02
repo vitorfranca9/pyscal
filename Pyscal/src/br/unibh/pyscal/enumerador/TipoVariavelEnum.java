@@ -12,6 +12,10 @@ public enum TipoVariavelEnum {
 				return "i";
 			case STRING:
 				return "a";
+			case DOUBLE:
+				return "d";
+			case BOOL:
+				return "b";
 			default: return null;
 		}
 	}
@@ -20,6 +24,10 @@ public enum TipoVariavelEnum {
 		switch (this) {
 			case INTEGER:
 				return "I";
+			case DOUBLE:
+				return "D";
+			case BOOL:
+				return "B";
 			case STRING:
 				return "Ljava/lang/String;";
 			default: return null;

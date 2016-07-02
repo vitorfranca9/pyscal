@@ -1,0 +1,11 @@
+class Comandos2:
+	def void rodar():
+		double x;
+		x = 2;
+		x = 2.0;
+		x = "2.0"; //throws Exception
+	end;
+	defstatic void main(String[] args):
+		x = 2;
+	end;
+end.

@@ -1,44 +1,71 @@
 package br.unibh.pyscal.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.Normalizer;
-import java.util.Scanner;
 
 import br.unibh.pyscal.enumerador.TipoRetornoMetodoEnum;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.ComandoVO;
 import br.unibh.pyscal.vo.MetodoVO;
 import br.unibh.pyscal.vo.VariavelVO;
-import jasmin.Main;
 
 public class JasminUtil {
-	//TODO validar funções q não são desta responsa(FileUtil...)
 //	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
 	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
-	
-//		private long startTime;
-//		private long endTime;
+	private static final int METHOD_LIMIT_STACK = 30;
+	private static final int METHOD_LIMIT_LOCALS = 30;
+//	private long startTime;
+//	private long endTime;
 	
 	public static String getJ(ArquivoVO arquivo) {
-		StringBuilder code = new StringBuilder(getMain(arquivo));
+		MetodoVO main = null;
+		StringBuilder code = new StringBuilder();
+		code.append(getClasss(arquivo));
+		
 		if (arquivo != null) {
 //			Collections.reverse(arquivo.getClasseVO().getMetodos());
 			for (MetodoVO metodo : arquivo.getClasseVO().getMetodos()) {
-				System.out.println();
-				for (ComandoVO comando : metodo.getComandos()) {
-					code.append(getCmd(metodo, comando));
+				if (!metodo.isMain()) {
+					String method = getMethod(metodo);
+					code.append(method).append("\n");
+				} else {
+					main = metodo;
 				}
 			}
 		}
-		code.append("    return\n");
-		code.append(".end method\n");
+		code.append(getMain(arquivo,main));
 		return code.toString();
+//		code.append("invokestatic ");
+//		code.append(getFileName(arquivo));
+//		code.append("/");
+//		code.append("imprimir");
+//		code.append("()V\n");
+	}
+	
+	public static String getClasss(ArquivoVO arquivo) {
+		return new StringBuilder()
+			.append(getLine(".class public "+arquivo.getNomeArquivo().substring(
+				arquivo.getNomeArquivo().lastIndexOf("/")+1, arquivo.getNomeArquivo().lastIndexOf(".")), null))
+			.append(getLine(".super java/lang/Object", null))
+			.append("\n")
+			.append(getLine(".method public <init>()V", true))
+			.append(getLine("aload_0", true))
+			.append(getLine("invokenonvirtual java/lang/Object/<init>()V", null))
+			.append(getLine("return", null))
+			.append(getLine(".end method", false))
+			.append("\n")
+			.toString();
+	}
+	
+	private static String getMethod(MetodoVO metodo) {
+		StringBuilder method = new StringBuilder()
+			.append(getLine(".method public "+metodo.getNome()+"()"+metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null))
+			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null)).append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null));
+		for (ComandoVO comando : metodo.getComandos()) {
+			method.append(getCmd(metodo, comando));
+		}
+		method.append(getLine(metodo.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
+		.append(getLine(".end method",false));
+		return method.toString();
 	}
 	
 	public static String getCmd(MetodoVO metodo, ComandoVO comando) {
@@ -48,117 +75,57 @@ public class JasminUtil {
 			default: return null; 
 		}
 	}
-	
+//	createWrite(TokenVO,LinhaVO,methodName)
 	public static String getWrite(VariavelVO variavel, TipoRetornoMetodoEnum tipoRetornoMetodoEnum) {
 		return new StringBuilder()
-			.append("ldc ")
-			.append(getValue(variavel))
-			.append("\n")
-			.append(variavel.getTipoVariavel().getAssembleType())
-			.append("store 0\n")
-			.append("getstatic java/lang/System/out Ljava/io/PrintStream;\n")
-			.append(variavel.getTipoVariavel().getAssembleType())
-			.append("load 0\n")
-			.append("invokevirtual java/io/PrintStream/print(")
-			.append(variavel.getTipoVariavel().getAssembleInvokeType())
-			.append(")")
-			.append(tipoRetornoMetodoEnum.getAssembleReturnType())
-			.append("\n")
+			.append(getLine("ldc "+getValue(variavel), null))
+			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store 0", null))
+			.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
+			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load 0", null))
+			.append(getLine("invokevirtual java/io/PrintStream/print("+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
+				tipoRetornoMetodoEnum.getAssembleInvokeType(), null))
 			.toString();
 	}
 	
-	private static String getValue(VariavelVO variavel) {
-		switch (variavel.getTipoVariavel()) {
-			case BOOL:
-				return variavel.getTokem().getValor();
-			case DOUBLE:
-				return variavel.getTokem().getValor();
-			case INTEGER:
-				return variavel.getTokem().getValor();
-			case STRING:
-				return variavel.getTokem().getValor();
-			default: return null;
+	public static String getMain(ArquivoVO arquivo, MetodoVO metodoMain) {
+		StringBuilder main = new StringBuilder();
+		main.append(getLine(".method public static main([Ljava/lang/String;)V", null))
+			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null))
+			.append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null))
+			.append(getClassInstance(arquivo));
+		
+		for (ComandoVO comando : metodoMain.getComandos()) {
+			main.append(getCmd(metodoMain, comando));
 		}
+//		main.append(getLine("invokevirtual "+getFileName(arquivo)+"."+"imprimir()V", null));
+		
+		main.append(getLine(metodoMain.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
+			.append(getLine(".end method",false));
+//		code.append("%object Comandos\n");
+//		code.append("invokespecial ");
+//		code.append(getLine("aload_0",true));
+		return main.toString(); 
 	}
 	
-	public static String getMain(ArquivoVO arquivo) {
-		arquivo.setNomeArquivo("/arquivos_fonte/semantico/Comandos.pys");
-		return new StringBuilder()
-			.append(".class public ")
-			.append(arquivo.getNomeArquivo().substring(
-				arquivo.getNomeArquivo().lastIndexOf("/")+1, arquivo.getNomeArquivo().lastIndexOf(".")))
-			.append("\n")
-			.append(".super java/lang/Object\n")
-			.append(".method public static main([Ljava/lang/String;)V\n")
-			.append(".limit stack 50\n")
-			.append(".limit locals 50\n")
-			.append("")
-			.toString();
+	private static String getClassInstance(ArquivoVO arquivo) {
+		return new StringBuilder(getLine("new "+getFileName(arquivo), true))
+			.append(getLine("dup", null))
+			.append(getLine("invokespecial "+getFileName(arquivo)+"/<init>()V", null)).toString();
 	}
-	
-	public static int func(int i, int j) {
-		return (i + j * 5);
-	}
-	
-	public synchronized static void runAssemble(String jCode) {
-		Main main = new Main();
-		main.assemble(jCode);
-	}
-	
-	@SuppressWarnings("resource")
-	public static String loadJFile(String path) throws FileNotFoundException {
-		Scanner sc = new Scanner(new File(path), "UTF-8");
-		StringBuilder sb = new StringBuilder();
-		while (sc.hasNext()) {
-			String line = sc.nextLine();
-			sb.append(normalyze(line));
-//			System.out.println(line);
-		}
-		return sb.toString();
-	}
-	
-	public static void writeJFile(String fullPath, String jCode) throws IOException {
-		FileWriter fileWriter = new FileWriter(new File(DIR+getPath(fullPath)+getName(jCode)+".j"));
-		fileWriter.write(jCode);
-		fileWriter.flush();
-		fileWriter.close();
-	}
-	
-	private static String getFileName(String fullPath) {
-		String fileName = fullPath.substring(fullPath.lastIndexOf("/")+1, fullPath.lastIndexOf("."));
-		return fileName;
-	}
-	
-	private static String getPath(String fullPath) {
-		String path = fullPath.substring(0,fullPath.lastIndexOf("/")+1);
-		return path;
-	}
-	
-	private static String getName(String jCode) {
-		String name = jCode.substring(jCode.indexOf(".class public ")+14, jCode.indexOf("\n.super"));
-		return name;
-	}
-	
-	public static String normalyze(String str) {
-		String temp = Normalizer.normalize(str, java.text.Normalizer.Form.NFD);
-		return temp.replaceAll("[^\\p{ASCII}]","");
-	}
-	
-	
-	public static void imprimeSaidaComando(InputStream tipoSaida, boolean isError, String message) throws IOException {
-        String linha;
-        BufferedReader input = new BufferedReader(new InputStreamReader(tipoSaida));
-        while ((linha = input.readLine()) != null) {
-            System.out.println(linha);
-        }
-    }
 	
 	public static void jToClass(String fullPath) throws IOException {
 		String jName = DIR + getJName(fullPath);
-		Process cmd = Runtime.getRuntime().exec("java -jar jasmin.jar " + jName);
-		imprimeSaidaComando(cmd.getInputStream(),false,"");
-		imprimeSaidaComando(cmd.getErrorStream(),false,"");	//TODO validar caso tenha erros
+		Process cmd = Runtime.getRuntime().exec("java -jar ./lib/jasmin.jar " + jName);
+		FileUtil.imprimeSaidaComando(cmd.getInputStream(),false,"");
+		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false,"");	//TODO validar caso tenha erros
 		System.out.println();
+	}
+	
+	public static void runClass(String fullPath) throws IOException {
+		String classFileName = getFileName(fullPath);
+		Process cmd = Runtime.getRuntime().exec("java "+classFileName);
+		FileUtil.imprimeSaidaComando(cmd.getInputStream(),false,"");
+		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false,"");
 	}
 	
 	private static String getJName(String fullPath) {
@@ -166,13 +133,66 @@ public class JasminUtil {
 		return jName;
 	}
 	
-	public static void runClass(String fullPath) throws IOException {
-		String classFileName = getFileName(fullPath);
-		Process cmd = Runtime.getRuntime().exec("java "+classFileName);
-        imprimeSaidaComando(cmd.getInputStream(),false,"");
-        imprimeSaidaComando(cmd.getErrorStream(),false,"");
+	private static int identacao = 0;
+	
+	private static String getLine(String valor, Boolean move) {
+		return new StringBuilder(getEspaco(move)).append(valor).append("\n").toString();
 	}
 	
+	private static void move(Boolean move) {
+		if (move != null) {
+			if (move) {
+				identacao++;
+			} else {
+				identacao--;
+			}
+		}
+	}
+	
+	private static String getEspaco(Boolean move) {
+		move(move);
+		StringBuilder barraT = new StringBuilder("");
+		for(int i = 0; i < identacao; i++)
+//			barraT.append("\t");
+			barraT.append("   ");
+			
+		return barraT.toString();
+	}
+	
+	private static String getValue(VariavelVO variavel) {
+		switch (variavel.getTipoVariavel()) {
+		case BOOL:
+			return variavel.getTokem().getValor().toLowerCase();
+		case DOUBLE:
+			return variavel.getTokem().getValor();
+		case INTEGER:
+			return variavel.getTokem().getValor();
+		case STRING:
+			return variavel.getTokem().getValor();
+		default: return null;
+		}
+	}
+	
+	private static String getFileName(ArquivoVO arquivo) {
+		String fileName = arquivo.getLinhas().get(0).getTokens().get(1).getValor();
+		return fileName;
+	}
+	
+	
+	private static String getFileName(String fullPath) {
+		String fileName = fullPath.substring(fullPath.lastIndexOf("/")+1, fullPath.lastIndexOf("."));
+		return fileName;
+	}
+	
+//	public static int func(int i, int j) {
+//		return (i + j * 5);
+//	}
+//	
+//	public synchronized static void runAssemble(String jCode) {
+//		Main main = new Main();
+//		main.assemble(jCode);
+//	}
+//	
 //	private String code = ".class public " + "lexema" + "\n" +
 //  ".super java/lang/Object\n" +
 //  "identa" + ".method public static main([Ljava/lang/String;)V\n" +

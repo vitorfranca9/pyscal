@@ -1,10 +1,11 @@
 class Comandos:
-	/*def void rodar():
-		write("eita");
-		write("opa");
-	end;*/
-	defstatic void main(String[] args):
+	def void imprimir():
 		write("Hello World");
+		//return; //verificar
+	end;
+	defstatic void main(String[] args):
+		//imprimir();
+		//write("Hello World");
 		//write(2);
 		//write("opa");
 	end;
