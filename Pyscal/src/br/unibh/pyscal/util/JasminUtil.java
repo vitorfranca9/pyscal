@@ -25,10 +25,12 @@ public class JasminUtil {
 //	private long endTime;
 	private static int stackPos = 0;
 	private static String className = "";
+	private static ArquivoVO arquivo;
 	
 	
 	public static String getJ(ArquivoVO arquivo) {
 		MetodoVO main = null;
+		JasminUtil.arquivo = arquivo;
 		className = getClassName(arquivo);
 		StringBuilder code = new StringBuilder();
 		code.append(getClasss(arquivo));
@@ -156,6 +158,9 @@ public class JasminUtil {
 
 	private static String getFuncao(MetodoVO metodoPai, MetodoVO metodo) {
 		StringBuilder funcao = new StringBuilder();
+		if (!metodo.isMain()) {
+			funcao.append(getClassInstance(arquivo));
+		}
 		String assemble = "";
 		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) {
 			int pos = 0;
@@ -212,6 +217,7 @@ public class JasminUtil {
 		int pos = 0;
 		for (MetodoVO subMetodo : metodoMain.getSubMetodos()) {
 //			if (subMetodo.getTipoComando().equals(TipoComandoEnum.FUNCAO)) {
+				move(true);
 				main.append(getCmd(metodoMain,subMetodo, pos));
 				pos++;
 //			}
@@ -225,7 +231,7 @@ public class JasminUtil {
 	}
 	
 	private static String getClassInstance(ArquivoVO arquivo) {
-		return new StringBuilder(getLine("new "+getFileName(arquivo), true))
+		return new StringBuilder(getLine("new "+getFileName(arquivo), null))
 			.append(getLine("dup", null))
 			.append(getLine("invokespecial "+getFileName(arquivo)+"/<init>()V", null)).toString();
 	}

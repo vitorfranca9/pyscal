@@ -9,7 +9,7 @@ import br.unibh.pyscal.vo.CompiladorVO;
 public class MainTest {
 	
 	public static void main(String[] args) {
-		String fullPath = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS5;
+		String fullPath = PyscalConstantUtil.ArquivosTesteSemantico.COMANDOS6;
 //		ArquivoVO arquivo = FileUtil.montarArquivo(fullPath);
 		try {
 			CompiladorVO compilador = new CompiladorVO(fullPath);
