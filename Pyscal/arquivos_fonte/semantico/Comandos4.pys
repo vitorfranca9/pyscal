@@ -7,6 +7,7 @@ class Comandos4:
 	
 	defstatic void main(String[] args):
 		imprimir(1,2);
+		write("Hello WOrld!!");
 		//imprimir(1);
 	end;
 end.

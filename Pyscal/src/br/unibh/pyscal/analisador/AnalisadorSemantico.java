@@ -143,12 +143,20 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 			novoMetodo.setComando(semanticoHelper.isComando(getLinhaAtual(), tokenAtual));
 			novoMetodo.setNome(novoMetodo.getTipoComando().toString());
 			novoMetodo.setTipoRetornoMetodo(semanticoHelper.getTipoRetornoMetodo(getLinhaAtual(),tokenAtual));
-			List<VariavelVO> parametros = getParametros(novoMetodo);
-			novoMetodo.setParametros(parametros);
-			novoMetodo.setMetodoPai(metodo);
+			if (metodo.isMain()) {
+//				List<VariavelVO> parametros = getParametros(metodo);
+				List<VariavelVO> parametros = getParametros(novoMetodo);
+				novoMetodo.setParametros(parametros);
+				novoMetodo.setNome(getTokenAtual().getValor());
+				novoMetodo.setMetodoPai(metodo);
+			} else {
+				List<VariavelVO> parametros = getParametrosComando();
+				novoMetodo.setParametros(parametros);
+				novoMetodo.setMetodoPai(metodo);
+			}
 			
-			switch (novoMetodo.getTipoComando()) {
-				case FUNCAO:
+//			switch (novoMetodo.getTipoComando()) {
+//				case FUNCAO:
 					//verificar se método já existe
 					novoMetodo.setNome(getTokenAtual().getValor());
 					List<VariavelVO> novosParametros = new ArrayList<>();
@@ -166,7 +174,9 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 						}
 						
 					}
-					novoMetodo.setParametros(novosParametros);
+//					if (!novosParametros.isEmpty()) {
+//						novoMetodo.setParametros(novosParametros);
+//					}
 					/*for (VariavelVO variavel : parametros) {
 						if (mapaVariaveis.containsKey(getTokenAtual().getValor())) {
 							if (mapaVariaveis.get(getTokenAtual().getValor()).containsKey(variavel)){
@@ -177,10 +187,9 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					}*/
 //					novoMetodo.setParametros(new ArrayList<>(mapaVariaveis.get(getTokenAtual().getValor()).values()));
 					System.out.println();
-				break;
-	
-				default: break;
-			}
+//				break;
+//				default: break;
+//			}
 			
 //		} else {
 //			novoMetodo.setTipoComando(semanticoHelper.getTipoComando(getLinhaAtual(), tokenAtual));
@@ -206,18 +215,6 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 //			metodo.getSubMetodos().add(novoMetodo);
 //		}
 		
-//		variável deve ser resultado da expressão
-//		tokenAtual = getToken(3);
-//		VariavelVO variavel = new VariavelVO();
-//		variavel.setLinha(getLinhaAtual());
-//		tokenAtual.getValor();
-//		variavel.setTokem(tokenAtual);
-//		variavel.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(), tokenAtual));
-//		variavel.setNome(tokenAtual.getValor());
-//		variavel.setTipoVariavel();
-//		comandoVO.getLinhas().add(getLinhaAtual());
-//		comandoVO.setVariavelRetorno(variavel);
-//		comandoVO.setID(isID);
 		metodo.getSubMetodos().add(novoMetodo);
 		contarProximaLinha();
 		System.out.println();
@@ -307,13 +304,11 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 				"Tipo do retorno esperado do método "+metodoVO.getNome()+" é void, não deveria ter retorno", getLinhaAtual(), getTokenAtual());
 		}
 	}
-	
 //	private void validarTipoRetorno() {
 //	}
 	//TODO
 //	private void tratarExpressao() {
 //	}
-	
 	private void tratarMetodo(MetodoVO metodo) throws AnaliseSemanticaException {
 		String nomeMetodo = getToken(3).getValor();
 		if (sintaticoHelper.isPalavraReservadaDefStaticSemErro(getTokenAtual().getPalavraReservada())) {
@@ -329,6 +324,30 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		metodo.setParametros(parametros);
 //		tratarParametros(metodoVO);
 		contarProximaLinha();
+	}
+	
+	private List<VariavelVO> getParametrosComando() throws AnaliseSemanticaException {
+		List<VariavelVO> parametros = new ArrayList<>();
+		LinhaVO linhaAtual = getLinhaAtual();
+		TokenVO tokenAtual = getTokenAtual();
+		TipoComandoEnum tipoComando = semanticoHelper.getTipoComando();
+		switch (tipoComando) {
+			case FUNCAO:
+				parametros = getParametrosDef();
+				break;
+			case WRITE:
+				parametros = getParametrosWrite();
+//				contarProximaLinha();
+				break;
+			case WRITELN:
+				parametros = getParametrosWrite();
+//				contarProximaLinha();
+				break;
+
+			default: break;
+		}
+		
+		return parametros;
 	}
 	
 	private List<VariavelVO> getParametros(MetodoVO metodo) throws AnaliseSemanticaException {
@@ -380,36 +399,62 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		LinhaVO linhaAtual = getLinhaAtual();
 		TokenVO tokenAtual = getTokenAtual();
 		VariavelVO variavelVO = new VariavelVO();
+		variavelVO.setArray(false);
 		
 		while (!sintaticoHelper.isPalavraReservadaFechaParentesesSemErro(getToken(numToken).getPalavraReservada())) {
+			numToken++;
 			TokenVO token = getToken(numToken);
 			variavelVO.setLinha(getLinhaAtual());
 			variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(),getToken(numToken)));
 			variavelVO.setEscopoVariavel(EscopoVariavelEnum.PARAMETRO);
-			variavelVO.setArray(false);
 			variavelVO.setNome(token.getValor());
-			numToken++;
-			token = getToken(numToken);
+			TokenVO proxToken = getToken(numToken+1);
 			
 			if (sintaticoHelper.isPalavraReservadaAbreColcheteSemErro(token.getPalavraReservada())) {
-				numToken = numToken+2;
-				token = getToken(numToken);
+				numToken++;
 				variavelVO.setArray(true);
 			}
 			if (sintaticoHelper.isPalavraReservadaIDSemErro(token.getPalavraReservada())) {
-				variavelVO.setNome(getToken(numToken).getValor());
+				variavelVO.setNome(token.getValor());
 				variavelVO.setTokem(token);
 				parametros.add(variavelVO);
 				adicionarVariavelMapa(metodoVO, variavelVO);
 				variavelVO = new VariavelVO();
 //				parametros.add(variavelVO);
 				numToken++;
-			}
-			if (sintaticoHelper.isPalavraReservadaVirgulaSemErro(getToken(numToken).getPalavraReservada())) {
+			} 
+			if (sintaticoHelper.isPalavraReservadaVirgulaSemErro(token.getPalavraReservada())) {
+				TokenVO tokenAnterior = getToken(numToken-1);
+				if (sintaticoHelper.isPalavraReservadaConstanteSemErro(tokenAnterior.getPalavraReservada())) {
+					variavelVO.setNome(tokenAnterior.getValor());
+					variavelVO.setTokem(tokenAnterior);
+					variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(),tokenAnterior));
+					parametros.add(variavelVO);
+					adicionarVariavelMapa(metodoVO, variavelVO); //buscar o cara no mapa e já trocar e pa
+					variavelVO = new VariavelVO();
+				}
 				numToken++;
 			}
+		} //PEGAR CONSTANTES TAMBEM
+		if (PalavraReservadaEnum.FECHA_PARENTESES.getRegex().equals(variavelVO.getNome())) {
+			TokenVO tokenAnterior = getToken(numToken-1);
+			if (sintaticoHelper.isPalavraReservadaConstanteSemErro(tokenAnterior.getPalavraReservada())) {
+				variavelVO.setNome(tokenAnterior.getValor());
+				variavelVO.setTokem(tokenAnterior);
+				variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(),tokenAnterior));
+				parametros.add(variavelVO);
+				adicionarVariavelMapa(metodoVO, variavelVO); //buscar o cara no mapa e já trocar e pa
+				variavelVO = new VariavelVO();
+			} else if (sintaticoHelper.isPalavraReservadaIDSemErro(tokenAnterior.getPalavraReservada())) {
+				variavelVO.setNome(tokenAnterior.getValor());
+				variavelVO.setTokem(tokenAnterior);
+				variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(),tokenAnterior));
+				parametros.add(variavelVO);
+				adicionarVariavelMapa(metodoVO, variavelVO);
+				variavelVO = new VariavelVO();
+			}
 		}
-		if (variavelVO.getTipoVariavel() != null) {
+		if (variavelVO.getTipoVariavel() != null) { //trocar os parametros do mapa nesse momento?
 			if (!parametros.contains(variavelVO)) {
 				if (!TipoVariavelEnum.ID.equals(variavelVO.getTipoVariavel())) {
 					variavelVO.setTokem(getToken(numToken-1));
@@ -419,40 +464,6 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		}
 		return parametros;
 	}
-	
-	
-	
-	
-//	private void tratarParametros(MetodoVO metodoVO) throws AnaliseSemanticaException {
-//		int numToken = 5;
-//		List<VariavelVO> parametros = new ArrayList<>();
-//		while (!sintaticoHelper.isPalavraReservadaFechaParentesesSemErro(getToken(numToken).getPalavraReservada())) {
-//			TokenVO token = getToken(numToken);
-//			VariavelVO variavelVO = new VariavelVO();
-//			variavelVO.setLinha(getLinhaAtual());
-//			variavelVO.setTipoVariavel(semanticoHelper.getTipoVariavel(metodoVO, getLinhaAtual(),getToken(numToken)));
-//			variavelVO.setEscopoVariavel(EscopoVariavelEnum.PARAMETRO);
-//			variavelVO.setArray(false);
-//			numToken++;
-//			token = getToken(numToken);
-//			
-//			if (sintaticoHelper.isPalavraReservadaAbreColcheteSemErro(token.getPalavraReservada())) {
-//				numToken = numToken+2;
-//				token = getToken(numToken);
-//				variavelVO.setArray(true);
-//			}
-//			if (sintaticoHelper.isPalavraReservadaIDSemErro(token.getPalavraReservada())) {
-//				variavelVO.setNome(getToken(numToken).getValor());
-//				adicionarVariavelMapa(metodoVO, variavelVO);
-//				parametros.add(variavelVO);
-//				numToken++;
-//			}
-//			if (sintaticoHelper.isPalavraReservadaVirgulaSemErro(getToken(numToken).getPalavraReservada())) {
-//				numToken++;
-//			}
-//		}
-//		metodoVO.setParametros(parametros);
-//	}
 	
 //	private void validarMetodoJaExistente(MetodoVO metodoVO) throws AnaliseSemanticaException {
 //		boolean metodoJaExiste = false;
@@ -527,8 +538,9 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 		if (!mapaVariaveis.get(metodoVO.getNome()).containsKey(variavelVO.getNome())) {
 			mapaVariaveis.get(metodoVO.getNome()).put(variavelVO.getNome(), variavelVO);
 		} else {
-			throw new AnaliseSemanticaException(
-				"Variável "+variavelVO.getNome()+" já foi declarada no método "+metodoVO.getNome()+".",getLinhaAtual(),getTokenAtual());
+			System.out.println();
+//			throw new AnaliseSemanticaException(
+//				"Variável "+variavelVO.getNome()+" já foi declarada no método "+metodoVO.getNome()+".",getLinhaAtual(),getTokenAtual());
 		}
 	}
 	
@@ -675,7 +687,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 					return TipoVariavelEnum.ID;
 				case VOID: 
 					throw new AnaliseSemanticaException("Não deve-se declarar variável do tipo void.",linhaAtual, tokenAtual);
-				default: throw new AnaliseSemanticaException("Erro TipoVariavel.",linhaAtual, tokenAtual);
+//				default: throw new AnaliseSemanticaException("Erro TipoVariavel.",linhaAtual, tokenAtual);
+					default: return null;
 			}
 		}
 		

@@ -13,7 +13,6 @@ public class MetodoVO {
 	@Getter @Setter private List<LinhaVO> linhas;
 	@Getter @Setter private List<VariavelVO> parametros;
 	@Getter @Setter private List<VariavelVO> variaveis;
-//	@Getter @Setter private List<ComandoVO> comandos = new ArrayList<>();
 	@Getter @Setter private String nome;
 	@Getter @Setter private TipoRetornoMetodoEnum tipoRetornoMetodo;
 	@Getter @Setter private boolean main;
@@ -26,9 +25,5 @@ public class MetodoVO {
 	@Getter @Setter private List<VariavelVO> variaveisRetorno = new ArrayList<>();
 	@Getter @Setter private List<MetodoVO> subMetodos = new ArrayList<>();
 	@Getter @Setter private MetodoVO metodoPai;
-	
-//	public List<VariavelVO> getParametros() {
-//		return null;
-//	}
 	
 }

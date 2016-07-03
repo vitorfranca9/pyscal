@@ -97,7 +97,13 @@ public class JasminUtil {
 		StringBuilder parameters = new StringBuilder("");
 		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) { 
 			for (VariavelVO v : metodo.getParametros()) {
-				parameters.append(v.getTipoVariavel().getAssembleInvokeType());
+				TokenVO tokenValue = getTokenValue(metodo, v);
+				if (tokenValue != null) {
+					TipoVariavelEnum tipoVariavel = TipoVariavelEnum.getTipoVariavel(metodo, tokenValue);
+					parameters.append(tipoVariavel.getAssembleInvokeType());
+				} else {
+					System.out.println();
+				}
 			}
 		}
 		return parameters.toString();
@@ -115,40 +121,34 @@ public class JasminUtil {
 		}
 	}
 	
-	/*public static String getCmd(MetodoVO metodo, ComandoVO comando) {
-		switch (comando.getTipoComando()) {
-			case WRITE:
-				return getWrite(metodo, comando, true);
-			case WRITELN:
-				return getWrite(metodo, comando, false);
-			case FUNCAO:
-				return getFuncao(metodo, comando);
-			default: return null; 
-		}
-	}*/
-	
 	public static String getWrite(MetodoVO metodoPai, MetodoVO metodo, int pos, boolean isPrint) {
 		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) {
 			if (metodo.getParametros().size() > 1) {
 				//erro
 			}
-			VariavelVO variavel = metodo.getParametros().get(0);
-			if (variavel.getTipoVariavel().equals(TipoVariavelEnum.ID)) {
-				VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodoPai, variavel);
-//				metodo.setVariavelRetorno(variavelMapa);
-				variavel = variavelMapa;
-				System.out.println();
+			
+			StringBuilder write = new StringBuilder();
+			for (VariavelVO variavel : metodo.getParametros()) {
+				if (variavel.getTipoVariavel().equals(TipoVariavelEnum.ID)) {
+					VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodoPai, variavel);
+					variavel = variavelMapa;
+					System.out.println();
+				}
+				write.append(putOnStack(metodo, variavel, null))
+					.append(storeFromStack(variavel, pos, null))
+					.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
+					.append(loadFromStack(variavel, pos, null))
+					.append(getLine("invokevirtual java/io/PrintStream/print"+(isPrint ? "" : "ln")+"("
+						+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
+						metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null));
 			}
-			StringBuilder write = new StringBuilder()
-				.append(putOnStack(metodo, variavel, null))
-				.append(storeFromStack(variavel, pos, null))
-	//			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store_0", null))
-				.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
-	//			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load_0", null))
-				.append(loadFromStack(variavel, pos, null))
-				.append(getLine("invokevirtual java/io/PrintStream/print"+(isPrint ? "" : "ln")+"("
-					+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
-					metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null));
+			
+//			VariavelVO variavel = metodo.getParametros().get(0);
+//			if (variavel.getTipoVariavel().equals(TipoVariavelEnum.ID)) {
+//				VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodoPai, variavel);
+//				variavel = variavelMapa;
+//				System.out.println();
+//			}
 			return write.toString();
 		}
 		return ""; //erro?
@@ -211,10 +211,10 @@ public class JasminUtil {
 //			.append(getLine("bipush 100", null))
 		int pos = 0;
 		for (MetodoVO subMetodo : metodoMain.getSubMetodos()) {
-			if (subMetodo.getTipoComando().equals(TipoComandoEnum.FUNCAO)) {
+//			if (subMetodo.getTipoComando().equals(TipoComandoEnum.FUNCAO)) {
 				main.append(getCmd(metodoMain,subMetodo, pos));
 				pos++;
-			}
+//			}
 		}
 		main.append(getLine(metodoMain.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
 			.append(getLine(".end method",false));
@@ -320,29 +320,66 @@ public class JasminUtil {
 		return value;
 	}
 	
-	private static String getValue2(MetodoVO metodo, VariavelVO variavel) {
-		return "";
+	private static TokenVO getTokenValue(MetodoVO metodo, VariavelVO variavel) {
+		TokenVO value = null;
+		if (variavel != null && variavel.getTipoVariavel() != null) {
+			switch (variavel.getTipoVariavel()) {
+				case BOOL:
+					value = new TokenVO();
+					value.setPalavraReservada(PalavraReservadaEnum.BOOL);
+					if (variavel.getTokem().getValor().equals("true")) {
+						value.setValor("1");
+					} else {
+						value.setValor("0");
+					}
+					break;
+				case DOUBLE:
+					value = new TokenVO();
+					value.setPalavraReservada(PalavraReservadaEnum.DOUBLE);
+					value.setValor(variavel.getTokem().getValor());
+					break;
+				case INTEGER:
+					value = new TokenVO();
+					value.setPalavraReservada(PalavraReservadaEnum.INTEGER);
+					value.setValor(variavel.getTokem().getValor());
+					break;
+				case STRING:
+					value = new TokenVO();
+					value.setPalavraReservada(PalavraReservadaEnum.STRING);
+					value.setValor(variavel.getTokem().getValor());
+					break;
+				case ID:
+					return getValorVariavelMapa(metodo, variavel).getTokem();
+				default: break;
+			}
+		}
+		if (variavel != null && variavel.getTokem() != null) {
+			if (PalavraReservadaEnum.ID.equals(variavel.getTokem().getPalavraReservada())) {
+				return getValorVariavelMapa(metodo, variavel).getTokem();
+			}
+		}
+		return value;
 	}
 	
-	private static String getValue3(MetodoVO metodo, VariavelVO variavel) {
-		switch (variavel.getTokem().getPalavraReservada()) {
-			case BOOL:
-				if (variavel.getTokem().getValor().equals("true")) {
-					return "1";
-				} else {
-					return "0";
-				}
-			case DOUBLE:
-				return variavel.getTokem().getValor();
-			case INTEGER:
-				return variavel.getTokem().getValor();
-			case STRING:
-				return variavel.getTokem().getValor();
-			case ID:
-				return getValue3(metodo, getValorVariavelMapa(metodo, variavel));
-		default: return null;
-		}
-	}
+//	private static String getValue3(MetodoVO metodo, VariavelVO variavel) {
+//		switch (variavel.getTokem().getPalavraReservada()) {
+//			case BOOL:
+//				if (variavel.getTokem().getValor().equals("true")) {
+//					return "1";
+//				} else {
+//					return "0";
+//				}
+//			case DOUBLE:
+//				return variavel.getTokem().getValor();
+//			case INTEGER:
+//				return variavel.getTokem().getValor();
+//			case STRING:
+//				return variavel.getTokem().getValor();
+//			case ID:
+//				return getValue3(metodo, getValorVariavelMapa(metodo, variavel));
+//		default: return null;
+//		}
+//	}
 	
 	private static VariavelVO getValorVariavelMapa(MetodoVO metodo, VariavelVO variavel) {
 		VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodo, variavel);

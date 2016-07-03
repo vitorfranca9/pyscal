@@ -14,11 +14,14 @@
 10 A não atribuição de funções void (int i = funcao(), onde funcao é def void funcao());
 
 //DESAFIOS:
+* comando if, comando while
+* chamar função com parâmetros diferentes
+
 * VENCER EXPRESSÃO(URGENTE)
 * variavel = "1" + 3 - Variáveis vira Variável resultante
-* variavel + variavel - concatenação de variáveis ou expressão matemática
-* integer (-,/,*) double - expressão matemática ou erro
-* integer (<,>,>=,<=,==,!=) - comparação de variáveis (compatíveis?)
+* variavel + variavel - concatenação de variáveis ou expressão matemática //return variavel
+* integer (-,/,*) double - expressão matemática ou erro //return variavel
+* integer (<,>,>=,<=,==,!=) - comparação de variáveis (compatíveis?), //return bool
 * boolean (or,and,!) boolean //boolean ou erro
 * variavel = integer+(integer+integer) //fudeu(erro ;p)
 

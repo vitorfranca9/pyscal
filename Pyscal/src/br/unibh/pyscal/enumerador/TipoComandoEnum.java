@@ -7,4 +7,14 @@ public enum TipoComandoEnum {
 	WRITELN,
 	ATRIBUI,
 	FUNCAO;
+	
+	public static TipoComandoEnum getTipoComando(PalavraReservadaEnum palavraReservada) {
+		switch (palavraReservada) {
+			case IF:
+				return TipoComandoEnum.IF;
+
+			default: return null;
+		}
+	}
+	
 }

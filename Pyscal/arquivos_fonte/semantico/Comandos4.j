@@ -10,12 +10,12 @@
    .method public imprimir(II)V
    .limit stack 30
    .limit locals 30
-      ldc 2
+      ldc 1
       istore_0
       getstatic java/lang/System/out Ljava/io/PrintStream;
       iload_0
       invokevirtual java/io/PrintStream/println(I)V
-      ldc 
+      ldc 2
       istore_1
       getstatic java/lang/System/out Ljava/io/PrintStream;
       iload_1
@@ -29,9 +29,17 @@
       new Comandos4
       dup
       invokespecial Comandos4/<init>()V
-      ldc 2
+      ldc 1
       istore_0
       iload_0
-      invokevirtual Comandos4.imprimir(I)V
+      ldc 2
+      istore_1
+      iload_1
+      invokevirtual Comandos4.imprimir(II)V
+      ldc "Hello WOrld!!"
+      astore_1
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      aload_1
+      invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
       return
    .end method
