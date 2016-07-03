@@ -1,11 +1,18 @@
-class Comandos2:
-	def void rodar():
-		double x;
-		x = 2;
-		x = 2.0;
-		x = "2.0"; //throws Exception
+class Comandos3:
+	def void imprimir(integer i, integer j):
+	//def void imprimir(String i, integer j):
+	//def void imprimir(String i):
+	//def void imprimir(String i):
+	//def void imprimir(String i):
+		writeln(i);
+		writeln(j);
 	end;
+	
 	defstatic void main(String[] args):
-		x = 2;
+		imprimir(1,2);
+		//imprimir("Hello World!!!",2);
+		//imprimir(2);s
+		//imprimir(false);
+		//imprimir(2.9);
 	end;
 end.

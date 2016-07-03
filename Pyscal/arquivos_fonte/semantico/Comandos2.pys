@@ -7,12 +7,12 @@ class Comandos2:
 		//return; //verificar
 	end;
 	defstatic void main(String[] args):
-		write(0.5);
-		writeln(false);
+		//write(0.5);
+		//writeln(false);
 		//write(" "); //verificar
-		write(2);
-		write("Hello World");
-		//imprimir();
+		//write(2);
+		//write("Hello World");
+		imprimir();
 		//write("opa");
 	end;
 end.

@@ -24,30 +24,6 @@
       new Comandos2
       dup
       invokespecial Comandos2/<init>()V
-      ldc2_w 0.5
-      dstore_0
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      dload_0
-      invokevirtual java/io/PrintStream/print(D)V
-      ldc 0
-      istore_0
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      iload_0
-      invokevirtual java/io/PrintStream/println(Z)V
-      ldc 2
-      istore_0
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      iload_0
-      invokevirtual java/io/PrintStream/print(I)V
-      ldc ""
-      astore_0
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      aload_0
-      invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
-      ldc "Hello World"
-      astore_0
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      aload_0
-      invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+      invokevirtual Comandos2.imprimir()V
       return
    .end method

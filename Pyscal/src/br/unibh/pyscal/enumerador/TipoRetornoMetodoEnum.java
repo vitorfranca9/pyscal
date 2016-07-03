@@ -1,5 +1,7 @@
 package br.unibh.pyscal.enumerador;
 
+import br.unibh.pyscal.vo.TokenVO;
+
 public enum TipoRetornoMetodoEnum {
 	BOOL,
 	INTEGER,
@@ -44,6 +46,21 @@ public enum TipoRetornoMetodoEnum {
 		return assembleReturnType;
 	}
 	
+	public static TipoRetornoMetodoEnum getTipoRetornoMetodo(TokenVO tokenAtual) {
+		switch (tokenAtual.getPalavraReservada()) {
+			case VOID:
+				return TipoRetornoMetodoEnum.VOID;
+			case BOOL:
+				return TipoRetornoMetodoEnum.BOOL;
+			case INTEGER:
+				return TipoRetornoMetodoEnum.INTEGER;
+			case DOUBLE:
+				return TipoRetornoMetodoEnum.DOUBLE;
+			case STRING:
+				return TipoRetornoMetodoEnum.STRING;
+			default: return null;
+		}
+	}
 	
 	
 }

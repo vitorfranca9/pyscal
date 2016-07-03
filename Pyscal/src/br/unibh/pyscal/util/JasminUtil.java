@@ -1,12 +1,19 @@
 package br.unibh.pyscal.util;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
-import br.unibh.pyscal.analisador.AnalisadorSintaticoHelper;
+import br.unibh.pyscal.analisador.AnalisadorSemantico;
+import br.unibh.pyscal.analisador.AnalisadorSemantico.SemanticoHelper;
+import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
+import br.unibh.pyscal.enumerador.TipoComandoEnum;
 import br.unibh.pyscal.enumerador.TipoRetornoMetodoEnum;
+import br.unibh.pyscal.enumerador.TipoVariavelEnum;
 import br.unibh.pyscal.vo.ArquivoVO;
 import br.unibh.pyscal.vo.ComandoVO;
 import br.unibh.pyscal.vo.MetodoVO;
+import br.unibh.pyscal.vo.TokenVO;
 import br.unibh.pyscal.vo.VariavelVO;
 
 public class JasminUtil {
@@ -16,24 +23,29 @@ public class JasminUtil {
 	private static final int METHOD_LIMIT_LOCALS = 30;
 //	private long startTime;
 //	private long endTime;
+	private static int stackPos = 0;
+	private static String className = "";
+	
 	
 	public static String getJ(ArquivoVO arquivo) {
 		MetodoVO main = null;
+		className = getClassName(arquivo);
 		StringBuilder code = new StringBuilder();
 		code.append(getClasss(arquivo));
-		
+		String mainCode = "";
 		if (arquivo != null) {
-//			Collections.reverse(arquivo.getClasseVO().getMetodos());
+			Collections.reverse(arquivo.getClasseVO().getMetodos());
 			for (MetodoVO metodo : arquivo.getClasseVO().getMetodos()) {
 				if (!metodo.isMain()) {
 					String method = getMethod(metodo);
 					code.append(method).append("\n");
 				} else {
 					main = metodo;
+					mainCode = getMain(arquivo,main);
 				}
 			}
 		}
-		code.append(getMain(arquivo,main));
+		code.append(mainCode);
 		return code.toString();
 //		code.append("invokestatic ");
 //		code.append(getFileName(arquivo));
@@ -44,8 +56,7 @@ public class JasminUtil {
 	
 	public static String getClasss(ArquivoVO arquivo) {
 		return new StringBuilder()
-			.append(getLine(".class public "+arquivo.getNomeArquivo().substring(
-				arquivo.getNomeArquivo().lastIndexOf("/")+1, arquivo.getNomeArquivo().lastIndexOf(".")), null))
+			.append(getLine(".class public "+getClassName(arquivo), null))
 			.append(getLine(".super java/lang/Object", null))
 			.append("\n")
 			.append(getLine(".method public <init>()V", true))
@@ -57,42 +68,118 @@ public class JasminUtil {
 			.toString();
 	}
 	
+	private static String getClassName(ArquivoVO arquivo) {
+		return arquivo.getNomeArquivo().substring(
+				arquivo.getNomeArquivo().lastIndexOf("/")+1, arquivo.getNomeArquivo().lastIndexOf("."));
+	}
+	
 	private static String getMethod(MetodoVO metodo) {
 		StringBuilder method = new StringBuilder()
-			.append(getLine(".method public "+metodo.getNome()+"()"+metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null))
+			.append(getLine(".method public "+metodo.getNome()+"("+getParameters(metodo)+")"
+				+metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null))
 			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null)).append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null));
-		for (ComandoVO comando : metodo.getComandos()) {
-			move(true);
-			method.append(getCmd(metodo, comando));
+		boolean first = true;
+		int pos = 0;
+		for (MetodoVO subMetodo : metodo.getSubMetodos()) {
+			if (first) {
+				move(true);
+				first = false;
+			}
+			method.append(getCmd(metodo, subMetodo, pos));
+			pos++;
 		}
 		method.append(getLine(metodo.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
 		.append(getLine(".end method",false));
 		return method.toString();
 	}
 	
-	public static String getCmd(MetodoVO metodo, ComandoVO comando) {
-		switch (comando.getTipoComando()) {
+	private static String getParameters(MetodoVO metodo) {
+		StringBuilder parameters = new StringBuilder("");
+		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) { 
+			for (VariavelVO v : metodo.getParametros()) {
+				parameters.append(v.getTipoVariavel().getAssembleInvokeType());
+			}
+		}
+		return parameters.toString();
+	}
+	
+	public static String getCmd(MetodoVO metodoPai, MetodoVO metodo, int pos) {
+		switch (metodo.getTipoComando()) {
 			case WRITE:
-				return getWrite(comando.getVariavelRetorno(), metodo.getTipoRetornoMetodo(), true);
+				return getWrite(metodoPai, metodo, pos, true);
 			case WRITELN:
-				return getWrite(comando.getVariavelRetorno(), metodo.getTipoRetornoMetodo(), false);
+				return getWrite(metodoPai, metodo, pos, false);
+			case FUNCAO:
+				return getFuncao(metodoPai, metodo);
 			default: return null; 
 		}
 	}
-//	createWrite(TokenVO,LinhaVO,methodName)
-	public static String getWrite(VariavelVO variavel, TipoRetornoMetodoEnum tipoRetornoMetodoEnum, boolean isPrint) {
-		return new StringBuilder()
-			.append(putOnStack(variavel, null))
-			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store_0", null))
-			.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
-			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load_0", null))
-			.append(getLine("invokevirtual java/io/PrintStream/print"+(isPrint ? "" : "ln")+"("
-				+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
-				tipoRetornoMetodoEnum.getAssembleInvokeType(), null))
-			.toString();
+	
+	/*public static String getCmd(MetodoVO metodo, ComandoVO comando) {
+		switch (comando.getTipoComando()) {
+			case WRITE:
+				return getWrite(metodo, comando, true);
+			case WRITELN:
+				return getWrite(metodo, comando, false);
+			case FUNCAO:
+				return getFuncao(metodo, comando);
+			default: return null; 
+		}
+	}*/
+	
+	public static String getWrite(MetodoVO metodoPai, MetodoVO metodo, int pos, boolean isPrint) {
+		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) {
+			if (metodo.getParametros().size() > 1) {
+				//erro
+			}
+			VariavelVO variavel = metodo.getParametros().get(0);
+			if (variavel.getTipoVariavel().equals(TipoVariavelEnum.ID)) {
+				VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodoPai, variavel);
+//				metodo.setVariavelRetorno(variavelMapa);
+				variavel = variavelMapa;
+				System.out.println();
+			}
+			StringBuilder write = new StringBuilder()
+				.append(putOnStack(metodo, variavel, null))
+				.append(storeFromStack(variavel, pos, null))
+	//			.append(getLine(variavel.getTipoVariavel().getAssembleType() + "store_0", null))
+				.append(getLine("getstatic java/lang/System/out Ljava/io/PrintStream;", null))
+	//			.append(getLine(variavel.getTipoVariavel().getAssembleType()+"load_0", null))
+				.append(loadFromStack(variavel, pos, null))
+				.append(getLine("invokevirtual java/io/PrintStream/print"+(isPrint ? "" : "ln")+"("
+					+variavel.getTipoVariavel().getAssembleInvokeType()+")"+
+					metodo.getTipoRetornoMetodo().getAssembleInvokeType(), null));
+			return write.toString();
+		}
+		return ""; //erro?
+	}
+
+	private static String getFuncao(MetodoVO metodoPai, MetodoVO metodo) {
+		StringBuilder funcao = new StringBuilder();
+		String assemble = "";
+		if (metodo.getParametros() != null && !metodo.getParametros().isEmpty()) {
+			int pos = 0;
+			for (VariavelVO parametro : metodo.getParametros()) {
+				assemble += parametro.getTipoVariavel().getAssembleInvokeType();
+				funcao.append(putOnStack(metodo, parametro, null));
+				funcao.append(storeFromStack(parametro, pos, null));
+				funcao.append(loadFromStack(parametro, pos, null));
+				pos++;
+			}
+		}
+		StringBuilder line = new StringBuilder("invokevirtual ")
+			.append(className).append(".").append(metodo.getNome()).append("(")
+			.append(assemble).append(")").append(metodo.getTipoRetornoMetodo().getAssembleInvokeType());
+		funcao.append(getLine(line.toString(), null));
+		return funcao.toString();
 	}
 	
-	private static String putOnStack(VariavelVO variavel, Boolean move) {
+	private static String getParametrosFuncao() {
+		StringBuilder parametros = new StringBuilder();
+		return parametros.toString();
+	}
+	
+	private static String putOnStack(MetodoVO metodo, VariavelVO variavel, Boolean move) {
 		StringBuilder ldc = new StringBuilder();
 		switch (variavel.getTipoVariavel()) {
 			case DOUBLE:
@@ -102,8 +189,16 @@ public class JasminUtil {
 				ldc.append("ldc ");
 				break;
 		}
-		ldc.append(getValue(variavel));
+		ldc.append(getValue(metodo, variavel));
 		return getLine(ldc.toString(), move);
+	}
+	
+	private static String storeFromStack(VariavelVO variavel, int pos, Boolean move) {
+		return getLine(variavel.getTipoVariavel().getAssembleType() + "store_"+pos, move);
+	}
+	
+	private static String loadFromStack(VariavelVO variavel, int pos, Boolean move) {
+		return getLine(variavel.getTipoVariavel().getAssembleType()+"load_"+pos, null);
 	}
 	
 	public static String getMain(ArquivoVO arquivo, MetodoVO metodoMain) {
@@ -111,16 +206,16 @@ public class JasminUtil {
 		main.append(getLine(".method public static main([Ljava/lang/String;)V", null))
 			.append(getLine(".limit stack "+METHOD_LIMIT_STACK, null))
 			.append(getLine(".limit locals "+METHOD_LIMIT_LOCALS, null))
-			.append(getClassInstance(arquivo))
+			.append(getClassInstance(arquivo));
 //			.append(getLine("aload_0", null))
 //			.append(getLine("bipush 100", null))
-			;
-		
-		for (ComandoVO comando : metodoMain.getComandos()) {
-			main.append(getCmd(metodoMain, comando));
+		int pos = 0;
+		for (MetodoVO subMetodo : metodoMain.getSubMetodos()) {
+			if (subMetodo.getTipoComando().equals(TipoComandoEnum.FUNCAO)) {
+				main.append(getCmd(metodoMain,subMetodo, pos));
+				pos++;
+			}
 		}
-//		main.append(getLine("invokevirtual "+getFileName(arquivo)+"."+"imprimir()V", null));
-		
 		main.append(getLine(metodoMain.getTipoRetornoMetodo().getAssembleReturnType()+"return", null))
 			.append(getLine(".end method",false));
 //		code.append("%object Comandos\n");
@@ -181,23 +276,77 @@ public class JasminUtil {
 		return barraT.toString();
 	}
 	
-	private static String getValue(VariavelVO variavel) {
-		switch (variavel.getTipoVariavel()) {
-		case BOOL:
-			if (variavel.getTokem().getValor().equals("true")) {
-				return "1";
-			} else {
-				return "0";
+	private static String getValue(MetodoVO metodo, VariavelVO variavel) {
+		String value = "";
+		if (variavel != null && variavel.getTipoVariavel() != null) {
+			switch (variavel.getTipoVariavel()) {
+				case BOOL:
+					if (variavel.getTokem().getValor().equals("true")) {
+//						return "1";
+						value = "1";
+					} else {
+//						return "0";
+						value = "0";
+					}
+					break;
+//					return variavel.getTokem().getValor().toLowerCase();
+				case DOUBLE:
+//					return variavel.getTokem().getValor();
+					value = variavel.getTokem().getValor();
+					break;
+				case INTEGER:
+//					return variavel.getTokem().getValor();
+					value = variavel.getTokem().getValor();
+					break;
+				case STRING:
+//					return variavel.getTokem().getValor();
+					value = variavel.getTokem().getValor();
+					break;
+				case ID:
+					return getValue(metodo, getValorVariavelMapa(metodo, variavel));
+//					VariavelVO valorVariavelMapa = getValorVariavelMapa(metodo, variavel);
+//					return valorVariavelMapa.getTokem().getValor();
+				default:
+					
+					break;
+//					return null;
 			}
-//			return variavel.getTokem().getValor().toLowerCase();
-		case DOUBLE:
-			return variavel.getTokem().getValor();
-		case INTEGER:
-			return variavel.getTokem().getValor();
-		case STRING:
-			return variavel.getTokem().getValor();
+		}
+		if (variavel != null && variavel.getTokem() != null) {
+			if (PalavraReservadaEnum.ID.equals(variavel.getTokem().getPalavraReservada())) {
+				return getValue(metodo, getValorVariavelMapa(metodo, variavel));
+			}
+		}
+		return value;
+	}
+	
+	private static String getValue2(MetodoVO metodo, VariavelVO variavel) {
+		return "";
+	}
+	
+	private static String getValue3(MetodoVO metodo, VariavelVO variavel) {
+		switch (variavel.getTokem().getPalavraReservada()) {
+			case BOOL:
+				if (variavel.getTokem().getValor().equals("true")) {
+					return "1";
+				} else {
+					return "0";
+				}
+			case DOUBLE:
+				return variavel.getTokem().getValor();
+			case INTEGER:
+				return variavel.getTokem().getValor();
+			case STRING:
+				return variavel.getTokem().getValor();
+			case ID:
+				return getValue3(metodo, getValorVariavelMapa(metodo, variavel));
 		default: return null;
 		}
+	}
+	
+	private static VariavelVO getValorVariavelMapa(MetodoVO metodo, VariavelVO variavel) {
+		VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(metodo, variavel);
+		return variavelMapa;
 	}
 	
 	private static String getFileName(ArquivoVO arquivo) {
@@ -209,6 +358,45 @@ public class JasminUtil {
 		String fileName = fullPath.substring(fullPath.lastIndexOf("/")+1, fullPath.lastIndexOf("."));
 		return fileName;
 	}
+	
+//	String invokeMock = getInvokeMock(arquivo);
+//	main.append(invokeMock);
+	
+//	private static String getInvokeMock(ArquivoVO arquivo) {
+//		StringBuilder mock = new StringBuilder();
+//		MetodoVO m = new MetodoVO();
+//		m.setNome("imprimir");
+//		TokenVO t = new TokenVO();
+//		t.setPalavraReservada(PalavraReservadaEnum.INTEGER);
+//		t.setValor("12");
+//		t.setPalavraReservada(PalavraReservadaEnum.STRING);
+//		t.setValor("\"Kakaka\"");
+//		t.setPalavraReservada(PalavraReservadaEnum.DOUBLE);
+//		t.setValor("654.92");
+//		t.setPalavraReservada(PalavraReservadaEnum.BOOL);
+//		t.setValor("false");
+//		VariavelVO v = new VariavelVO();
+//		v.setTipoVariavel(TipoVariavelEnum.getTipoVariavel(m, t));
+//		v.setTokem(t);
+//		v.setNome("i");
+//		VariavelVO variavelMapa = AnalisadorSemantico.getVariavelMapa(m, v);
+//		variavelMapa.setTokem(t);
+//		m.setTipoRetornoMetodo(TipoRetornoMetodoEnum.getTipoRetornoMetodo(t));
+//		mock.append(putOnStack(m, v, null));
+//		mock.append(storeFromStack(v, 0, null));
+//		mock.append(loadFromStack(v, 0, null));
+//		mock.append(getLine("invokevirtual "+getFileName(arquivo)+"."+"imprimir("+
+//		TipoVariavelEnum.getTipoVariavel(m, t).getAssembleInvokeType()+")V", null));
+//		mock.append("ldc 1\n").append("istore_0\n").append("iload_0\n").append("ldc j\n").append("istore_1\n")
+//			.append("iload_1\n");
+//		return mock.toString();
+//		ldc i
+//	    istore_0
+//	    iload_0
+//	    ldc j
+//	    istore_1
+//	    iload_1
+//	}
 	
 //	public static int func(int i, int j) {
 //		return (i + j * 5);
@@ -273,15 +461,24 @@ public class JasminUtil {
 	/*".class public Codigo 	.super java/lang/Object 		
 	.method public static func(II)I 
 	.limit stack 10 .limit locals 10 	
-	  iload 1 ldc 5
-	  imul iload 0 iadd 	
+	  iload 1 
+	  ldc 5
+	  imul 
+	  iload 0 
+	  iadd 	
 	  ireturn 		
 	.end method 	
 	.method public static main([Ljava/lang/String;)V 
 	.limit stack 10 .limit locals 10 
-	  ldc 5 istore 0 ldc 2 istore 1 
+	  ldc 5 
+	  istore 0 
+	  ldc 2 
+	  istore 1 
 	  ;println getstatic java/lang/System/out/
-	  println Ljava/io/PrintStream; iload 0 iload 1 invokestatic Codigo/func(II)I 
+	  println Ljava/io/PrintStream; 
+	  iload 0 
+	  iload 1 
+	  invokestatic Codigo/func(II)I 
 	  invokevirtual java/io/PrintStream/println(I)V  
 	return 		
 	.end method");*/

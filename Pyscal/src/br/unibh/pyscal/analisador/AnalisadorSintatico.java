@@ -51,7 +51,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 		noClasse.getFilhos().add(noMain);
 		arquivo.setNoRaiz(noClasse);
 		System.out.println();
-		System.out.println();
 //		FileUtil.imprimirAST(arquivo);
 	}
 	
@@ -177,7 +176,6 @@ public class AnalisadorSintatico extends AnalisadorAbstrato {
 //		while (!declaraIDS.getFilhos().isEmpty()) {
 //			NoVO filho = declaraIDS.getFilhos().get(0);
 //			NoVO neto = filho.getFilhos().get(0);
-//			System.out.println();
 //		}
 //		return null;
 //	}

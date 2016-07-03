@@ -1,10 +1,14 @@
 package br.unibh.pyscal.enumerador;
 
+import br.unibh.pyscal.vo.MetodoVO;
+import br.unibh.pyscal.vo.TokenVO;
+
 public enum TipoVariavelEnum {
 	BOOL,
 	INTEGER,
 	STRING,
-	DOUBLE
+	DOUBLE,
+	ID //buscar do mapa
 	,VOID//?
 	;
 	
@@ -39,4 +43,31 @@ public enum TipoVariavelEnum {
 		}
 //		return getAssembleType().toUpperCase();
 	}
+	
+	public static TipoVariavelEnum getTipoVariavel(MetodoVO metodo, TokenVO tokenAtual) {
+		switch (tokenAtual.getPalavraReservada()) {
+			case TRUE:
+				return TipoVariavelEnum.BOOL;
+			case FALSE:
+				return TipoVariavelEnum.BOOL;
+			case BOOL:
+				return TipoVariavelEnum.BOOL;
+			case INTEGER:
+				return TipoVariavelEnum.INTEGER;
+			case CONSTINTEGER:
+				return TipoVariavelEnum.INTEGER;
+			case DOUBLE:
+				return TipoVariavelEnum.DOUBLE;
+			case CONSTDOUBLE:
+				return TipoVariavelEnum.DOUBLE;
+			case STRING:
+				return TipoVariavelEnum.STRING;
+			case CONSTSTRING:
+				return TipoVariavelEnum.STRING;
+			case ID:
+				return TipoVariavelEnum.ID;
+			default: return null;
+		}
+	}
+	
 }
