@@ -5,8 +5,10 @@ import java.util.List;
 import br.unibh.pyscal.enumerador.EscopoVariavelEnum;
 import br.unibh.pyscal.enumerador.TipoVariavelEnum;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString(of={"linha","nome","tokem"})
 public class VariavelVO {
 	private LinhaVO linha;
 	private TipoVariavelEnum tipoVariavel;

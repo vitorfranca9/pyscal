@@ -54,6 +54,11 @@ public interface PyscalConstantUtil {
 		String COMANDOS5 = ARQUIVO_FONTE + SEMANTICO + "Comandos5.pys";
 		String COMANDOS6 = ARQUIVO_FONTE + SEMANTICO + "Comandos6.pys";
 		String COMANDOS7 = ARQUIVO_FONTE + SEMANTICO + "Comandos7.pys";
+		String COMANDOS8 = ARQUIVO_FONTE + SEMANTICO + "Comandos8.pys";
+		String COMANDOS9 = ARQUIVO_FONTE + SEMANTICO + "Comandos9.pys";
+		String COMANDOS10 = ARQUIVO_FONTE + SEMANTICO + "Comandos10.pys";
+		String COMANDOS11 = ARQUIVO_FONTE + SEMANTICO + "Comandos11.pys";
+		String APRESENTACAO_TP2 = ARQUIVO_FONTE + SEMANTICO + "ApresentacaoTP2.pys";
 	}
 	
 	interface ArquivosTesteOutros {
@@ -63,3 +68,4 @@ public interface PyscalConstantUtil {
 	}
 	
 }
+

@@ -1,10 +1,10 @@
 //TODO: 
 
-1 Declaração duplicada na função(mapa de variáveis por função); OK
-2 Declaração somente dos tipos permitidos(excluir void); OK
+1 Declaração duplicada na função(mapa de variáveis por função); //OK
+2 Declaração somente dos tipos permitidos(excluir void); //OK
 3 Utilização de identificadores antes da declaração(usar variavel antes de declarar);
 4 Resultado das expressões(int + double = double,etc);
-5 Resultado das expressoes dos comandos devem ser bool( if (DEVE_RETORNAR_BOOL) );
+5 Resultado das expressoes dos comandos devem ser bool( if (DEVE_RETORNAR_BOOL) ); //maromeno
 6 Tipo do índice do vetor int( vector v[const_int ou id do tipo int] );
 7 Em uma atribuição, a expressão que recebe o valor deve ser um ID ou uma posição de vetor COMPATIVEL 
 	com o valor atribuido(a(int) = 2, b[1](String) = "b");

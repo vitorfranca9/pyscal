@@ -1,0 +1,11 @@
+class ApresentacaoTP2:
+	defstatic void main(String[] args):
+		integer x;
+		x = 5;
+		if (x < 10 or a > 290.0):
+			//integer_input("");
+			writeln("opa");
+			
+		end;	
+	end;
+end.

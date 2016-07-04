@@ -24,6 +24,7 @@ public class MetodoVO {
 	@Getter @Setter private VariavelVO variavelRetorno;
 	@Getter @Setter private List<VariavelVO> variaveisRetorno = new ArrayList<>();
 	@Getter @Setter private List<MetodoVO> subMetodos = new ArrayList<>();
+	@Getter @Setter private List<MetodoVO> subMetodosFalse = new ArrayList<>();
 	@Getter @Setter private MetodoVO metodoPai;
 	
 }

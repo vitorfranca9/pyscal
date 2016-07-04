@@ -1,0 +1,13 @@
+class Comandos8:
+	defstatic void main(String[] args):
+		//integer y;
+		bool w;
+		double x;
+		//y = 22;
+		x = 2.4;
+		w = true;
+		//writeln(y);
+		writeln(w);
+		writeln(x);
+	end;
+end.

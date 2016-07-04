@@ -44,7 +44,7 @@ public enum TipoVariavelEnum {
 //		return getAssembleType().toUpperCase();
 	}
 	
-	public static TipoVariavelEnum getTipoVariavel(MetodoVO metodo, TokenVO tokenAtual) {
+	public static TipoVariavelEnum getTipoVariavel(TokenVO tokenAtual) {
 		switch (tokenAtual.getPalavraReservada()) {
 			case TRUE:
 				return TipoVariavelEnum.BOOL;

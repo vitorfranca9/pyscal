@@ -1,0 +1,13 @@
+class Comandos10:
+	defstatic void main(String[] args):
+		//vector[] x;
+		x = 2;
+		//integer x;
+		//x = "Opa";
+		//if (2):
+		//while(2):
+		//end;
+		//integer x;
+		//x = 2;
+	end;
+end.

@@ -1,0 +1,9 @@
+class Comandos9:
+	defstatic void main(String[] args):
+		if (true):
+			write("if");
+		//else
+			//write("else");
+		end;
+	end;
+end.

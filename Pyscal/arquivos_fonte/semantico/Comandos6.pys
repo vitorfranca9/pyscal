@@ -1,12 +1,16 @@
-class Comandos5:
-	def void imprimir1(String i, integer j, integer k, integer l):
+class Comandos6:
+	/*def void imprimir2(String i): //variavel nao existe, criar no mapa e/ou buscar do pai
+		writeln(i);
+	end;*/
+	def void imprimir1(String i, integer j, bool k, double l):
+		//writeln(i);
+		writeln(j);
 		writeln(k);
 		writeln(l);
-		writeln(i);
-		writeln(j);
+		//imprimir2(i);
 	end;
 	defstatic void main(String[] args):
-		imprimir1("Hello Girl",2,3,4);
+		imprimir1("Hello ",1, true, 2.32);
 		write("Hello WOrld!!");
 	end;
 end.

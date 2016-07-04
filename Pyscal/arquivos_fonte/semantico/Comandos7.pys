@@ -1,11 +1,28 @@
-class Comandos2:
-	def void rodar():
-		double x;
-		x = 2;
-		x = 2.0;
-		x = "2.0"; //throws Exception
-	end;
+class Comandos7:
+	/*def void imprimir1(String i):
+		write(i);
+	end;*/
 	defstatic void main(String[] args):
-		x = 2;
+		integer y;
+		bool w;
+		//double x;
+		y = 22;
+		w = false;
+		//w = false;
+		//x = 2.84;
+		writeln(y);
+		writeln(w);
+		//writeln(x);
+		
+		//integer v;
+		//v = 99;
+		//writeln(y);
+		
+		//String ainda nao ta rolando
+		//String z;
+		//z = "Hello!";
+		//writeln(z);
+		//imprimir1(x);
+		//write("Hello World");
 	end;
 end.
