@@ -1,9 +1,20 @@
 class Comandos9:
 	defstatic void main(String[] args):
-		if (true):
-			write("if");
-		//else
-			//write("else");
+		while(true):
+			writeln(1);
+			writeln(2);
+			writeln(3);
+			writeln(4);
+			writeln(5);
 		end;
+		
+		/*bool x;
+		x = true;
+		if (x):
+			writeln(1);
+			//writeln(2);
+		//else
+			//write(2);
+		end;*/
 	end;
 end.

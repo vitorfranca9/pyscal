@@ -16,7 +16,8 @@ import br.unibh.pyscal.vo.NoVO;
 import br.unibh.pyscal.vo.TokenVO;
 
 public class FileUtil {
-	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
+//	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
+	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
 	
 	@SuppressWarnings("resource")
 	public static ArquivoVO montarArquivo(String fullPath) throws FileNotFoundException {

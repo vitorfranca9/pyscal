@@ -26,5 +26,4 @@ public class MetodoVO {
 	@Getter @Setter private List<MetodoVO> subMetodos = new ArrayList<>();
 	@Getter @Setter private List<MetodoVO> subMetodosFalse = new ArrayList<>();
 	@Getter @Setter private MetodoVO metodoPai;
-	
 }

@@ -1,0 +1,30 @@
+class Comandos10:
+	
+	def void print(integer x):
+		write(x);
+	end;
+	defstatic void main(String[] args):
+		//integer a;
+		//a = 2;
+		//print(a);
+		print(2);
+	end;
+	
+	//defstatic void print(integer x):
+		//write(x);
+	//end;
+	
+	//defstatic void main(String[] args):
+		//integer opa;
+		//opa = 6;
+		//print(opa);
+	//end;
+	
+	//defstatic void main(String[] args):
+		//bool x;
+		//x = true;
+		//if (x):
+			//write(2);
+		//end;
+	//end;
+end.
