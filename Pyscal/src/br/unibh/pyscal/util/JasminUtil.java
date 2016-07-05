@@ -16,8 +16,8 @@ import br.unibh.pyscal.vo.TokenVO;
 import br.unibh.pyscal.vo.VariavelVO;
 
 public class JasminUtil {
-	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal";
-//	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
+//	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal";
+	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal";
 	private static final int METHOD_LIMIT_STACK = 50;
 	private static final int METHOD_LIMIT_LOCALS = 50;
 //	private long startTime;
