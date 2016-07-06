@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 import br.unibh.pyscal.enumerador.EscopoVariavelEnum;
 import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
 import br.unibh.pyscal.enumerador.TipoComandoEnum;
@@ -26,8 +27,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 	//tudo é map? treemap? ;PP
 //	private ClasseVO classe;
 //	@Getter private static Map<String, Map<String, VariavelVO>> mapaVariaveis;
-	@Getter private static Map<String, Map<EnderecoStackVO,VariavelVO>> mapaStack;
-	@Getter private static int stackIndex = 0;
+	@Getter @Setter private static Map<String, Map<EnderecoStackVO,VariavelVO>> mapaStack;
+	@Getter @Setter private static int stackIndex = 0;
 //	private TreeMap<String, VariavelVO> treeMapVariavel = new TreeMap<>();
 //	private Map<String, MetodoVO> mapaMetodos = new HashMap<>();
 	@Getter private static AnalisadorSintaticoHelper sintaticoHelper;

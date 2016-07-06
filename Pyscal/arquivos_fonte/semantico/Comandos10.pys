@@ -1,9 +1,12 @@
+
+
+
 class Comandos10:
-	def void funcao(integer x):
-		writeln(x);
+
+	def void funcao(integer i):
+		write(i);
 	end;
-	
 	defstatic void main(String[] args):
-		funcao(5);
+		funcao(2);
 	end;
 end.

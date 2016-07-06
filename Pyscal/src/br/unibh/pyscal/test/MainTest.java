@@ -14,7 +14,7 @@ public class MainTest {
 		try {
 			CompiladorVO compilador = new CompiladorVO(fullPath);
 			compilador.analisar();
-			compilador.compilar(fullPath);
+			compilador.compilar();
 			compilador.rodar();
 		} catch (Exception e) {
 			if (e instanceof AnaliseLexicaException) {

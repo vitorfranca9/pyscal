@@ -16,8 +16,13 @@ import br.unibh.pyscal.vo.NoVO;
 import br.unibh.pyscal.vo.TokenVO;
 
 public class FileUtil {
-	private static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
+	public static final String DIR = "/home/vitor/Documents/ambienteJava/gitRepository/pyscal/Pyscal/";
 //	private static final String DIR = "D:/Users/p065815/git/pyscal/Pyscal/";
+	
+	public static String resultadoJ = "";
+	public static String resultadoJErro = "";
+	public static String resultadoClass = "";
+	public static String resultadoClassErro = "";
 	
 	@SuppressWarnings("resource")
 	public static ArquivoVO montarArquivo(String fullPath) throws FileNotFoundException {
@@ -36,8 +41,17 @@ public class FileUtil {
 	}
 	
 	public static void writeJFile(String fullPath, String jCode) throws IOException {
-		FileWriter fileWriter = new FileWriter(new File(DIR+getPath(fullPath)+getName(jCode)+".j"));
+		String local = DIR+getPath(fullPath)+getName(jCode)+".j";
+		FileWriter fileWriter = new FileWriter(new File(local));
 		fileWriter.write(jCode);
+		fileWriter.flush();
+		fileWriter.close();
+	}
+	
+	public static void writePysFile(String fullPath, String pysCode) throws IOException {
+		String local = DIR+getPath(fullPath)+getPysName(pysCode)+".pys";
+		FileWriter fileWriter = new FileWriter(new File(local));
+		fileWriter.write(pysCode);
 		fileWriter.flush();
 		fileWriter.close();
 	}
@@ -47,18 +61,52 @@ public class FileUtil {
 		return path;
 	}
 	
-	private static String getName(String jCode) {
-		String name = jCode.substring(jCode.indexOf(".class public ")+14, jCode.indexOf("\n.super"));
+	private static String getPysName(String jCode) {
+		String name = jCode.substring(jCode.indexOf("class ")+6, jCode.indexOf(":"));
 		return name;
 	}
 	
-	public static void imprimeSaidaComando(InputStream tipoSaida, boolean isError, String message) throws IOException {
+	private static String getName(String jCode) {
+		jCode = jCode.substring(jCode.indexOf(".class"),jCode.length());
+		String name = jCode.substring(jCode.indexOf(".class public ")+14, jCode.indexOf("\n"));
+		return name;
+	}
+	
+	public static void imprimeSaidaComando(InputStream tipoSaida, boolean isError, boolean isJ) throws IOException {
+//		resultado = "";
+//		resultadoErro = "";
+		StringBuffer sb = new StringBuffer();
         String linha;
         BufferedReader input = new BufferedReader(new InputStreamReader(tipoSaida));
         while ((linha = input.readLine()) != null) {
             System.out.println(linha);
+            sb.append(linha);
+        }
+        
+        if (isJ) {
+        	if (isError) {
+            	resultadoJ = sb.toString();
+            } else {
+            	resultadoJErro = sb.toString();
+            }
+        } else {
+        	if (isError) {
+            	resultadoClass = sb.toString();
+            } else {
+            	resultadoClassErro = sb.toString();
+            }
         }
     }
+	
+	public static String getSaidaComando(InputStream is) throws IOException {
+		StringBuffer saida = new StringBuffer();
+		BufferedReader input = new BufferedReader(new InputStreamReader(is));
+		String linha;
+        while ((linha = input.readLine()) != null) {
+            saida.append(linha);
+        }
+		return saida.toString();
+	}
 //	@SuppressWarnings("resource")
 //	public static String loadJFile(String path) throws FileNotFoundException {
 //		Scanner sc = new Scanner(new File(path), "UTF-8");

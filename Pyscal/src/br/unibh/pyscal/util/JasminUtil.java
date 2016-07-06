@@ -444,16 +444,20 @@ public class JasminUtil {
 	public static void jToClass(String fullPath) throws IOException {
 		String jName = DIR + getJName(fullPath);
 		Process cmd = Runtime.getRuntime().exec("java -jar ./lib/jasmin.jar " + jName);
-		FileUtil.imprimeSaidaComando(cmd.getInputStream(),false,"");
-		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false,"");	//TODO validar caso tenha erros
+		FileUtil.resultadoJ = "";
+		FileUtil.resultadoJErro = "";
+		FileUtil.imprimeSaidaComando(cmd.getInputStream(),true, true);
+		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false, true);	//TODO validar caso tenha erros
 		System.out.println();
 	}
 	
 	public static void runClass(String fullPath) throws IOException {
 		String classFileName = getFileName(fullPath);
 		Process cmd = Runtime.getRuntime().exec("java "+classFileName);
-		FileUtil.imprimeSaidaComando(cmd.getInputStream(),false,"");
-		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false,"");
+		FileUtil.resultadoClass = "";
+		FileUtil.resultadoClassErro = "";
+		FileUtil.imprimeSaidaComando(cmd.getInputStream(),true, false);
+		FileUtil.imprimeSaidaComando(cmd.getErrorStream(),false, false);
 	}
 	
 	private static String getJName(String fullPath) {
