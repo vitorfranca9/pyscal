@@ -1,6 +1,7 @@
 
 
 
+
 class Comandos10:
 
 	def void funcao(integer i):

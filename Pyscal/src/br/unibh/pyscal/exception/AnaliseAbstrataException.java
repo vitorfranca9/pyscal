@@ -2,16 +2,14 @@ package br.unibh.pyscal.exception;
 
 import br.unibh.pyscal.vo.LinhaVO;
 import br.unibh.pyscal.vo.TokenVO;
-import lombok.Getter;
-import lombok.Setter;
 
 public abstract class AnaliseAbstrataException extends Exception {
 	private static final long serialVersionUID = 4714121030532839267L;
 	protected static final String FRASE_ERRO = "Erro na linha %s próximo a palavra %s próximo a coluna %s: ";
 	
-	@Getter @Setter protected LinhaVO linha;
-	@Getter @Setter protected TokenVO token;
-	@Getter @Setter protected Integer coluna;
+	protected LinhaVO linha;
+	protected TokenVO token;
+	protected Integer coluna;
 	
 	public AnaliseAbstrataException(String message, LinhaVO linha, TokenVO token) {
 		super(String.format(FRASE_ERRO, linha.getNumero(), token.getValor(), valorColuna(linha, token)) + message);
@@ -29,4 +27,28 @@ public abstract class AnaliseAbstrataException extends Exception {
 		return 0;
 	}
 
+	public LinhaVO getLinha() {
+		return linha;
+	}
+
+	public void setLinha(LinhaVO linha) {
+		this.linha = linha;
+	}
+
+	public TokenVO getToken() {
+		return token;
+	}
+
+	public void setToken(TokenVO token) {
+		this.token = token;
+	}
+
+	public Integer getColuna() {
+		return coluna;
+	}
+
+	public void setColuna(Integer coluna) {
+		this.coluna = coluna;
+	}
+	
 }

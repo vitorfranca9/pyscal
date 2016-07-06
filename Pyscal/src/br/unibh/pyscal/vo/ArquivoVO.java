@@ -5,19 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class ArquivoVO {
 
 	private static Integer nivelAtual = 1;
 	
-	@Getter @Setter private String nomeArquivo = "";
-	@Getter @Setter private String conteudoOriginal = "";
-	@Getter @Setter private List<LinhaVO> linhas = new ArrayList<>();
-	@Getter @Setter private Map<Integer, NoVO> mapa = new HashMap<Integer, NoVO>();
-	@Getter @Setter private NoVO noRaiz;
-	@Getter @Setter private ClasseVO classeVO;
+	private String nomeArquivo = "";
+	private String conteudoOriginal = "";
+	private List<LinhaVO> linhas = new ArrayList<>();
+	private Map<Integer, NoVO> mapa = new HashMap<Integer, NoVO>();
+	private NoVO noRaiz;
+	private ClasseVO classeVO;
 	
 	public void adicionarNoMapa(NoVO no) {
 		if (mapa.get(nivelAtual) == null) {
@@ -36,6 +33,54 @@ public class ArquivoVO {
 	
 	public void adicionarLinha(int numeroLinha, String conteudo) {
 		linhas.add(new LinhaVO(numeroLinha, conteudo));
+	}
+
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
+	}
+
+	public String getConteudoOriginal() {
+		return conteudoOriginal;
+	}
+
+	public void setConteudoOriginal(String conteudoOriginal) {
+		this.conteudoOriginal = conteudoOriginal;
+	}
+
+	public List<LinhaVO> getLinhas() {
+		return linhas;
+	}
+
+	public void setLinhas(List<LinhaVO> linhas) {
+		this.linhas = linhas;
+	}
+
+	public Map<Integer, NoVO> getMapa() {
+		return mapa;
+	}
+
+	public void setMapa(Map<Integer, NoVO> mapa) {
+		this.mapa = mapa;
+	}
+
+	public NoVO getNoRaiz() {
+		return noRaiz;
+	}
+
+	public void setNoRaiz(NoVO noRaiz) {
+		this.noRaiz = noRaiz;
+	}
+
+	public ClasseVO getClasseVO() {
+		return classeVO;
+	}
+
+	public void setClasseVO(ClasseVO classeVO) {
+		this.classeVO = classeVO;
 	}
 	
 }

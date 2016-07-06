@@ -1,13 +1,10 @@
 package br.unibh.pyscal.analisador;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Getter;
-import lombok.Setter;
 import br.unibh.pyscal.enumerador.EscopoVariavelEnum;
 import br.unibh.pyscal.enumerador.PalavraReservadaEnum;
 import br.unibh.pyscal.enumerador.TipoComandoEnum;
@@ -27,12 +24,12 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 	//tudo é map? treemap? ;PP
 //	private ClasseVO classe;
 //	@Getter private static Map<String, Map<String, VariavelVO>> mapaVariaveis;
-	@Getter @Setter private static Map<String, Map<EnderecoStackVO,VariavelVO>> mapaStack;
-	@Getter @Setter private static int stackIndex = 0;
+	private static Map<String, Map<EnderecoStackVO,VariavelVO>> mapaStack;
+	private static int stackIndex = 0;
 //	private TreeMap<String, VariavelVO> treeMapVariavel = new TreeMap<>();
 //	private Map<String, MetodoVO> mapaMetodos = new HashMap<>();
-	@Getter private static AnalisadorSintaticoHelper sintaticoHelper;
-	@Getter private static SemanticoHelper semanticoHelper;
+	private static AnalisadorSintaticoHelper sintaticoHelper;
+	private static SemanticoHelper semanticoHelper;
 	private boolean isMetodo;
 	private boolean isComando;
 	private MetodoVO metodoVO;
@@ -972,6 +969,8 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 			}
 		}
 		
+		
+		
 //		public TipoVariavelEnum getTipoVariavel(MetodoVO metodo, TokenVO tokenAtual) {
 //			switch (tokenAtual.getPalavraReservada()) {
 //				case TRUE:
@@ -999,5 +998,39 @@ public class AnalisadorSemantico extends AnalisadorAbstrato {
 //		}
 		
 	}
+
+	public static Map<String, Map<EnderecoStackVO, VariavelVO>> getMapaStack() {
+		return mapaStack;
+	}
+
+	public static void setMapaStack(Map<String, Map<EnderecoStackVO, VariavelVO>> mapaStack) {
+		AnalisadorSemantico.mapaStack = mapaStack;
+	}
+
+	public static int getStackIndex() {
+		return stackIndex;
+	}
+
+	public static void setStackIndex(int stackIndex) {
+		AnalisadorSemantico.stackIndex = stackIndex;
+	}
+
+	public static AnalisadorSintaticoHelper getSintaticoHelper() {
+		return sintaticoHelper;
+	}
+
+	public static void setSintaticoHelper(AnalisadorSintaticoHelper sintaticoHelper) {
+		AnalisadorSemantico.sintaticoHelper = sintaticoHelper;
+	}
+
+	public static SemanticoHelper getSemanticoHelper() {
+		return semanticoHelper;
+	}
+
+	public static void setSemanticoHelper(SemanticoHelper semanticoHelper) {
+		AnalisadorSemantico.semanticoHelper = semanticoHelper;
+	}
+	
+	
 	
 }

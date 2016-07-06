@@ -8,23 +8,21 @@ import br.unibh.pyscal.analisador.AnalisadorSemantico;
 import br.unibh.pyscal.analisador.AnalisadorSintatico;
 import br.unibh.pyscal.util.FileUtil;
 import br.unibh.pyscal.util.JasminUtil;
-import lombok.Getter;
-import lombok.Setter;
 
 //as ctrl,command
 
 public class CompiladorVO {
 
-	@Getter @Setter private AnalisadorLexico analisadorLexico;
-	@Getter @Setter private AnalisadorSintatico analisadorSintatico;
-	@Getter @Setter private AnalisadorSemantico analisadorSemantico;
-	@Getter @Setter private ArquivoVO arquivo;
-	@Getter @Setter private String fullPath;
-	@Getter @Setter private String jCode = "";
-	@Getter @Setter private String resultadoJ = "";
-	@Getter @Setter private String resultadoJErro = "";
-	@Getter @Setter private String resultadoClass = "";
-	@Getter @Setter private String resultadoClassErro = "";
+	private AnalisadorLexico analisadorLexico;
+	private AnalisadorSintatico analisadorSintatico;
+	private AnalisadorSemantico analisadorSemantico;
+	private ArquivoVO arquivo;
+	private String fullPath;
+	private String jCode = "";
+	private String resultadoJ = "";
+	private String resultadoJErro = "";
+	private String resultadoClass = "";
+	private String resultadoClassErro = "";
 
 	public CompiladorVO(String fullPath) throws FileNotFoundException {
 		analisadorLexico = new AnalisadorLexico();
@@ -67,6 +65,86 @@ public class CompiladorVO {
 		resultadoClass = FileUtil.resultadoClass;
 		resultadoClassErro = FileUtil.resultadoClassErro;
 		/*FileUtil.imprimirTokens(arquivo);*/
+	}
+
+	public AnalisadorLexico getAnalisadorLexico() {
+		return analisadorLexico;
+	}
+
+	public void setAnalisadorLexico(AnalisadorLexico analisadorLexico) {
+		this.analisadorLexico = analisadorLexico;
+	}
+
+	public AnalisadorSintatico getAnalisadorSintatico() {
+		return analisadorSintatico;
+	}
+
+	public void setAnalisadorSintatico(AnalisadorSintatico analisadorSintatico) {
+		this.analisadorSintatico = analisadorSintatico;
+	}
+
+	public AnalisadorSemantico getAnalisadorSemantico() {
+		return analisadorSemantico;
+	}
+
+	public void setAnalisadorSemantico(AnalisadorSemantico analisadorSemantico) {
+		this.analisadorSemantico = analisadorSemantico;
+	}
+
+	public ArquivoVO getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(ArquivoVO arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public String getFullPath() {
+		return fullPath;
+	}
+
+	public void setFullPath(String fullPath) {
+		this.fullPath = fullPath;
+	}
+
+	public String getJCode() {
+		return jCode;
+	}
+
+	public void setJCode(String jCode) {
+		this.jCode = jCode;
+	}
+
+	public String getResultadoJ() {
+		return resultadoJ;
+	}
+
+	public void setResultadoJ(String resultadoJ) {
+		this.resultadoJ = resultadoJ;
+	}
+
+	public String getResultadoJErro() {
+		return resultadoJErro;
+	}
+
+	public void setResultadoJErro(String resultadoJErro) {
+		this.resultadoJErro = resultadoJErro;
+	}
+
+	public String getResultadoClass() {
+		return resultadoClass;
+	}
+
+	public void setResultadoClass(String resultadoClass) {
+		this.resultadoClass = resultadoClass;
+	}
+
+	public String getResultadoClassErro() {
+		return resultadoClassErro;
+	}
+
+	public void setResultadoClassErro(String resultadoClassErro) {
+		this.resultadoClassErro = resultadoClassErro;
 	}
 	
 }

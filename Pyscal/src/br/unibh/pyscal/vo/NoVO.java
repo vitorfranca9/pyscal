@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unibh.pyscal.enumerador.TipoExpressaoEnum;
-import lombok.Getter;
-import lombok.Setter;
 
 public class NoVO implements Cloneable {
-	@Getter @Setter private List<NoVO> filhos = new ArrayList<>();
-	@Getter @Setter private TipoExpressaoEnum tipoExpressao;
-	@Getter @Setter private LinhaVO linha;
-	@Getter @Setter private List<TokenVO> tokens = new ArrayList<>();
+	private List<NoVO> filhos = new ArrayList<>();
+	private TipoExpressaoEnum tipoExpressao;
+	private LinhaVO linha;
+	private List<TokenVO> tokens = new ArrayList<>();
 	
 	public NoVO getUltimoFilho() {
 		if (filhos != null && !filhos.isEmpty()) {
@@ -37,6 +35,38 @@ public class NoVO implements Cloneable {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
+	}
+
+	public List<NoVO> getFilhos() {
+		return filhos;
+	}
+
+	public void setFilhos(List<NoVO> filhos) {
+		this.filhos = filhos;
+	}
+
+	public TipoExpressaoEnum getTipoExpressao() {
+		return tipoExpressao;
+	}
+
+	public void setTipoExpressao(TipoExpressaoEnum tipoExpressao) {
+		this.tipoExpressao = tipoExpressao;
+	}
+
+	public LinhaVO getLinha() {
+		return linha;
+	}
+
+	public void setLinha(LinhaVO linha) {
+		this.linha = linha;
+	}
+
+	public List<TokenVO> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(List<TokenVO> tokens) {
+		this.tokens = tokens;
 	}
 	
 }

@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="lib/JFLAP8_beta.jar"/>
 	<classpathentry kind="lib" path="lib/jflex-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.12.jar"/>
-	<classpathentry kind="lib" path="lib/lombok-1.16.8.jar"/>
 	<classpathentry kind="lib" path="lib/org.apache.commons.collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/tinapoc.jar"/>
 	<classpathentry kind="output" path="bin"/>

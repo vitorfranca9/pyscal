@@ -1,17 +1,28 @@
 package br.unibh.pyscal.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@NoArgsConstructor
-@AllArgsConstructor
-//@EqualsAndHashCode(of="key")
-@ToString
 public class EnderecoStackVO {
-	@Getter @Setter private String key;
-	@Getter @Setter private int index;
+	private String key;
+	private int index;
+	
+	public EnderecoStackVO() { }
+	
+	public EnderecoStackVO(String key, int index) {
+		this.key = key;
+		this.index = index;
+	}
+	
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	
 }

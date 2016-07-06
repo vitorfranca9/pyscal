@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import br.unibh.pyscal.util.StringUtil;
-import lombok.Getter;
 
 public enum PalavraReservadaEnum {
 
@@ -67,8 +66,8 @@ public enum PalavraReservadaEnum {
 	COMENTARIO_LINHA("//",3),
 	COMENTARIO_GERAL("/*",3);
 	
-	@Getter private final String regex;
-	@Getter private final Integer ordem;
+	private final String regex;
+	private final Integer ordem;
 //	private TipoToken tipo;
 
 	//TODO regex
@@ -371,6 +370,14 @@ public enum PalavraReservadaEnum {
 				return false;
 			}
 		
+	}
+
+	public String getRegex() {
+		return regex;
+	}
+
+	public Integer getOrdem() {
+		return ordem;
 	}
 	
 }
